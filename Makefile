@@ -13,8 +13,7 @@ INCLUDES = ./includes
 
 HEADERS = ./includes/minishell.h \
 
-SRC =		srcs/main.c					\
-			srcs/read_line.c					\
+SRC = $(wildcard ./srcs/*/*.c)
 
 OBJ = $(SRC:.c=.o)
 
