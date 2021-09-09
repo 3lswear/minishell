@@ -1,0 +1,5 @@
+srcs/*.o
+minishell
+.vscode
+*.o
+*.a
