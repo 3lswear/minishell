@@ -6,20 +6,18 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/04 18:26:51 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/10 11:35:21 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 
 
 int main(int argc, char *argv[], char **env)
 {
-	int	i;
-
-	i = 1;
-	if (i == 1)
-		read_line(argc, argv, env);
+	if (argc == 1)
+		read_line(env);
+	(void)argv;
 	return (0);
 }

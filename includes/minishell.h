@@ -4,8 +4,12 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <termio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "libft.h"
-#include <termio.h>
+
+// ╰─ sudo apt-get install libreadline8 libreadline-dev  установить readline.
 
 typedef struct s_env
 {
@@ -20,6 +24,6 @@ typedef struct s_minishell
 	
 }				t_minishell;
 
-void	read_line(int argc, char *argv[], char **env);
+void	read_line(char **env);
 
 #endif

@@ -7,8 +7,8 @@ LIBFT= ./libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror -g
 
-OFLAGS = -O2
-
+OFLAGS = -lreadline
+#  -fsanitize=address
 INCLUDES = ./includes
 
 HEADERS = ./includes/minishell.h \
@@ -20,7 +20,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(OBJ): %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -I $(INCLUDES) -o $@
+	$(CC) $(CFLAGS) $(OFLAGS) -c $< -I $(INCLUDES) -o $@
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(OBJ) $(OFLAGS) $(CFLAGS) $(LIBFT) -o $(NAME)
