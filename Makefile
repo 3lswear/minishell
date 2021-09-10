@@ -1,42 +1,45 @@
-
 NAME = minishell
 
-CC = gcc
+CC = clang
 
-LIBFT= ./libft/libft.a
+LIBFT = ./libft/libft.a
+LIBFT_FLAGS = -L=libft -lft
 
-CFLAGS = -Wall -Wextra -Werror -g
+# SANFLAGS = -fsanitize=address
 
-OFLAGS = -lreadline
-#  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g $(SANFLAGS)
+
+LIBS = -lreadline
+
 INCLUDES = ./includes
 
-HEADERS = ./includes/minishell.h \
+HEADERS = $(INCLUDES)/minishell.h
 
 SRC = $(wildcard ./srcs/*/*.c)
-
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(OBJ): %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) $(OFLAGS) -c $< -I $(INCLUDES) -o $@
+$(OBJ): %.o: %.c $(HEADERS) Makefile
+	$(CC) $(CFLAGS) -c $< -I $(INCLUDES) -o $@
 
-$(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(OBJ) $(OFLAGS) $(CFLAGS) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ) $(HEADERS)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_FLAGS) $(LIBS) -o $(NAME)
 
 $(LIBFT):
-	make -C ./libft
+	$(MAKE) -C ./libft
 
 clean:
 	$(RM) $(OBJ)
-	make clean -C ./libft
+	$(MAKE) clean -C ./libft
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C ./libft
+	$(MAKE) fclean -C ./libft
 
-re: fclean all
+re:
+	$(MAKE) fclean
+	$(MAKE) all
 
 norm: 
 	norminette $(SRC)
