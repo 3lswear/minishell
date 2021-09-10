@@ -45,5 +45,5 @@ norm:
 	norminette $(SRC)
 	norminette $(INCLUDES)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm
 
