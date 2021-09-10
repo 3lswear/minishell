@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/10 11:35:21 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/10 17:11:57 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,13 @@
 
 int main(int argc, char *argv[], char **env)
 {
+	t_minishell	mini;
+
 	if (argc == 1)
-		read_line(env);
+	{
+		parse_env(&mini, env);
+		read_line(&mini);
+	}
 	(void)argv;
 	return (0);
 }

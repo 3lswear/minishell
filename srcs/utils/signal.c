@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_line.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/07 21:08:17 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/10 17:29:15 by talyx            ###   ########.fr       */
+/*   Created: 2021/09/10 16:00:22 by talyx             #+#    #+#             */
+/*   Updated: 2021/09/10 17:01:19 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	read_line(t_minishell *mini)
+void	sig_handler(int sig)
 {
-	char	*buff;
-
-	buff = "";
-	while (!ft_strequ(buff, "exit"))
+	if (sig == SIGINT)
 	{
-		signal(SIGINT, sig_handler);
-		signal(SIGQUIT, sig_handler);
-		buff = readline("\033[32mminishell\033[0m \033[31m➢\033[0m ");
-		if (!buff)
-		{
-			ft_putstr_fd("exit\n", 1);
-			break;
-		}
-		else if (ft_strlen(buff) == 0)
-			continue ;
-		else if(ft_strlen(buff) > 0)
-			add_history(buff);
+		ft_putstr("\033[1D");
+		ft_putstr("\033[1D");
+		ft_putstr("  ");
+		ft_putstr("\033[1D");
+		ft_putstr("\033[1D");
+		ft_putstr("\n");
+		ft_putstr("\033[32mminishell\033[0m \033[31m➢\033[0m ");
 	}
-	(void)mini;
+	else if (sig == SIGQUIT)
+	{
+		ft_putstr("\033[1D");
+		ft_putstr("\033[1D");
+		ft_putstr("  ");
+		ft_putstr("\033[1D");
+		ft_putstr("\033[1D");
+
+	}
 }
