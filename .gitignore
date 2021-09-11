@@ -3,3 +3,4 @@ minishell
 .vscode
 *.o
 *.a
+.ccls
