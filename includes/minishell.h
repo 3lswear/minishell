@@ -41,14 +41,16 @@ typedef struct s_minishell
 {
 	int		fd_in;
 	int		fd_out;
+	int		exit;
+	char	*line;
 	t_list	*commands;
-	t_env	*env;
+	t_list	*env;
 	
 }				t_minishell;
 
-void	read_line(t_minishell *mini);
+int		read_line(t_minishell *mini);
 void	parse_env(t_minishell *mini, char **env);
-void	parse_comand(t_minishell *mini, char *line);
+void	print_env(t_list *env);
 void	sig_handler(int sig);
 
 

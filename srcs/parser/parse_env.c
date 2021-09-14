@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:08:22 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/10 18:19:36 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/14 15:53:43 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 void	parse_env(t_minishell *mini, char **env)
 {
-	int		i;
-	t_env	*next;
+	int	i;
 
 	i = 0;
-	next = malloc(sizeof(t_env));
-	if (!next)
-		exit(1);
-	mini->env = next;
 	while (env[i])
 	{
-		if (env[i + 1])
-		{
-			next->next = malloc(sizeof(t_env));
-			if (!next)
-				exit(1);
-		}
-		next->value = env[i];
-		if (!env[i + 1])
-			next->next = NULL;
-		else
-			next = next->next;
+		ft_lstadd_back(&mini->env, ft_lstnew(env[i]));
 		i++;
+	}
+}
+
+void	print_env(t_list *env)
+{
+	t_list	*tmp;
+	char	*envp;
+
+	tmp = env;
+	while (tmp)
+	{
+		envp = tmp->content;
+		ft_putstr(envp);
+		ft_putstr("\n");
+		tmp = tmp->next;
 	}
 }

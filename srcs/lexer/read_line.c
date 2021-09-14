@@ -6,31 +6,28 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 21:08:17 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/11 17:12:23 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/14 15:50:27 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	read_line(t_minishell *mini)
+int	read_line(t_minishell *mini)
 {
-	char	*buff;
-
-	buff = "";
-	while (!ft_strequ(buff, "exit"))
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
+	mini->line = readline("\033[32mminishell\033[0m \033[31m➢\033[0m ");
+	if (!mini->line || ft_strequ(mini->line, "exit"))
 	{
-		signal(SIGINT, sig_handler);
-		signal(SIGQUIT, sig_handler);
-		buff = readline("\033[32mminishell\033[0m \033[31m➢\033[0m ");
-		if (!buff)
-		{
+		if (!mini->line)
 			ft_putstr_fd("exit\n", 1);
-			break;
-		}
-		else if (ft_strlen(buff) == 0)
-			continue ;
-		else if(ft_strlen(buff) > 0)
-			add_history(buff);
-		parse_comand(mini, buff);
+		free(mini->line);
+		exit(0);
+		return (-1);
 	}
+	else if (ft_strlen(mini->line) == 0)
+		return (0);
+	else if(ft_strlen(mini->line) > 0)
+		add_history(mini->line);
+	return (1);
 }
