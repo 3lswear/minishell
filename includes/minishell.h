@@ -8,6 +8,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <dirent.h>
 # include "libft.h"
 
 # define PIPE 	0
@@ -32,6 +33,7 @@ typedef struct s_command
 	char	*path;
 	char	**arg;
 	char	**envp;
+	char	*option;
 	int		pipe;
 	t_redir	*red;
 	t_redir	*append;
@@ -50,7 +52,13 @@ typedef struct s_minishell
 
 int		read_line(t_minishell *mini);
 void	parse_env(t_minishell *mini, char **env);
-void	print_env(t_list *env);
+int		print_env(t_list *env);
+int		execute(t_minishell *mini);
+int		run_bins(t_minishell *mini, t_command *comm);
+int		run_builtins(t_minishell *mini, t_command *command);
+int		is_builtins(t_command *command);
+char	*get_env_param(t_list *env, char *param);
+char	*get_need_path(char *path, char *command);
 void	sig_handler(int sig);
 
 

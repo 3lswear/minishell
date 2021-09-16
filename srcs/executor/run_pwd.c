@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   run_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/14 16:07:30 by talyx            ###   ########.fr       */
+/*   Created: 2021/09/15 12:05:29 by talyx             #+#    #+#             */
+/*   Updated: 2021/09/15 12:11:28 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char *argv[], char **env)
+int	run_pwd()
 {
-	t_minishell	mini;
+	char	arr[4096];
 
-	mini.exit = 0;
-	if (argc == 1)
+	if (getcwd(arr, 4096))
 	{
-		parse_env(&mini, env);
-		while (mini.exit != 1)
-		{
-			read_line(&mini);
-			// parse(&mini);		sunderle part
-			execute(&mini);
-			//free_line(&mini);
-		}
-		// free_and_exit(&mini);
+		ft_putstr(arr);
+		ft_putstr("\n");
+		return (1);
 	}
-	(void)argv;
-	return (0);
+	else
+		return (0);
 }

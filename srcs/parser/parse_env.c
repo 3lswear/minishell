@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:08:22 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/14 15:53:43 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/15 12:03:48 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	parse_env(t_minishell *mini, char **env)
 	}
 }
 
-void	print_env(t_list *env)
+int		print_env(t_list *env)
 {
 	t_list	*tmp;
 	char	*envp;
@@ -37,4 +37,5 @@ void	print_env(t_list *env)
 		ft_putstr("\n");
 		tmp = tmp->next;
 	}
+	return (1);
 }

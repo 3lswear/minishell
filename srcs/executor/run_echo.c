@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   run_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/14 16:07:30 by talyx            ###   ########.fr       */
+/*   Created: 2021/09/15 12:14:44 by talyx             #+#    #+#             */
+/*   Updated: 2021/09/15 12:31:43 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int argc, char *argv[], char **env)
+int	run_echo(t_command *command)
 {
-	t_minishell	mini;
+	int	i;
 
-	mini.exit = 0;
-	if (argc == 1)
+	i = 0;
+	while (command->arg[i])
 	{
-		parse_env(&mini, env);
-		while (mini.exit != 1)
-		{
-			read_line(&mini);
-			// parse(&mini);		sunderle part
-			execute(&mini);
-			//free_line(&mini);
-		}
-		// free_and_exit(&mini);
+		ft_putstr(command->arg[i]);
+		if (command->arg[i + 1] && command->arg[i][0] != '\0')
+			ft_putstr(" ");
+		i++;
 	}
-	(void)argv;
-	return (0);
+	if (!ft_strequ(command->option, "-n"))
+		ft_putstr("\n");
+	return (1);	
 }
