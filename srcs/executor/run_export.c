@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 12:33:19 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/16 18:11:19 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/17 17:28:07 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	print_export(t_list *env)
 		ft_putstr("\n");
 		env = env->next;
 	}
-	
 }
 
 int	ft_error_export(char *arg, int error)
@@ -61,6 +60,39 @@ int	not_env(char *arg, int j, t_list *env)
 	return (i);
 }
 
+void	lst_update(t_list *env, char *param, int size)
+{
+	char	*line;
+
+	line = malloc(sizeof(char) * size);
+	ft_strncpy(line, param, size);
+	update_env(env, line, param);
+	free(line);
+}
+
+int	check_export_handler(char *arg, t_list *env)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	k = 1;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (ft_isalnum(arg[i]) == 0)
+		{
+			k = ft_error_export(arg[i], -1);
+			break;
+		}
+		i++;
+	}
+	if (arg[i] == '=' && !not_env(arg, i, env))
+		ft_lstadd_back(&env, arg);
+	else if (arg[i] == '=' && not_env(arg, i, env))
+		lst_update(env, arg, i);
+	return (k);
+}
+
 int	check_export_arg(char **arg, t_list *env)
 {
 	int	i;
@@ -75,19 +107,7 @@ int	check_export_arg(char **arg, t_list *env)
 		if (ft_isdigit(arg[i][0]) || arg[i][0] == '=')
 			k = ft_error_export(arg[i], 0);
 		else
-		{
-			while (arg[i][j] && arg[i][j] != '=')
-			{
-				if (ft_isalnum(arg[i][j])== 0)
-				{
-					k = ft_error_export(arg[i], -1);
-					break;
-				}
-				j++;
-			}
-			if (arg[i][j] == '=' && !not_env(arg[i], j, env))
-				ft_lstadd_back(&env, arg[i]);
-		}
+			k = check_export_handler(arg[i], env);
 		i++;
 	}
 	return (k);
