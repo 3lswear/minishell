@@ -14,8 +14,6 @@
 # define PIPE 	0
 # define REDIR	1
 
-// ╰─ sudo apt-get install libreadline8 libreadline-dev  установить readline.
-
 typedef struct s_env
 {
 	struct s_env	*next;
