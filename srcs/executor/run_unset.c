@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 17:04:23 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/17 15:59:32 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 18:29:44 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	delete_env_param(char *arg, t_list **env)
 	return (0);
 }
 
-int	run_unset(t_command *command, t_env *env)
+int	run_unset(t_command *command, t_list *env)
 {
 	int	i;
 	int	a;

@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 17:04:43 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/17 16:43:35 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 19:05:28 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	str_is_num(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (i == 0 && str[i] == '-' || str[i] == '+')
+		if (i == 0 && (str[i] == '-' || str[i] == '+'))
 			i++;
 		if (!ft_isdigit(str[i]))
 			return (0);
@@ -63,4 +63,5 @@ int	run_exit(t_minishell *mini, t_command *command)
 			ft_putstr_fd(": numeric argument required", 2);
 		}
 	}
+	return (mini->exit_status);
 }

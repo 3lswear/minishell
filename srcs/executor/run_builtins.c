@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 17:31:12 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/17 17:31:14 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 18:37:52 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	run_builtins(t_minishell *mini, t_command *command)
 	else if (ft_strequ(command->path, "echo"))
 		return (run_echo(command));			//?
 	else if (ft_strequ(command->path, "export"))
-		return (run_export(mini, command));			//?
+		return (run_export(command, mini->env));			//?
 	else if (ft_strequ(command->path, "unset"))
-		return (run_unset(mini, command));			//?
+		return (run_unset(command, mini->env));			//?
 	else if (ft_strequ(command->path, "cd"))
-		return (run_cd(mini, command));			//?
+		return (run_cd(command, mini->env));			//?
 	else if (ft_strequ(command->path, "exit"))
 		return (run_exit(mini, command));			//?
 	return (0);

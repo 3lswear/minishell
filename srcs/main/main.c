@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/14 16:07:30 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 13:25:58 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[], char **env)
 		{
 			read_line(&mini);
 			// parse(&mini);		sunderle part
-			execute(&mini);
+			// execute(&mini);
 			//free_line(&mini);
 		}
 		// free_and_exit(&mini);

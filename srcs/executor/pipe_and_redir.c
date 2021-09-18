@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_pwd.c                                          :+:      :+:    :+:   */
+/*   pipe_and_redir.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/15 12:05:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/18 18:23:33 by talyx            ###   ########.fr       */
+/*   Created: 2021/09/17 20:02:07 by talyx             #+#    #+#             */
+/*   Updated: 2021/09/18 19:01:25 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_pwd(void)
-{
-	char	arr[4096];
-
-	if (getcwd(arr, 4096))
-	{
-		ft_putstr(arr);
-		ft_putstr("\n");
-		return (1);
-	}
-	else
-		return (0);
-}
+// int	redirect(t_minishell *mini, int type)
+// {
+	
+// }

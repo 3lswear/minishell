@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 18:55:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/17 19:56:35 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 19:00:18 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**lst_to_char(t_list *env)
 	while (env)
 	{
 		line = env->content;
-		ret[j++] = ft_substr(len, 0, ft_strlen(len));
+		ret[j++] = ft_substr(line, 0, ft_strlen(line));
 		env = env->next;
 	}
 	return (ret);	
@@ -35,7 +35,6 @@ int		check_dir(char *path)
 {
 	DIR	*dir;
 	int	fd;
-	int	i;
 
 	fd = open(path, O_WRONLY);
 	dir = opendir(path);
@@ -102,4 +101,4 @@ int	run_bins(t_minishell *mini, t_command *comm)
 	free(path);
 	free(env);
 	return (i);
-} 
+}

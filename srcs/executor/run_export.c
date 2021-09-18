@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 12:33:19 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/17 17:28:07 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 18:43:01 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	print_export(t_list *env)
 		ft_putstr("\n");
 		env = env->next;
 	}
+	return (1);
 }
 
 int	ft_error_export(char *arg, int error)
@@ -81,13 +82,13 @@ int	check_export_handler(char *arg, t_list *env)
 	{
 		if (ft_isalnum(arg[i]) == 0)
 		{
-			k = ft_error_export(arg[i], -1);
+			k = ft_error_export(arg, -1);
 			break;
 		}
 		i++;
 	}
 	if (arg[i] == '=' && !not_env(arg, i, env))
-		ft_lstadd_back(&env, arg);
+		ft_lstadd_back(&env, ft_lstnew(arg));
 	else if (arg[i] == '=' && not_env(arg, i, env))
 		lst_update(env, arg, i);
 	return (k);
@@ -123,6 +124,6 @@ int	run_export(t_command *command, t_list *env)
 		return (1);
 	}
 	else
-		i = check_exprot_arg(command->arg, env);
+		i = check_export_arg(command->arg, env);
 	return (i);
 }

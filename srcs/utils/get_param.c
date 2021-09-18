@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 19:28:57 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/14 20:17:59 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 19:08:48 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_env_param(t_list *env, char *param)
 char	*get_need_path(char *path_dir, char *command)
 {
 	DIR				*dir;
-	struct dirnet	*item;
+	struct dirent	*item;
 	char			*path;
 
 	path = NULL;

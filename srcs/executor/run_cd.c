@@ -6,11 +6,31 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 19:17:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/16 12:10:48 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/18 18:58:15 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	cd_error(char **arg)
+{
+	int	i;
+
+	i = ft_strlen2(arg);
+	ft_putstr_fd("cd: ", 2);
+	if (i > 2)
+		ft_putstr_fd("too many arguments", 2);
+	else
+	{
+		if (i == 2)
+			ft_putstr_fd("string not in pwd: ", 2);
+		else
+			ft_putstr_fd("no such file or directory: ", 2);
+		ft_putstr_fd(arg[0], 2);
+		ft_putstr_fd("\n", 2);
+	}
+	return (0);
+}
 
 int	update_env(t_list *env, char *key, char *new_line)
 {
@@ -95,7 +115,7 @@ int	run_cd(t_command *command, t_list *env)
 	else
 	{
 		update_old(env);
-		i = chdir(command->arg[1]);
+		i = chdir(command->arg[0]);
 		if (i < 0)
 			i *= -1;
 		if (i != 0)

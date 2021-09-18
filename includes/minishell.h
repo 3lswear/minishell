@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <dirent.h>
+# include <sys/wait.h>
 # include "libft.h"
 
 # define PIPE 	0
@@ -49,9 +50,16 @@ typedef struct s_minishell
 	
 }				t_minishell;
 
+int		ft_strlen2(char **str);
 int		read_line(t_minishell *mini);
 void	parse_env(t_minishell *mini, char **env);
 int		print_env(t_list *env);
+int		run_pwd(void);
+int		run_cd(t_command *command, t_list *env);
+int		run_echo(t_command *command);
+int		run_exit(t_minishell *mini, t_command *command);
+int		run_export(t_command *command, t_list *env);
+int		run_unset(t_command *command, t_list *env);
 int		execute(t_minishell *mini);
 int		run_bins(t_minishell *mini, t_command *comm);
 int		run_builtins(t_minishell *mini, t_command *command);
