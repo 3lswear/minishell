@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 18:55:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/18 19:00:18 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/19 18:18:21 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,13 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 
 	envp = lst_to_char(mini->env);
 	exit_status = 0;
+	// printf("%s\n", arg[0]);
 	pid = fork();
 	if (pid == 0)
 	{
 		if (exit_status)
-			execve(path, arg, envp);
+			execve(path, arg, (char **)((t_command *)(mini->commands->content))->envp);
 		exit_status = check_dir(path);
-		ft_split_clear(envp);
-		exit(exit_status);
 	}
 	else
 		waitpid(pid, &exit_status, 0);
@@ -87,7 +86,7 @@ int	run_bins(t_minishell *mini, t_command *comm)
 
 	path = NULL;
 	i = 0;
-	env = get_env_param(mini->env, "PAHT");			//?
+	env = get_env_param(mini->env, "PATH");			//?
 	if (!env)
 		return(run_cmd(comm->path, comm->arg, mini));			//?
 	all_path = ft_split(env, ':');
@@ -98,7 +97,7 @@ int	run_bins(t_minishell *mini, t_command *comm)
 	else
 		i = run_cmd(comm->path, comm->arg, mini);
 	ft_split_clear(all_path);
-	free(path);
-	free(env);
+	// free(path);
+	// free(env);
 	return (i);
 }

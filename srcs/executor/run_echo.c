@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 12:14:44 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/15 12:31:43 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/19 18:28:12 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	run_echo(t_command *command)
 			ft_putstr(" ");
 		i++;
 	}
-	if (!ft_strequ(command->option, "-n"))
+	// if (!ft_strequ(command->option, "-n"))
 		ft_putstr("\n");
 	return (1);	
 }

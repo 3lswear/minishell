@@ -6,15 +6,17 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/18 13:25:58 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/19 19:29:21 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
 int main(int argc, char *argv[], char **env)
 {
 	t_minishell	mini;
+	int			i;
 
 	mini.exit = 0;
 	if (argc == 1)
@@ -22,12 +24,13 @@ int main(int argc, char *argv[], char **env)
 		parse_env(&mini, env);
 		while (mini.exit != 1)
 		{
-			read_line(&mini);
-			// parse(&mini);		sunderle part
+			i = read_line(&mini);
+			if (i == 0)
+				continue ;
+			// parse(&mini);
 			// execute(&mini);
-			//free_line(&mini);
+			// free(mini.commands);
 		}
-		// free_and_exit(&mini);
 	}
 	(void)argv;
 	return (0);

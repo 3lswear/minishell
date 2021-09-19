@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:08:22 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/15 12:03:48 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/19 17:06:41 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	parse_env(t_minishell *mini, char **env)
 	int	i;
 
 	i = 0;
+	ft_lstadd_back(&mini->env, ft_lstnew(""));
 	while (env[i])
 	{
 		ft_lstadd_back(&mini->env, ft_lstnew(env[i]));
@@ -33,8 +34,13 @@ int		print_env(t_list *env)
 	while (tmp)
 	{
 		envp = tmp->content;
-		ft_putstr(envp);
-		ft_putstr("\n");
+		if (envp && ft_strlen(envp) > 0)
+		{
+			ft_putstr(envp);
+			ft_putstr("\n");
+		}
+		// else
+		// 	ft_putstr_fd("error: print env\n", 2);
 		tmp = tmp->next;
 	}
 	return (1);

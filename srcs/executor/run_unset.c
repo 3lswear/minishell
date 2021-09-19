@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/16 17:04:23 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/18 18:29:44 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/19 16:23:37 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	check_arg_unset(char *arg, t_list *env)
 	{
 		if (!ft_isalnum(arg[i]))
 			return (-1);
+		i++;
 	}
 	line = get_env_param(env, arg);
 	if (!line)
@@ -51,20 +52,23 @@ int	delete_env_param(char *arg, t_list **env)
 	int		i;
 	t_list	*tmp;
 	t_list	*prev;
+	t_list	*next;
 
 	i = 0;
 	tmp = *env;
 	while (tmp)
 	{
+		next = tmp->next;
 		line = tmp->content;
-		if (ft_strncmp(line, arg, ft_strlen(arg)))
+		if (!ft_strncmp(line, arg, ft_strlen(arg)))
 		{
 			if (i == 0)
-				*env = (*env)->next;
+			{
+				ft_lstadd_front(env, ft_lstlast(tmp));
+			}
 			else
-				prev = tmp->next;
-			free(tmp->content);
-			free(line);
+				prev->next = tmp->next;
+			// free(tmp->content);
 			free(tmp);
 			return (1);
 		}

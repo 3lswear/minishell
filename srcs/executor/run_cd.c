@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 19:17:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/18 18:58:15 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/19 13:50:02 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ int	update_env(t_list *env, char *key, char *new_line)
 	tmp = env;
 	while (tmp)
 	{
-		line = tmp->content;
-		if (ft_strncmp(line, key, ft_strlen(key)))
+		line = (char *)tmp->content;
+		if (!ft_strncmp(line, key, ft_strlen(key)))
 		{
 			new = ft_lstnew(new_line);
 			env->next = new;
 			new->next = tmp->next;
+			// free(tmp);
 			return (1);
 		}
 		env = tmp;
@@ -75,7 +76,7 @@ int	cd_home(t_list *env)
 	char	*path;
 	int		i;
 
-	update_old(env);		// ?
+	update_old(env);
 	path = get_env_param(env, "HOME");
 	if (!path)
 	{
@@ -83,7 +84,7 @@ int	cd_home(t_list *env)
 		return (0);
 	}
 	i = chdir(path);
-	free(path);
+	// free(path);
 	return (i);
 }
 
@@ -108,6 +109,8 @@ int	run_cd(t_command *command, t_list *env)
 {
 	int	i;
 
+	// print_env(env);
+	// return (0);
 	if (!command->arg[0])
 		return (cd_home(env));
 	if (ft_strequ(command->arg[0], "-"))
