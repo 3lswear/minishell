@@ -4,3 +4,4 @@ minishell
 *.o
 *.a
 .ccls
+srcs/parser/parser.c

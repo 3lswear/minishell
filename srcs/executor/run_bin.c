@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 18:55:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/19 18:18:21 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/21 14:58:34 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 		if (exit_status)
 			execve(path, arg, (char **)((t_command *)(mini->commands->content))->envp);
 		exit_status = check_dir(path);
+		exit(exit_status);
 	}
 	else
 		waitpid(pid, &exit_status, 0);

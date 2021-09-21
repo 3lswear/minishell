@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 12:33:19 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/18 18:43:01 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/21 15:13:30 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	print_export(t_list *env)
 {
 	char	*line;
 
+	env = env->next;
 	while (env)
 	{
 		line = env->content;
