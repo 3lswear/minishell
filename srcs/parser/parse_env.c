@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:08:22 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/19 17:06:41 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/23 18:45:02 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	parse_env(t_minishell *mini, char **env)
 	int	i;
 
 	i = 0;
+	mini->env = NULL;
 	ft_lstadd_back(&mini->env, ft_lstnew(""));
 	while (env[i])
 	{
