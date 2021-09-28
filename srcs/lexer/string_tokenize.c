@@ -179,7 +179,7 @@ void	split_on_special(t_list **tokens)
 	while (li)
 	{
 		word_desc = li->content;
-		split = ft_split2(word_desc->word, "|");
+		split = ft_split2(word_desc->word, "|", word_desc->flags);
 		if (!split)
 		{
 			prev = li;

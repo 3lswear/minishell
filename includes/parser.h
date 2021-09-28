@@ -16,6 +16,6 @@ typedef struct s_word_desc
 void	parse(t_minishell *mini);
 t_list	**string_tokenize(t_minishell *state);
 t_word_desc *wdesc_new(char *word, int flags);
-t_list	**ft_split2(char const *s, const char *delim);
+t_list	**ft_split2(char const *s, const char *delim, int flag);
 
 #endif
