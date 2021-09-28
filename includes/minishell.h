@@ -10,6 +10,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <sys/wait.h>
+
 # include "libft.h"
 
 # define PIPE 	0
@@ -47,7 +48,10 @@ typedef struct s_minishell
 	char	*line;
 	t_list	*commands;
 	t_list	*env;
+	char*	prompt;
 }				t_minishell;
+
+# include "parser.h"
 
 int		ft_strlen2(char **str);
 int		read_line(t_minishell *mini);
@@ -67,7 +71,5 @@ char	*get_env_param(t_list *env, char *param);
 char	*get_need_path(char *path, char *command);
 int		update_env(t_list *env, char *key, char *new_line);
 void	sig_handler(int sig);
-
-
 
 #endif
