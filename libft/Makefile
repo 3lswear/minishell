@@ -76,7 +76,7 @@ $(NAME): $(OBJCT)
 	ranlib $(NAME)
 
 %.o: %.c $(HEADER)
-	gcc -Wall -Wextra -Werror -c $< -o $@ -I $(INCLUDES)
+	gcc -Wall -Wextra -Werror -g -c $< -o $@ -I $(INCLUDES)
 
 clean:
 	rm -rf $(OBJCT)
