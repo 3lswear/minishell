@@ -31,7 +31,8 @@ t_list	**ft_split2(char const *s, const char *delim)
 		 }
 		 else
 		 {
-			 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(s, 0, len), -1)));
+			 if (*s)
+				 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(s, 0, len), -1)));
 			 break;
 		 }
 	}
