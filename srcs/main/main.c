@@ -19,6 +19,8 @@ int main(int argc, char *argv[], char **env)
 	int			i;
 
 	mini.exit = 0;
+	mini.arg = argv;
+	mini.envp = env;
 	if (argc == 1)
 	{
 		parse_env(&mini, env);

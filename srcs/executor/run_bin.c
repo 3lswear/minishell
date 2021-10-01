@@ -62,19 +62,20 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 	int		pid;
 
 	envp = lst_to_char(mini->env);
-	exit_status = 0;
+	exit_status = 1;
 	// printf("%s\n", arg[0]);
 	pid = fork();
 	if (pid == 0)
 	{
 		if (exit_status)
-			execve(path, arg, (char **)((t_command *)(mini->commands->content))->envp);
+			execve(path, mini->arg, mini->envp);
 		exit_status = check_dir(path);
 		exit(exit_status);
 	}
 	else
 		waitpid(pid, &exit_status, 0);
 	return (exit_status);
+	(void)arg;
 }
 
 //?

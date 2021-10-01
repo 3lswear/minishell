@@ -45,6 +45,8 @@ typedef struct s_minishell
 	int		exit;
 	int		exit_status;
 	char	*line;
+	char	**arg;
+	char	**envp;
 	t_list	*commands;
 	t_list	*env;
 }				t_minishell;
