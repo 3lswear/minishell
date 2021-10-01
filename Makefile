@@ -5,7 +5,7 @@ CC = clang
 LIBFT = ./libft/libft.a
 LIBFT_FLAGS = -L=libft -lft
 
-# SANFLAGS = -fsanitize=address
+SANFLAGS = -fsanitize=address
 
 CFLAGS = -Wall -Wextra -Werror -g $(SANFLAGS)
 
@@ -13,7 +13,8 @@ LIBS = -lreadline
 
 INCLUDES = ./includes
 
-HEADERS = $(INCLUDES)/minishell.h
+# HEADERS = $(INCLUDES)/minishell.h
+HEADERS = $(wildcard $(INCLUDES)/*.h)
 
 SRC = $(wildcard ./srcs/*/*.c)
 OBJ = $(SRC:.c=.o)
@@ -40,6 +41,9 @@ fclean: clean
 re:
 	$(MAKE) fclean
 	$(MAKE) all
+
+run: $(NAME)
+	@ ASAN_OPTIONS=detect_leaks=0 LSAN_OPTIONS=suppressions=.readline.supp ./$(NAME)
 
 norm: 
 	norminette $(SRC)
