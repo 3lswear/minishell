@@ -2,14 +2,15 @@
 
 char *get_flag_name(int flag)
 {
-	char *result = "";
+	char *result;
 
+	result = ft_calloc(sizeof(char), 1);
 	if (flag & T_NOEXP)
-		result = ft_strjoin(result, "T_NOEXP ");
+		result = ft_strjoin2(result, "T_NOEXP ");
 	if (flag & T_DQUOTE)
-		result = ft_strjoin(result, "T_DQUOTE ");
+		result = ft_strjoin2(result, "T_DQUOTE ");
 	if (flag & T_NOSPC)
-		result = ft_strjoin(result, "T_NOSPC ");
+		result = ft_strjoin2(result, "T_NOSPC ");
 
 	return (result);
 }
