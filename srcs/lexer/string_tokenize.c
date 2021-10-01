@@ -1,5 +1,31 @@
 #include "minishell.h"
 
+void	word_li_free(t_list *li)
+{
+	free(((t_word_desc *)li->content)->word);
+	free(li->content);
+	free(li);
+}
+
+void	word_list_free(t_list **tokens)
+{
+	t_list *token;
+	t_list *tmp;
+	t_word_desc *word;
+
+	token = *tokens;
+	while (token)
+	{
+		word = token->content;
+		tmp = token->next;
+		free(word->word);
+		free(token->content);
+		free(token);
+		token = tmp;
+	}
+
+}
+
 char *get_flag_name(int flag)
 {
 	char *result;
@@ -19,6 +45,7 @@ void	word_list_print(t_list **head)
 {
 	t_list	*item;
 	t_word_desc *word;
+	char *str_flag;
 
 	if (!head || !(*head))
 	{
@@ -29,7 +56,9 @@ void	word_list_print(t_list **head)
 	while (item)
 	{
 		word = item->content;
-		fprintf(stderr, "[%s],\t\t[%s]\n", word->word, get_flag_name(word->flags));
+		str_flag = get_flag_name(word->flags);
+		fprintf(stderr, "[%s],\t\t[%s]\n", word->word, str_flag);
+		free(str_flag);
 		item = item->next;
 	}
 	fprintf(stderr, "<end>\n");
@@ -188,24 +217,24 @@ void	split_on_special(t_list **tokens)
 		}
 		else if (!prev)
 		{
+			fprintf(stderr, "first branch, split is: \n");
+			word_list_print(split);
 			*tokens = *split;
 			li = ft_lstlast(*split);
 			ft_lstadd_back(split, li->next);
 			prev = li;
-			/* li = li->next; */
 		}
 		else
 		{
+			fprintf(stderr, "second branch, split is: \n");
+			word_list_print(split);
 			li = ft_lstlast(*split);
 			ft_lstadd_back(split, prev->next->next);
+			word_li_free(prev->next);
 			prev->next = *split;
 			prev = li;
-			/* prev->next = *split; */
-			/* li = *split; */
-			/* li = li->next; */
 		}
-		fprintf(stderr, "split is: \n");
-		word_list_print(split);
+		free(split);
 
 		li = li->next;
 	}
@@ -214,10 +243,13 @@ void	split_on_special(t_list **tokens)
 t_list **string_tokenize(t_minishell *state)
 {
 	t_list **tokens;
+
 	tokens = first_pass(state);
 	split_on_special(tokens);
 	fprintf(stderr, "final list:\n");
 	word_list_print(tokens);
+
+	word_list_free(tokens);
 
 	return (tokens);
 }
