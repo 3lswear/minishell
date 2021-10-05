@@ -16,8 +16,6 @@ void	delims_free(t_list **delims)
 
 void	word_li_free(t_list *li)
 {
-	free(((t_word_desc *)li->content)->word);
-	free(li->content);
 	if (li)
 	{
 		free(((t_word_desc *)li->content)->word);
