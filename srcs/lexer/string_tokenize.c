@@ -163,6 +163,14 @@ int		is_sep(char *chr)
 	return (*chr == '|' || *chr == ' ' || *chr == '>' || *chr == '<');
 }
 
+void	scroll_ifs(char *str, int *i)
+{
+	while ((str[*i] == ' ') || (str[*i] == '\n') || (str[*i] == '\t'))
+	{
+		(*i)++;
+	}
+}
+
 
 
 t_list	**first_pass(t_minishell *state)
@@ -183,12 +191,14 @@ t_list	**first_pass(t_minishell *state)
 	i = 0;
 	while (str[i])
 	{
-		while (str[i] && in_set(&str[i], ifs))
-			i++;
+		/* while (str[i] && str[i] != '\'' && str[i] != '\"' && in_set(&str[i], ifs)) */
+		scroll_ifs(str, &i);
 		while (str[i])
 		{
+			scroll_ifs(str, &i);
 			handle_quote(str, &i, tokens, 0);
 			handle_dquote(str, &i, tokens, 0);
+			scroll_ifs(str, &i);
 			if (!str[i])
 				break;
 			j = i;
