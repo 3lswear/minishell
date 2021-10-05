@@ -192,13 +192,13 @@ t_list	**first_pass(t_minishell *state)
 				j++;
 			if (str[j] == '\'')
 			{
-				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), 0)));
-				handle_quote(str, &j, *tokens, T_NOSPC);
+				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), T_NOSPC)));
+				handle_quote(str, &j, *tokens, 0);
 			}
 			else if (str[j] == '\"')
 			{
-				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), 0)));
-				handle_dquote(str, &j, *tokens, T_NOSPC);
+				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), T_NOSPC)));
+				handle_dquote(str, &j, *tokens, 0);
 			}
 			else
 				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), 0)));
