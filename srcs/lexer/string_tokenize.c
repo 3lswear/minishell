@@ -239,6 +239,7 @@ void	split_on_special(t_list **tokens, t_list **delims)
 	{
 		li = *tokens;
 		while (li)
+		while (li && !(((t_word_desc *)li->content)->flags & (T_DQUOTE | T_NOEXP)))
 		{
 			word_desc = li->content;
 			split = ft_split2(word_desc->word, delim->content, word_desc->flags);
