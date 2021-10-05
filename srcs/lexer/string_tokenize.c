@@ -250,10 +250,13 @@ void	split_on_special(t_list **tokens, t_list **delims)
 	{
 		li = *tokens;
 		prev = NULL;
-		while (li && !(((t_word_desc *)li->content)->flags & (T_DQUOTE | T_NOEXP)))
+		while (li)
 		{
 			word_desc = li->content;
-			split = ft_split2(word_desc->word, delim->content, word_desc->flags);
+			if (word_desc->flags & (T_DQUOTE | T_NOEXP))
+				split = NULL;
+			else
+				split = ft_split2(word_desc->word, delim->content, word_desc->flags);
 			if (!split)
 			{
 				prev = li;
