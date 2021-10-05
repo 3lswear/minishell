@@ -113,7 +113,7 @@ void	handle_dollar(char *str, int *i, t_list *tokens)
 	{
 		len++;
 	}
-	if (str[*i + len + 1] != ' ')
+	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flags |= T_NOSPC;
 	ft_lstadd_back(&tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_NOEXP | T_VAR)));
 
@@ -132,6 +132,8 @@ void	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 	if (len < 0)
 		//TODO handle error
 		exit(-3);
+	if (!in_set(&str[*i + len + 1], " \t\n"))
+		flag_add |= T_NOSPC;
 	ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_DQUOTE | flag_add)));
 	*i += len + 1;
 }
@@ -150,6 +152,8 @@ void	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 		//TODO handle error
 		exit(-3);
 
+	if (!in_set(&str[*i + len + 1], " \t\n"))
+		flag_add |= T_NOSPC;
 	ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_NOEXP | flag_add)));
 	*i += len + 1;
 }
