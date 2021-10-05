@@ -232,11 +232,10 @@ void	split_on_special(t_list **tokens, t_list **delims)
 	t_list **split;
 
 	delim = *delims;
-	prev = NULL;
 	while (delim)
 	{
 		li = *tokens;
-		while (li)
+		prev = NULL;
 		while (li && !(((t_word_desc *)li->content)->flags & (T_DQUOTE | T_NOEXP)))
 		{
 			word_desc = li->content;
@@ -250,10 +249,11 @@ void	split_on_special(t_list **tokens, t_list **delims)
 			{
 				/* fprintf(stderr, "first branch, split is: \n"); */
 				/* word_list_print(split); */
-				free(*tokens);
+				ft_lstadd_back(split, li->next);
+				word_li_free(*tokens);
+
 				*tokens = *split;
 				li = ft_lstlast(*split);
-				ft_lstadd_back(split, li->next);
 				prev = li;
 			}
 			else
