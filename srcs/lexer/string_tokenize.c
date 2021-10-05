@@ -119,7 +119,7 @@ void	handle_dollar(char *str, int *i, t_list *tokens)
 
 }
 
-void	handle_dquote(char *str, int *i, t_list *tokens, int flag_add)
+void	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 {
 	int len;
 
@@ -132,11 +132,11 @@ void	handle_dquote(char *str, int *i, t_list *tokens, int flag_add)
 	if (len < 0)
 		//TODO handle error
 		exit(-3);
-	ft_lstadd_back(&tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_DQUOTE | flag_add)));
+	ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_DQUOTE | flag_add)));
 	*i += len + 1;
 }
 
-void	handle_quote(char *str, int *i, t_list *tokens, int flag_add)
+void	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 {
 	int len;
 
@@ -150,7 +150,7 @@ void	handle_quote(char *str, int *i, t_list *tokens, int flag_add)
 		//TODO handle error
 		exit(-3);
 
-	ft_lstadd_back(&tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_NOEXP | flag_add)));
+	ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_NOEXP | flag_add)));
 	*i += len + 1;
 }
 
@@ -183,8 +183,8 @@ t_list	**first_pass(t_minishell *state)
 			i++;
 		while (str[i])
 		{
-			handle_quote(str, &i, *tokens, 0);
-			handle_dquote(str, &i, *tokens, 0);
+			handle_quote(str, &i, tokens, 0);
+			handle_dquote(str, &i, tokens, 0);
 			if (!str[i])
 				break;
 			j = i;
@@ -193,12 +193,12 @@ t_list	**first_pass(t_minishell *state)
 			if (str[j] == '\'')
 			{
 				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), T_NOSPC)));
-				handle_quote(str, &j, *tokens, 0);
+				handle_quote(str, &j, tokens, 0);
 			}
 			else if (str[j] == '\"')
 			{
 				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), T_NOSPC)));
-				handle_dquote(str, &j, *tokens, 0);
+				handle_dquote(str, &j, tokens, 0);
 			}
 			else
 				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), 0)));
