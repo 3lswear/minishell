@@ -18,7 +18,12 @@ void	word_li_free(t_list *li)
 {
 	free(((t_word_desc *)li->content)->word);
 	free(li->content);
-	free(li);
+	if (li)
+	{
+		free(((t_word_desc *)li->content)->word);
+		free(li->content);
+		free(li);
+	}
 }
 
 void	word_list_free(t_list **tokens)
