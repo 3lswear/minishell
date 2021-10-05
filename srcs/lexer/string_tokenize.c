@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void	delims_free(t_list **delims)
+{
+	t_list *delim;
+	t_list *tmp;
+
+	delim = *delims;
+	while (delim)
+	{
+		tmp = delim->next;
+		free(delim);
+		delim = tmp;
+	}
+}
+
 void	word_li_free(t_list *li)
 {
 	free(((t_word_desc *)li->content)->word);
@@ -61,7 +75,7 @@ void	word_list_print(t_list **head)
 		free(str_flag);
 		item = item->next;
 	}
-	fprintf(stderr, "<end>\n");
+	fprintf(stderr, "<<END\n");
 	/* printf("\n"); */
 }
 
@@ -195,61 +209,77 @@ void	split_print(char **split)
 	fprintf(stderr, "\n");
 }
 
-void	split_on_special(t_list **tokens)
+void	split_on_special(t_list **tokens, t_list **delims)
 {
 	t_list *li;
+	t_list *delim;
 	t_list *prev;
 	char *ifs;
 	t_word_desc *word_desc;
 	t_list **split;
 
-	li = *tokens;
+	delim = *delims;
 	ifs = "|><";
 	prev = NULL;
-	while (li)
+	while (delim)
 	{
-		word_desc = li->content;
-		split = ft_split2(word_desc->word, "|", word_desc->flags);
-		if (!split)
+		li = *tokens;
+		while (li)
 		{
-			prev = li;
-			fprintf(stderr, "didnt split !!\n");
+			word_desc = li->content;
+			split = ft_split2(word_desc->word, delim->content, word_desc->flags);
+			if (!split)
+			{
+				prev = li;
+				/* fprintf(stderr, "didnt split !!\n"); */
+			}
+			else if (!prev)
+			{
+				/* fprintf(stderr, "first branch, split is: \n"); */
+				/* word_list_print(split); */
+				free(*tokens);
+				*tokens = *split;
+				li = ft_lstlast(*split);
+				ft_lstadd_back(split, li->next);
+				prev = li;
+			}
+			else
+			{
+				/* fprintf(stderr, "second branch, split is: \n"); */
+				/* word_list_print(split); */
+				li = ft_lstlast(*split);
+				ft_lstadd_back(split, prev->next->next);
+				word_li_free(prev->next);
+				prev->next = *split;
+				prev = li;
+			}
+			free(split);
+			li = li->next;
 		}
-		else if (!prev)
-		{
-			fprintf(stderr, "first branch, split is: \n");
-			word_list_print(split);
-			*tokens = *split;
-			li = ft_lstlast(*split);
-			ft_lstadd_back(split, li->next);
-			prev = li;
-		}
-		else
-		{
-			fprintf(stderr, "second branch, split is: \n");
-			word_list_print(split);
-			li = ft_lstlast(*split);
-			ft_lstadd_back(split, prev->next->next);
-			word_li_free(prev->next);
-			prev->next = *split;
-			prev = li;
-		}
-		free(split);
-
-		li = li->next;
+		delim = delim->next;
 	}
 }
 
 t_list **string_tokenize(t_minishell *state)
 {
 	t_list **tokens;
+	t_list *delims;
+
+	delims = NULL;
+	ft_lstadd_back(&delims, ft_lstnew("|"));
+	ft_lstadd_back(&delims, ft_lstnew(">"));
+	ft_lstadd_back(&delims, ft_lstnew("<"));
+	ft_lstadd_back(&delims, ft_lstnew("<<"));
+	ft_lstadd_back(&delims, ft_lstnew(">>"));
 
 	tokens = first_pass(state);
-	split_on_special(tokens);
+	split_on_special(tokens, &delims);
 	fprintf(stderr, "final list:\n");
 	word_list_print(tokens);
 
+	delims_free(&delims);
 	word_list_free(tokens);
+	free(tokens);
 
 	return (tokens);
 }
