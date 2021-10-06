@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+void	word_li_append(t_list **tokens, char *word, int flag)
+{
+	if ((*word) || (!(*word) && (flag & (T_NOEXP | T_DQUOTE))))
+		ft_lstadd_back(tokens, ft_lstnew(wdesc_new(word, flag)));
+	else
+	{
+		free(word);
+	}
+}
+
 void	delims_free(t_list **delims)
 {
 	t_list *delim;
@@ -134,7 +144,8 @@ void	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 		exit(-3);
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
-	ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_DQUOTE | flag_add)));
+
+	word_li_append(tokens, ft_substr(str, *i, len), T_DQUOTE | flag_add);
 	*i += len + 1;
 }
 
@@ -154,7 +165,7 @@ void	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
-	ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_NOEXP | flag_add)));
+	word_li_append(tokens, ft_substr(str, *i, len), T_NOEXP | flag_add);
 	*i += len + 1;
 }
 
@@ -206,16 +217,17 @@ t_list	**first_pass(t_minishell *state)
 				j++;
 			if (str[j] == '\'')
 			{
-				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), T_NOSPC)));
+
+				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC);
 				handle_quote(str, &j, tokens, 0);
 			}
 			else if (str[j] == '\"')
 			{
-				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), T_NOSPC)));
+				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC);
 				handle_dquote(str, &j, tokens, 0);
 			}
 			else
-				ft_lstadd_back(tokens, ft_lstnew(wdesc_new(ft_substr(str, i, j - i), 0)));
+				word_li_append(tokens, ft_substr(str, i, j - i), 0);
 			i = j;
 			if (!str[j])
 				break;
