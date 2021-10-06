@@ -14,8 +14,8 @@
 
 int	read_line(t_minishell *mini)
 {
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
+	// signal(SIGINT, sig_handler);
+	// signal(SIGQUIT, sig_handler);
 	mini->line = readline("\033[32mminishell\033[0m \033[31m➢\033[0m ");
 	if (!mini->line)
 	{

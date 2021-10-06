@@ -5,7 +5,7 @@ CC = clang
 LIBFT = ./libft/libft.a
 LIBFT_FLAGS = -L=libft -lft
 
-SANFLAGS = -fsanitize=address
+#SANFLAGS = -fsanitize=address
 
 CFLAGS = -Wall -Wextra -Werror -g $(SANFLAGS)
 

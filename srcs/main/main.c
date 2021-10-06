@@ -21,6 +21,8 @@ int main(int argc, char *argv[], char **env)
 	mini.exit = 0;
 	mini.arg = argv;
 	mini.envp = env;
+	mini.STDin = 0;
+	mini.STDout = 1;
 	if (argc == 1)
 	{
 		parse_env(&mini, env);
