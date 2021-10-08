@@ -140,8 +140,11 @@ void	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 	(*i)++;
 	len = ft_strchr(&str[*i], 0x22) - &str[*i];
 	if (len < 0)
+	{
 		//TODO handle error
+		ft_putendl_fd("DQUOTE ERROR", 2);
 		exit(-3);
+	}
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
 
@@ -160,8 +163,11 @@ void	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 	(*i)++;
 	len = ft_strchr(&str[*i], 0x27) - &str[*i];
 	if (len < 0)
+	{
 		//TODO handle error
+		ft_putendl_fd("QUOTE ERROR", 2);
 		exit(-3);
+	}
 
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
@@ -231,7 +237,7 @@ t_list	**first_pass(t_minishell *state)
 			i = j;
 			if (!str[j])
 				break;
-			i++;
+			scroll_ifs(str, &i);
 		}
 	}
 	return (tokens);
