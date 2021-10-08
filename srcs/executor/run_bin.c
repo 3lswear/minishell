@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 18:55:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/21 14:58:34 by talyx            ###   ########.fr       */
+/*   Updated: 2021/10/08 19:40:31 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 	if (pid == 0)
 	{
 		if (exit_status)
-			execve(path, mini->arg, envp);
+			execve(path, arg, envp);
 		exit_status = check_dir(path);
 		exit(exit_status);
 	}
@@ -62,7 +62,6 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 		waitpid(pid, &exit_status, 0);
 	return (exit_status);
 	ft_split_clear(envp);
-	(void)arg;
 }
 
 int	run_bins(t_minishell *mini, t_command *comm)
