@@ -322,8 +322,8 @@ t_list **string_tokenize(t_minishell *state)
 
 	tokens = first_pass(state);
 
-	fprintf(stderr, "after first_pass:\n");
-	word_list_print(tokens);
+	/* fprintf(stderr, "after first_pass:\n"); */
+	/* word_list_print(tokens); */
 
 	split_on_special(tokens, &delims);
 
@@ -331,7 +331,7 @@ t_list **string_tokenize(t_minishell *state)
 	word_list_print(tokens);
 
 	delims_free(&delims);
-	word_list_free(tokens);
+	/* word_list_free(tokens); */
 	/* free(tokens); */
 
 	return (tokens);
