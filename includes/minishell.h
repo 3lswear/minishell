@@ -33,8 +33,8 @@ typedef struct s_command
 {
 	char	*path;	// command?
 	char	**arg;
-	char	**envp;
-	char	*option; //idk
+	/* char	**envp; */
+	/* char	*option; //idk */
 	int		pipe;
 	t_redir	*red;
 	t_redir	*append;
