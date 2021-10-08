@@ -315,13 +315,18 @@ t_list **string_tokenize(t_minishell *state)
 	ft_lstadd_back(&delims, ft_lstnew(">>"));
 
 	tokens = first_pass(state);
+
+	fprintf(stderr, "after first_pass:\n");
+	word_list_print(tokens);
+
 	split_on_special(tokens, &delims);
+
 	fprintf(stderr, "final list:\n");
 	word_list_print(tokens);
 
 	delims_free(&delims);
 	word_list_free(tokens);
-	free(tokens);
+	/* free(tokens); */
 
 	return (tokens);
 }

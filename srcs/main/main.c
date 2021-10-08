@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 21:59:29 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/26 21:09:58 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/08 16:13:17 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char *argv[], char **env)
 			if (i == 0)
 				continue ;
 			parse(&mini);
-			// execute(&mini);
+			execute(&mini);
 			// free(mini.commands);
 		}
 	}

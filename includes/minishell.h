@@ -30,10 +30,10 @@ typedef struct s_redir
 
 typedef struct s_command
 {
-	char	*path;
+	char	*path;	// command?
 	char	**arg;
 	char	**envp;
-	char	*option;
+	char	*option; //idk
 	int		pipe;
 	t_redir	*red;
 	t_redir	*append;
