@@ -12,22 +12,29 @@
 
 #include "minishell.h"
 
-//?!
 int	execute(t_minishell *mini)
 {
 	t_list		*commands;
 	t_command	*command;
+	int			pip;
 
+	pip = 2;
 	commands = mini->commands;
 	while (commands)
 	{
 		command = commands->content;
-		// if (command->red->in || command->red->out)
-		// 	redirect(mini, 1);
-		// else if (command->append->in || command->red->out)
-		// 	redirect(mini, 2);
+		// if (command->red->in)
+		// 	re_input(mini, command->red);
+		// else if (command->append->in)
+		// 	re_input(mini, command->append);
+		// else if (command->red->out)
+		// 	redirect(mini, command->red, 1);
+		// else if (command->append->out)
+		// 	redirect(mini, command->append, 2);
 		// else if (command->pipe)
-		// 	pipe(mini);
+		// 	pip = make_pipe(mini);
+		// if (pip == 0)
+		// 	continue ;
 		if (is_builtins(command))
 			run_builtins(mini, command);
 		else

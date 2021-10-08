@@ -35,7 +35,7 @@ t_list **get_commands(t_list **tokens)
 	(void) tokens;
 
 	cmd = malloc(sizeof(t_command));
-	cmd->path = "whois";
+	cmd->path = "ls";
 	cmd->arg = ft_calloc(sizeof(char *), 100); //TODO
 	cmd->arg[0] = "-la";
 	cmd->envp = NULL;

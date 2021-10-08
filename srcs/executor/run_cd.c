@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 19:17:37 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/19 13:50:02 by talyx            ###   ########.fr       */
+/*   Updated: 2021/09/21 15:19:47 by talyx            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	update_old(t_list *env)
 	if (!old)
 		return (0);
 	update_env(env, "OLDPWD", old);
-	free(old);
+	// free(old);
 	return (1);
 }
 
@@ -98,10 +98,10 @@ int	cd_old(t_list *env)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set", 2);
 		return (0);
-		update_old(env);
 	}
+	update_old(env);
 	i = chdir(path);
-	free(path);
+	// free(path);
 	return (i);
 }
 

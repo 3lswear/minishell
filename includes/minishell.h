@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <dirent.h>
+# include <errno.h>
 # include <sys/wait.h>
 
 # include "libft.h"
@@ -43,9 +44,13 @@ typedef struct s_minishell
 {
 	int		fd_in;
 	int		fd_out;
+	int		STDin;
+	int		STDout;
 	int		exit;
 	int		exit_status;
 	char	*line;
+	char	**arg;
+	char	**envp;
 	t_list	*commands;
 	t_list	*env;
 	char*	prompt;
@@ -71,5 +76,11 @@ char	*get_env_param(t_list *env, char *param);
 char	*get_need_path(char *path, char *command);
 int		update_env(t_list *env, char *key, char *new_line);
 void	sig_handler(int sig);
+
+/* int		parse(t_minishell *mini, char **env); */
+int re_input(t_minishell *mini, t_redir *input);
+int	redirect(t_minishell *mini, t_redir *redir, int type);
+int	make_pipe(t_minishell *mini);
+
 
 #endif
