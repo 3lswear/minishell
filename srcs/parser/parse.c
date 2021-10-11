@@ -143,26 +143,19 @@ char **get_args(t_list **tokens, char *path)
 	return (result);
 }
 
-
-
 t_list **get_commands(t_list **tokens)
 {
 	t_command *cmd;
 	t_list **commands;
 	int next_cmd;
-	/* (void) tokens; */
 
 	next_cmd = 1;
 
-	/* fprintf(stderr, "%s\n", str_enlarge("hello ", "world")); */
 	while(next_cmd)
 	{
 		cmd = malloc(sizeof(t_command));
 		cmd->path = get_path(tokens);
 		/* fprintf(stderr, "==> current token = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
-		/* cmd->arg = ft_calloc(sizeof(char *), 100); //TODO */
-		/* cmd->arg[0] = cmd->path; */
-		/* cmd->arg[1] = NULL; */
 		cmd->arg = get_args(tokens, cmd->path);
 		/* fprintf(stderr, "==> token after args = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
 		/* cmd->envp = NULL; */
