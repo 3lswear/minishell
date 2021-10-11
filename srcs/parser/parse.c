@@ -44,11 +44,11 @@ char *str_enlarge(char *orig, char *add)
 	return (result);
 }
 
-char *get_path(t_list **tokens)
+char	*get_path(t_list **tokens)
 {
-	char *path;
-	t_list *token;
-	t_word_desc *word;
+	char		*path;
+	t_list		*token;
+	t_word_desc	*word;
 
 	token = *tokens;
 	word = token->content;
@@ -60,7 +60,7 @@ char *get_path(t_list **tokens)
 			token = token->next;
 			word = token->content;
 			path = str_enlarge(path, word->word);
-			*tokens = token;
+			*tokens = token->next;
 		}
 	}
 	else
