@@ -57,6 +57,7 @@ typedef struct s_minishell
 }				t_minishell;
 
 # include "parser.h"
+# include "utils.h"
 
 int		ft_strlen2(char **str);
 int		read_line(t_minishell *mini);
