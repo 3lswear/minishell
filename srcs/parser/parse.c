@@ -73,34 +73,106 @@ char	*get_path(t_list **tokens)
 	return (path);
 }
 
+static size_t args_count(t_list *arg_tok)
+{
+	size_t result;
+	t_word_desc *word;
+
+	result = 0;
+	while(arg_tok)
+	{
+		word = arg_tok->content;
+		if ((word->word[0] == '>' || word->word[0] == '|') && !(word->flags & (T_NOEXP | T_DQUOTE)))
+			break;
+		else if (!(word->flags & T_NOSPC))
+			result++;
+		/* else */
+		/* 	result++; */
+		arg_tok = arg_tok->next;
+	}
+
+	return (result);
+}
+
+char **get_args(t_list **tokens, char *path)
+{
+	size_t arg_num;
+	char **result;
+	t_word_desc *word;
+	t_list *token;
+	size_t i;
+	char *tmp;
+
+	token = *tokens;
+	arg_num = args_count(*tokens);
+	fprintf(stderr, "arg count is [%lu]\n", arg_num);
+	result = ft_calloc(sizeof(char *), arg_num + 2);
+	result[0] = path;
+
+	//add args to result[x], combining if no space between
+	token = *tokens;
+	if (!token)
+		return (result);
+	word = token->content;
+	i = 1;
+	while (i <= arg_num)
+	{
+		if ((word->flags & T_NOSPC) && token->next)
+		{
+			tmp = ft_strdup(word->word);
+			while ((word->flags & T_NOSPC) && token->next)
+			{
+				token = token->next;
+				word = token->content;
+				tmp = str_enlarge(tmp, word->word);
+				*tokens = token->next;
+			}
+		}
+		else
+		{
+			tmp = ft_strdup(word->word);
+			*tokens = token->next;
+			/* word_li_free(token); */
+		}
+		result[i] = tmp;
+		i++;
+	}
+
+	return (result);
+}
+
+
+
 t_list **get_commands(t_list **tokens)
 {
 	t_command *cmd;
 	t_list **commands;
-	int pipe;
+	int next_cmd;
 	/* (void) tokens; */
 
-	pipe = 1;
+	next_cmd = 1;
 
 	/* fprintf(stderr, "%s\n", str_enlarge("hello ", "world")); */
-	while(pipe)
+	while(next_cmd)
 	{
 		cmd = malloc(sizeof(t_command));
-		/* cmd->path = "imposter"; */
 		cmd->path = get_path(tokens);
-		fprintf(stderr, "==> current token = [%s]\n", ((t_word_desc *)((*tokens)->content))->word);
-		cmd->arg = ft_calloc(sizeof(char *), 100); //TODO
-		cmd->arg[0] = cmd->path;
-		cmd->arg[1] = NULL;
+		/* fprintf(stderr, "==> current token = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
+		/* cmd->arg = ft_calloc(sizeof(char *), 100); //TODO */
+		/* cmd->arg[0] = cmd->path; */
+		/* cmd->arg[1] = NULL; */
+		cmd->arg = get_args(tokens, cmd->path);
+		/* fprintf(stderr, "==> token after args = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
 		/* cmd->envp = NULL; */
 		/* cmd->option = NULL; */
 		cmd->pipe = 0;
 		cmd->red = NULL;
 		cmd->append = NULL;
+		cmd_print(cmd);
 		commands = malloc(sizeof(t_list *));
 		*commands = NULL;
 		ft_lstadd_back(commands, ft_lstnew(cmd));
-		pipe = cmd->pipe;
+		next_cmd = cmd->pipe;
 	}
 
 	return (commands);
