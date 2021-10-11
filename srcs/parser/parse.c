@@ -18,12 +18,14 @@ void	strarr_print(char **arr)
 
 void	cmd_print(t_command *cmd)
 {
+	fprintf(stderr, ">>>\n");
 	fprintf(stderr, "path = [%s]\n", cmd->path);
 	fprintf(stderr, "arg = ");
 	strarr_print(cmd->arg);
-	fprintf(stderr, "envp = ");
+	/* fprintf(stderr, "envp = [%d]", ); */
 	/* strarr_print(cmd->envp); */
 	fprintf(stderr, "pipe = [%d]\n", cmd->pipe);
+	fprintf(stderr, "<<<\n");
 	// redirect
 
 }
