@@ -175,11 +175,16 @@ t_list **get_commands(t_list **tokens)
 
 void	parse(t_minishell *mini)
 {
-	t_list **tokens;
-	t_list **commands;
+	t_list	**tokens;
+	t_list	**commands;
+	t_list	*head_token;
 
 	tokens = string_tokenize(mini);
-	commands = get_commands(tokens);
+	head_token = *tokens;
+	commands = get_commands(&head_token);
+	word_list_print(tokens);
+	word_list_free(tokens);
+	free(tokens);
 	mini->commands = *commands;
-
+	free(commands);
 }
