@@ -64,6 +64,8 @@ char *get_flag_name(int flag)
 		result = ft_strjoin2(result, "T_DQUOTE ");
 	if (flag & T_NOSPC)
 		result = ft_strjoin2(result, "T_NOSPC ");
+	if (flag & T_ASSIGN)
+		result = ft_strjoin2(result, "T_ASSIGN ");
 
 	return (result);
 }
@@ -74,6 +76,7 @@ void	word_list_print(t_list **head)
 	t_word_desc *word;
 	char *str_flag;
 
+	fprintf(stderr, ">>>\n");
 	if (!head || !(*head))
 	{
 		fprintf(stderr, "NULL word list\n");
@@ -88,7 +91,8 @@ void	word_list_print(t_list **head)
 		free(str_flag);
 		item = item->next;
 	}
-	fprintf(stderr, "<<END\n");
+	/* fprintf(stderr, "<<END\n"); */
+	fprintf(stderr, "<<<\n");
 	/* printf("\n"); */
 }
 
@@ -188,8 +192,7 @@ void	scroll_ifs(char *str, int *i)
 	}
 }
 
-
-
+// splits by IFS, respecting quotes
 t_list	**first_pass(t_minishell *state)
 {
 	t_list **tokens;
