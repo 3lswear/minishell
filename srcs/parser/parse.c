@@ -30,6 +30,19 @@ void	cmd_print(t_command *cmd)
 
 }
 
+void	commands_print(t_list **cmds)
+{
+	t_list *li;
+
+	li = *cmds;
+	fprintf(stderr, "=== commands : ===\n");
+	while (li)
+	{
+		cmd_print(li->content);
+		li = li->next;
+	}
+}
+
 char *str_enlarge(char *orig, char *add)
 {
 	size_t orig_len;
@@ -53,6 +66,8 @@ char	*get_path(t_list **tokens)
 	t_word_desc	*word;
 
 	token = *tokens;
+	if (!token)
+		return (NULL);
 	word = token->content;
 	if ((word->flags & T_NOSPC) && token->next)
 	{
@@ -69,7 +84,6 @@ char	*get_path(t_list **tokens)
 	{
 		path = ft_strdup(word->word);
 		*tokens = token->next;
-		/* word_li_free(token); */
 	}
 	
 	return (path);
@@ -115,10 +129,10 @@ char **get_args(t_list **tokens, char *path)
 	token = *tokens;
 	if (!token)
 		return (result);
-	word = token->content;
 	i = 1;
 	while (i <= arg_num)
 	{
+		word = token->content;
 		if ((word->flags & T_NOSPC) && token->next)
 		{
 			tmp = ft_strdup(word->word);
@@ -134,7 +148,7 @@ char **get_args(t_list **tokens, char *path)
 		{
 			tmp = ft_strdup(word->word);
 			*tokens = token->next;
-			/* word_li_free(token); */
+			token = token->next;
 		}
 		result[i] = tmp;
 		i++;
@@ -151,6 +165,8 @@ t_list **get_commands(t_list **tokens)
 
 	next_cmd = 1;
 
+	commands = malloc(sizeof(t_list *));
+	*commands = NULL;
 	while(next_cmd)
 	{
 		cmd = malloc(sizeof(t_command));
@@ -158,17 +174,22 @@ t_list **get_commands(t_list **tokens)
 		/* fprintf(stderr, "==> current token = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
 		cmd->arg = get_args(tokens, cmd->path);
 		/* fprintf(stderr, "==> token after args = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
-		/* cmd->envp = NULL; */
-		/* cmd->option = NULL; */
-		cmd->pipe = 0;
+		if ((*tokens))
+		{
+			if (ft_strncmp(((t_word_desc *)*tokens)->word , "|", 2))
+			{
+				cmd->pipe = 1;
+				*tokens = (*tokens)->next;
+			}
+		}
+		else
+			cmd->pipe = 0;
 		cmd->red = NULL;
 		cmd->append = NULL;
-		cmd_print(cmd);
-		commands = malloc(sizeof(t_list *));
-		*commands = NULL;
 		ft_lstadd_back(commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
 	}
+	commands_print(commands);
 
 	return (commands);
 }
@@ -180,9 +201,10 @@ void	parse(t_minishell *mini)
 	t_list	*head_token;
 
 	tokens = string_tokenize(mini);
+	handle_assignment(tokens);
 	head_token = *tokens;
 	commands = get_commands(&head_token);
-	word_list_print(tokens);
+	/* word_list_print(tokens); */
 	word_list_free(tokens);
 	free(tokens);
 	mini->commands = *commands;
