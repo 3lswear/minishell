@@ -66,6 +66,10 @@ char *get_flag_name(int flag)
 		result = ft_strjoin2(result, "T_NOSPC ");
 	if (flag & T_ASSIGN)
 		result = ft_strjoin2(result, "T_ASSIGN ");
+	if (flag & T_SPEC)
+		result = ft_strjoin2(result, "T_SPEC ");
+	if (flag & T_VAR)
+		result = ft_strjoin2(result, "T_VAR ");
 
 	return (result);
 }

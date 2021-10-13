@@ -7,6 +7,7 @@
 # define T_DQUOTE		0b00000100
 # define T_VAR			0b00001000
 # define T_ASSIGN		0b00010000
+# define T_SPEC			0b00100000
 
 typedef struct s_word_desc
 {
