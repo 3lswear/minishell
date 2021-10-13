@@ -50,7 +50,7 @@ typedef struct s_minishell
 	char	**arg;
 	char	**envp;
 	t_list	*commands;
-	t_list	*env;
+	t_list	**env;
 	char*	prompt;
 }				t_minishell;
 
@@ -61,20 +61,20 @@ typedef struct s_minishell
 int		ft_strlen2(char **str);
 int		read_line(t_minishell *mini);
 void	parse_env(t_minishell *mini, char **env);
-int		print_env(t_list *env);
+int		print_env(t_list **env);
 int		run_pwd(void);
-int		run_cd(t_command *command, t_list *env);
+int		run_cd(t_command *command, t_list **env);
 int		run_echo(t_command *command);
 int		run_exit(t_minishell *mini, t_command *command);
-int		run_export(t_command *command, t_list *env);
-int		run_unset(t_command *command, t_list *env);
+int		run_export(t_command *command, t_list **env);
+int		run_unset(t_command *command, t_list **env);
 int		execute(t_minishell *mini);
 int		run_bins(t_minishell *mini, t_command *comm);
 int		run_builtins(t_minishell *mini, t_command *command);
 int		is_builtins(t_command *command);
-char	*get_env_param(t_list *env, char *param);
+char	*get_env_param(t_list **env, char *param);
 char	*get_need_path(char *path, char *command);
-int		update_env(t_list *env, char *key, char *new_line);
+int		update_env(t_list **env, char *key, char *new_line);
 void	sig_handler(int sig);
 
 /* int		parse(t_minishell *mini, char **env); */

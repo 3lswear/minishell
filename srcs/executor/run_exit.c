@@ -27,6 +27,8 @@ int	str_is_num(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return(0);
 	while (str[i])
 	{
 		if (i == 0 && (str[i] == '-' || str[i] == '+'))
@@ -42,7 +44,7 @@ int	run_exit(t_minishell *mini, t_command *command)
 {
 	int	count;
 
-	count = ft_strlen2(command->arg);
+	count = ft_strlen2(command->arg) - 1;
 	mini->exit = 1;
 	mini->exit_status = 0;
 	ft_putstr_fd("exit", 2);
@@ -53,13 +55,13 @@ int	run_exit(t_minishell *mini, t_command *command)
 	}
 	else if (count == 1)
 	{
-		if (str_is_num(command->arg[0]))
-			mini->exit_status = ft_atoi(command->arg[0]);
+		if (str_is_num(command->arg[1]))
+			mini->exit_status = ft_atoi(command->arg[1]);
 		else
 		{
 			mini->exit_status = 255;
 			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(command->arg[0], 2);
+			ft_putstr_fd(command->arg[1], 2);
 			ft_putstr_fd(": numeric argument required", 2);
 		}
 	}

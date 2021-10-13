@@ -32,31 +32,32 @@ int	cd_error(char **arg)
 	return (0);
 }
 
-int	update_env(t_list *env, char *key, char *new_line)
+int	update_env(t_list **env, char *key, char *new_line)
 {
 	t_list	*tmp;
+	t_list	*temp;
 	t_list	*new;
 	char	*line;
 
-	tmp = env;
+	tmp = *env;
+	temp = *env;
 	while (tmp)
 	{
 		line = (char *)tmp->content;
 		if (!ft_strncmp(line, key, ft_strlen(key)))
 		{
 			new = ft_lstnew(new_line);
-			env->next = new;
+			temp->next = new;
 			new->next = tmp->next;
-			// free(tmp);
 			return (1);
 		}
-		env = tmp;
+		temp = tmp;
 		tmp = tmp->next;
 	}
 	return (0);	
 }
 
-int	update_old(t_list *env)
+int	update_old(t_list **env)
 {
 	char	arr[4096];
 	char	*old;
@@ -71,7 +72,7 @@ int	update_old(t_list *env)
 	return (1);
 }
 
-int	cd_home(t_list *env)
+int	cd_home(t_list **env)
 {
 	char	*path;
 	int		i;
@@ -88,7 +89,7 @@ int	cd_home(t_list *env)
 	return (i);
 }
 
-int	get_old(t_list *env)
+int	get_old(t_list **env)
 {
 	char	*path;
 	int		i;
@@ -105,7 +106,7 @@ int	get_old(t_list *env)
 	return (i);
 }
 
-char *get_env_path(char *arg, t_list *env)
+char *get_env_path(char *arg, t_list **env)
 {
 	char	*path;
 	char	*path1;
@@ -132,7 +133,7 @@ char *get_env_path(char *arg, t_list *env)
 	return (path);
 }
 
-int	run_cd(t_command *command, t_list *env)
+int	run_cd(t_command *command, t_list **env)
 {
 	int	i;
 	char *path;

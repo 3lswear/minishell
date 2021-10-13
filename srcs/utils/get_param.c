@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-char	*get_env_param(t_list *env, char *param)
+char	*get_env_param(t_list **env, char *param)
 {
 	t_list	*tmp;
 	char	*line;
 	int		len;
 
-	tmp = env;
+	tmp = *env;
 	len = ft_strlen(param);
 	while (tmp)
 	{

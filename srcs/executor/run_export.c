@@ -12,18 +12,20 @@
 
 #include "minishell.h"
 
-int	print_export(t_list *env)
+int	print_export(t_list **env)
 {
 	char	*line;
+	t_list	*tmp;
 
-	env = env->next;
-	while (env)
+	tmp = *env;
+	tmp = tmp->next;
+	while (tmp)
 	{
-		line = env->content;
+		line = tmp->content;
 		ft_putstr("declare -x ");
 		ft_putstr(line);
 		ft_putstr("\n");
-		env = env->next;
+		tmp = tmp->next;
 	}
 	return (1);
 }
@@ -46,7 +48,7 @@ int	ft_error_export(char *arg, int error)
 	return (0);
 }
 
-int	not_env(char *arg, int j, t_list *env)
+int	not_env(char *arg, int j, t_list **env)
 {
 	char	*param;
 	char	*check;
@@ -62,7 +64,7 @@ int	not_env(char *arg, int j, t_list *env)
 	return (i);
 }
 
-void	lst_update(t_list *env, char *param, int size)
+void	lst_update(t_list **env, char *param, int size)
 {
 	char	*line;
 
@@ -72,14 +74,14 @@ void	lst_update(t_list *env, char *param, int size)
 	free(line);
 }
 
-int	check_export_handler(char *arg, t_list *env)
+int	check_export_handler(char *arg, t_list **env)
 {
 	int	i;
 	int	k;
 
 	i = 0;
 	k = 1;
-	printf("export arg = %s\n", arg);
+	// printf("export arg = %s\n", arg);
 	while (arg[i] && arg[i] != '=')
 	{
 		if (ft_isalnum(arg[i]) == 0)
@@ -90,15 +92,13 @@ int	check_export_handler(char *arg, t_list *env)
 		i++;
 	}
 	if (arg[i] == '=' && !not_env(arg, i, env))
-		{
-			ft_lstadd_back(&env, ft_lstnew(arg));
-		}
+		ft_lstadd_back(env, ft_lstnew(ft_strdup(arg)));
 	else if (arg[i] == '=' && not_env(arg, i, env))
 		lst_update(env, arg, i);
 	return (k);
 }
 
-int	check_export_arg(char **arg, t_list *env)
+int	check_export_arg(char **arg, t_list **env)
 {
 	int	i;
 	int	j;
@@ -118,7 +118,7 @@ int	check_export_arg(char **arg, t_list *env)
 	return (k);
 }
 
-int	run_export(t_command *command, t_list *env)
+int	run_export(t_command *command, t_list **env)
 {
 	int	i;
 
