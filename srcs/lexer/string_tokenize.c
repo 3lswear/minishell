@@ -278,7 +278,7 @@ void	split_on_special(t_list **tokens, t_list **delims)
 		while (li)
 		{
 			word_desc = li->content;
-			if (word_desc->flags & (T_DQUOTE | T_NOEXP))
+			if (word_desc->flags & (T_DQUOTE | T_NOEXP | T_SPEC))
 				split = NULL;
 			else
 				split = ft_split2(word_desc->word, delim->content, word_desc->flags, T_SPEC);
@@ -322,10 +322,10 @@ t_list **string_tokenize(t_minishell *state)
 
 	delims = NULL;
 	ft_lstadd_back(&delims, ft_lstnew("|"));
-	ft_lstadd_back(&delims, ft_lstnew(">"));
-	ft_lstadd_back(&delims, ft_lstnew("<"));
 	ft_lstadd_back(&delims, ft_lstnew("<<"));
 	ft_lstadd_back(&delims, ft_lstnew(">>"));
+	ft_lstadd_back(&delims, ft_lstnew(">"));
+	ft_lstadd_back(&delims, ft_lstnew("<"));
 
 	tokens = first_pass(state);
 
