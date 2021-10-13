@@ -32,7 +32,7 @@ int	ft_error_export(char *arg, int error)
 {
 	int i;
 
-	i = 0;
+	i = 1;
 	if (error == 0)
 		ft_putstr_fd("export: not valid in this contex: ", 2);
 	else if (error == -1)
@@ -79,6 +79,7 @@ int	check_export_handler(char *arg, t_list *env)
 
 	i = 0;
 	k = 1;
+	printf("export arg = %s\n", arg);
 	while (arg[i] && arg[i] != '=')
 	{
 		if (ft_isalnum(arg[i]) == 0)
@@ -89,7 +90,9 @@ int	check_export_handler(char *arg, t_list *env)
 		i++;
 	}
 	if (arg[i] == '=' && !not_env(arg, i, env))
-		ft_lstadd_back(&env, ft_lstnew(arg));
+		{
+			ft_lstadd_back(&env, ft_lstnew(arg));
+		}
 	else if (arg[i] == '=' && not_env(arg, i, env))
 		lst_update(env, arg, i);
 	return (k);
@@ -101,7 +104,7 @@ int	check_export_arg(char **arg, t_list *env)
 	int	j;
 	int	k;
 
-	i = 0;
+	i = 1;
 	k = 1;
 	while (arg[i])
 	{
@@ -119,7 +122,7 @@ int	run_export(t_command *command, t_list *env)
 {
 	int	i;
 
-	if (!command->arg[0])
+	if (!command->arg[1])
 	{
 		print_export(env);
 		return (1);
