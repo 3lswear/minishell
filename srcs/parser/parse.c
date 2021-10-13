@@ -69,10 +69,10 @@ char	*get_path(t_list **tokens)
 	if (!token)
 		return (NULL);
 	word = token->content;
-	if ((word->flags & T_NOSPC) && token->next)
+	if ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 	{
 		path = ft_strdup(word->word);
-		while ((word->flags & T_NOSPC) && token->next)
+		while ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 		{
 			token = token->next;
 			word = token->content;
@@ -98,9 +98,18 @@ static size_t args_count(t_list *arg_tok)
 	while(arg_tok)
 	{
 		word = arg_tok->content;
-		if ((word->word[0] == '>' || word->word[0] == '|') && !(word->flags & (T_NOEXP | T_DQUOTE)))
+		/* if current token is special symbol */
+		if (word->flags & T_SPEC)
 			break;
-		else if (!(word->flags & T_NOSPC))
+		else if (word->flags & T_NOSPC)
+		{
+			if (((t_word_desc *)arg_tok->next->content)->flags & T_SPEC)
+			{
+				result++;
+				break;
+			}
+		}
+		else
 			result++;
 		/* else */
 		/* 	result++; */
@@ -127,16 +136,16 @@ char **get_args(t_list **tokens, char *path)
 
 	//add args to result[x], combining if no space between
 	token = *tokens;
-	if (!token)
+	if (!token || ((t_word_desc *)token->content)->flags & T_SPEC)
 		return (result);
 	i = 1;
 	while (i <= arg_num)
 	{
 		word = token->content;
-		if ((word->flags & T_NOSPC) && token->next)
+		if ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 		{
 			tmp = ft_strdup(word->word);
-			while ((word->flags & T_NOSPC) && token->next)
+			while ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 			{
 				token = token->next;
 				word = token->content;
