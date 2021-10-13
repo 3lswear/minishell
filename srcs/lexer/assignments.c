@@ -8,7 +8,7 @@ void	split_on_eq(t_list **tokens)
 	t_list **split;
 
 	li = *tokens;
-	fprintf(stderr, "t_assign = 0x%X\n", T_ASSIGN);
+	/* fprintf(stderr, "t_assign = 0x%X\n", T_ASSIGN); */
 	while (li)
 	{
 		word_desc = li->content;

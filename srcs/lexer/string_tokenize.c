@@ -334,7 +334,7 @@ t_list **string_tokenize(t_minishell *state)
 
 	split_on_special(tokens, &delims);
 
-	fprintf(stderr, "final list:\n");
+	fprintf(stderr, "=== tokens: ===\n");
 	word_list_print(tokens);
 
 	delims_free(&delims);
