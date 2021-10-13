@@ -15,23 +15,27 @@
 void	parse_env(t_minishell *mini, char **env)
 {
 	int	i;
+	t_list *tmp;
 
 	i = 0;
-	mini->env = NULL;
-	ft_lstadd_back(&mini->env, ft_lstnew(""));
+	mini->env = malloc(sizeof(t_list *));
+	mini->env[0] = malloc(sizeof(t_list));
+	tmp = NULL;
+	ft_lstadd_back(&tmp, ft_lstnew(""));
 	while (env[i])
 	{
-		ft_lstadd_back(&mini->env, ft_lstnew(env[i]));
+		ft_lstadd_back(&tmp, ft_lstnew(env[i]));
 		i++;
 	}
+	mini->env[0] = tmp;
 }
 
-int		print_env(t_list *env)
+int		print_env(t_list **env)
 {
 	t_list	*tmp;
 	char	*envp;
 
-	tmp = env;
+	tmp = *env;
 	while (tmp)
 	{
 		envp = tmp->content;

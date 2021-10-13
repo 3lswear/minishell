@@ -26,7 +26,7 @@ int	ft_error_unset(char *arg, int error)
 	return (0);
 }
 
-int	check_arg_unset(char *arg, t_list *env)
+int	check_arg_unset(char *arg, t_list **env)
 {
 	int		i;
 	char	*line;
@@ -79,19 +79,19 @@ int	delete_env_param(char *arg, t_list **env)
 	return (0);
 }
 
-int	run_unset(t_command *command, t_list *env)
+int	run_unset(t_command *command, t_list **env)
 {
 	int	i;
 	int	a;
 
-	i = 0;
+	i = 1;
 	if (!command->arg[0])
-		return (ft_error_unset(command->arg[0], 0));
+		return (ft_error_unset(command->arg[1], 0));
 	while (command->arg[i])
 	{
 		a = check_arg_unset(command->arg[i], env);
 		if (a == 1)
-			delete_env_param(command->arg[i], &env);
+			delete_env_param(command->arg[i], env);
 		else if (a == -1)
 			return(ft_error_unset(command->arg[i], -1));
 		i++;

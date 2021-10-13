@@ -12,21 +12,23 @@
 
 #include "minishell.h"
 
-char	**lst_to_char(t_list *env)
+char	**lst_to_char(t_list **env)
 {
 	char	**ret;
 	char	*line;
+	t_list	*tmp;
 	int		len;
 	int		j;
 
 	j = 0;
-	len = ft_lstsize(env);
+	tmp = *env;
+	len = ft_lstsize(tmp);
 	ret = malloc(sizeof(char *) * (len + 1));
-	while (env)
+	while (tmp)
 	{
-		line = env->content;
+		line = tmp->content;
 		ret[j++] = ft_substr(line, 0, ft_strlen(line));
-		env = env->next;
+		tmp = tmp->next;
 	}
 	ret[j] = NULL;
 	return (ret);	
