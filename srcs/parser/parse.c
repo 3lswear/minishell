@@ -210,7 +210,7 @@ void	parse(t_minishell *mini)
 	t_list	*head_token;
 
 	tokens = string_tokenize(mini);
-	handle_assignment(tokens);
+	/* handle_assignment(tokens); */
 	head_token = *tokens;
 	commands = get_commands(&head_token);
 	/* word_list_print(tokens); */
