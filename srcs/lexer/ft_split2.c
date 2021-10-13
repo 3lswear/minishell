@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list	**ft_split2(char const *s, const char *delim, int flags)
+t_list	**ft_split2(char const *s, const char *delim, int flags, int spc_flg)
 {
 	int				len;
 	int delim_len;
@@ -26,7 +26,7 @@ t_list	**ft_split2(char const *s, const char *delim, int flags)
 		 {
 			 if (substr - &s[i])
 				 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(s, 0, substr - &s[i]), flags | T_NOSPC)));
-			 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(substr, 0, delim_len), flags | T_NOSPC)));
+			 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(substr, 0, delim_len), flags | T_NOSPC | spc_flg)));
 			 s = substr + delim_len;
 		 }
 		 else

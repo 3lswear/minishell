@@ -15,7 +15,7 @@ void	split_on_eq(t_list **tokens)
 		if (word_desc->flags & (T_DQUOTE | T_NOEXP))
 			split = NULL;
 		else
-			split = ft_split2(word_desc->word, "=", T_ASSIGN | word_desc->flags);
+			split = ft_split2(word_desc->word, "=", T_ASSIGN | word_desc->flags, 0);
 		if (!split)
 			prev = li;
 		else if (!prev)

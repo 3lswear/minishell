@@ -281,7 +281,7 @@ void	split_on_special(t_list **tokens, t_list **delims)
 			if (word_desc->flags & (T_DQUOTE | T_NOEXP))
 				split = NULL;
 			else
-				split = ft_split2(word_desc->word, delim->content, word_desc->flags);
+				split = ft_split2(word_desc->word, delim->content, word_desc->flags, T_SPEC);
 			if (!split)
 			{
 				prev = li;

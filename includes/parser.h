@@ -20,7 +20,7 @@ t_list	**string_tokenize(t_minishell *state);
 void	handle_assignment(t_list **tokens);
 
 t_word_desc *wdesc_new(char *word, int flags);
-t_list	**ft_split2(char const *s, const char *delim, int flag);
+t_list	**ft_split2(char const *s, const char *delim, int flags, int spec_flg);
 
 
 char	*ft_strjoin2(char const *s1, char const *s2);
