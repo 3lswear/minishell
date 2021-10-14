@@ -18,14 +18,13 @@ int	main(int argc, char *argv[], char **env)
 	int			i;
 
 	mini.exit = 0;
-	mini.envp = env;
-	mini.STDin = 0;
-	mini.STDout = 1;
+	mini.exit_status = 0;
 	if (argc == 1)
 	{
 		parse_env(&mini, env);
 		while (mini.exit != 1)
 		{
+			mini.fd = init_fd();
 			i = read_line(&mini);
 			if (i == 0)
 				continue ;

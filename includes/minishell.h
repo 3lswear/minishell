@@ -38,12 +38,17 @@ typedef struct s_command
 	t_redir	*append;
 }				t_command;
 
+typedef struct s_fd
+{
+	int	fd_in;
+	int	fd_out;
+	int	fd_pipe_in;
+	int	fd_pipe_out;
+} t_fd;
+
 typedef struct s_minishell
 {
-	int		fd_in;
-	int		fd_out;
-	int		STDin;
-	int		STDout;
+	t_fd	fd;
 	int		exit;
 	int		exit_status;
 	char	*line;
@@ -82,6 +87,9 @@ int 	re_input(t_minishell *mini, t_redir *input);
 int		redirect(t_minishell *mini, t_redir *redir, int type);
 int		make_pipe(t_minishell *mini);
 void	env_free(t_list **env);
+t_fd	init_fd();
+void	close_fd(t_minishell *mini);
+void	reset_fd(t_minishell *mini);
 
 
 #endif

@@ -18,10 +18,10 @@ int	execute(t_minishell *mini)
 	t_command	*command;
 	int			pip;
 
-	pip = 2;
 	commands = mini->commands;
 	while (commands)
 	{
+		pip = 2;
 		command = commands->content;
 		// if (command->red->in)
 		// 	re_input(mini, command->red);
@@ -31,18 +31,25 @@ int	execute(t_minishell *mini)
 		// 	redirect(mini, command->red, 1);
 		// else if (command->append->out)
 		// 	redirect(mini, command->append, 2);
-		// if (command->pipe)
-		// 	pip = make_pipe(mini);
-		// if (pip == 0)
-		// {
-		// 	commands = commands->next;
-		// 	continue ;
-		// }
+		if (command->pipe)
+			pip = make_pipe(mini);
+		if (pip == 1)
+		{
+			commands = commands->next;
+			continue ;
+		}
 		if (is_builtins(command))
 			run_builtins(mini, command);
 		else
 			run_bins(mini, command);
 		commands = commands->next;
+		if (pip == 0)
+			exit(mini->exit_status);
+		if (mini->fd.fd_pipe_out != -1)
+		{
+			close_fd(mini);
+			reset_fd(mini);
+		}
 	}
 	return (1);
 }
