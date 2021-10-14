@@ -197,16 +197,14 @@ void	scroll_ifs(char *str, int *i)
 }
 
 // splits by IFS, respecting quotes
-t_list	**first_pass(t_minishell *state)
+t_list	**first_pass(char *str, int flag_add)
 {
 	t_list **tokens;
 	int i;
-	char *str;
 	int j;
 	char *ifs;
 
 	ifs = " \t\n";
-	str = state->line;
 
 
 	tokens = malloc(sizeof(t_list *));
@@ -220,8 +218,8 @@ t_list	**first_pass(t_minishell *state)
 		while (str[i])
 		{
 			scroll_ifs(str, &i);
-			handle_quote(str, &i, tokens, 0);
-			handle_dquote(str, &i, tokens, 0);
+			handle_quote(str, &i, tokens, flag_add);
+			handle_dquote(str, &i, tokens, flag_add);
 			scroll_ifs(str, &i);
 			if (!str[i])
 				break;
@@ -231,16 +229,16 @@ t_list	**first_pass(t_minishell *state)
 			if (str[j] == '\'')
 			{
 
-				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC);
+				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC | flag_add);
 				handle_quote(str, &j, tokens, 0);
 			}
 			else if (str[j] == '\"')
 			{
-				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC);
+				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC | flag_add);
 				handle_dquote(str, &j, tokens, 0);
 			}
 			else
-				word_li_append(tokens, ft_substr(str, i, j - i), 0);
+				word_li_append(tokens, ft_substr(str, i, j - i), flag_add);
 			i = j;
 			if (!str[j])
 				break;
@@ -327,7 +325,7 @@ t_list **string_tokenize(t_minishell *state)
 	ft_lstadd_back(&delims, ft_lstnew(">"));
 	ft_lstadd_back(&delims, ft_lstnew("<"));
 
-	tokens = first_pass(state);
+	tokens = first_pass(state->line, 0);
 
 	/* fprintf(stderr, "after first_pass:\n"); */
 	/* word_list_print(tokens); */
