@@ -18,6 +18,7 @@ typedef struct s_word_desc
 void	parse(t_minishell *mini);
 t_list	**string_tokenize(t_minishell *state);
 void	handle_assignment(t_list **tokens);
+void	split_on_vars(t_list **tokens);
 
 t_word_desc *wdesc_new(char *word, int flags);
 t_list	**ft_split2(char const *s, const char *delim, int flags, int spec_flg);

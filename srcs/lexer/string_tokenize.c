@@ -333,6 +333,7 @@ t_list **string_tokenize(t_minishell *state)
 	/* word_list_print(tokens); */
 
 	split_on_special(tokens, &delims);
+	split_on_vars(tokens);
 
 	fprintf(stderr, "=== tokens: ===\n");
 	word_list_print(tokens);
