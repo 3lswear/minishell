@@ -54,6 +54,7 @@ typedef struct s_minishell
 	char*	prompt;
 }				t_minishell;
 
+# include "error.h"
 # include "parser.h"
 # include "list2.h"
 # include "utils.h"
