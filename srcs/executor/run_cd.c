@@ -46,9 +46,11 @@ int	update_env(t_list **env, char *key, char *new_line)
 		line = (char *)tmp->content;
 		if (!ft_strncmp(line, key, ft_strlen(key)))
 		{
-			new = ft_lstnew(new_line);
+			new = ft_lstnew(ft_strdup(new_line));
 			temp->next = new;
 			new->next = tmp->next;
+			free(tmp->content);
+			free(tmp);
 			return (1);
 		}
 		temp = tmp;
@@ -68,7 +70,7 @@ int	update_old(t_list **env)
 	if (!old)
 		return (0);
 	update_env(env, "OLDPWD", old);
-	// free(old);
+	free(old);
 	return (1);
 }
 
@@ -114,7 +116,7 @@ char *get_env_path(char *arg, t_list **env)
 
 	if (ft_strequ("-", arg))
 	{
-		path = get_env_param(env, "OLDPWD");
+		path = ft_strdup(get_env_param(env, "OLDPWD"));
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: OLDPWD not set", 2);
@@ -150,5 +152,6 @@ int	run_cd(t_command *command, t_list **env)
 		i *= -1;
 	if (i != 0)
 		cd_error(command->arg);
+	free (path);
 	return (i);
 }

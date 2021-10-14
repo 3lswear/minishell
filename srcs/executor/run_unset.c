@@ -62,13 +62,8 @@ int	delete_env_param(char *arg, t_list **env)
 		line = tmp->content;
 		if (!ft_strncmp(line, arg, ft_strlen(arg)))
 		{
-			if (i == 0)
-			{
-				ft_lstadd_front(env, ft_lstlast(tmp));
-			}
-			else
 				prev->next = tmp->next;
-			// free(tmp->content);
+			free(tmp->content);
 			free(tmp);
 			return (1);
 		}

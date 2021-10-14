@@ -21,7 +21,7 @@ int	run_echo(t_command *command)
 	i = 1;
 	while (command->arg[i])
 	{
-		if (ft_strequ("-n", command->arg[i]))
+		if (i == 1 && ft_strequ("-n", command->arg[i]))
 			newline = 1;
 		else
 		{

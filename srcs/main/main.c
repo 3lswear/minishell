@@ -18,7 +18,6 @@ int	main(int argc, char *argv[], char **env)
 	int			i;
 
 	mini.exit = 0;
-	mini.arg = argv;
 	mini.envp = env;
 	mini.STDin = 0;
 	mini.STDout = 1;
@@ -34,7 +33,8 @@ int	main(int argc, char *argv[], char **env)
 			execute(&mini);
 			commands_free(mini.commands);
 		}
+		env_free(mini.env);
 	}
 	(void)argv;
-	return (0);
+	return (mini.exit_status);
 }
