@@ -66,6 +66,10 @@ char *get_flag_name(int flag)
 		result = ft_strjoin2(result, "T_NOSPC ");
 	if (flag & T_ASSIGN)
 		result = ft_strjoin2(result, "T_ASSIGN ");
+	if (flag & T_SPEC)
+		result = ft_strjoin2(result, "T_SPEC ");
+	if (flag & T_VAR)
+		result = ft_strjoin2(result, "T_VAR ");
 
 	return (result);
 }
@@ -193,16 +197,14 @@ void	scroll_ifs(char *str, int *i)
 }
 
 // splits by IFS, respecting quotes
-t_list	**first_pass(t_minishell *state)
+t_list	**first_pass(char *str, int flag_add)
 {
 	t_list **tokens;
 	int i;
-	char *str;
 	int j;
 	char *ifs;
 
 	ifs = " \t\n";
-	str = state->line;
 
 
 	tokens = malloc(sizeof(t_list *));
@@ -216,8 +218,8 @@ t_list	**first_pass(t_minishell *state)
 		while (str[i])
 		{
 			scroll_ifs(str, &i);
-			handle_quote(str, &i, tokens, 0);
-			handle_dquote(str, &i, tokens, 0);
+			handle_quote(str, &i, tokens, flag_add);
+			handle_dquote(str, &i, tokens, flag_add);
 			scroll_ifs(str, &i);
 			if (!str[i])
 				break;
@@ -227,16 +229,16 @@ t_list	**first_pass(t_minishell *state)
 			if (str[j] == '\'')
 			{
 
-				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC);
+				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC | flag_add);
 				handle_quote(str, &j, tokens, 0);
 			}
 			else if (str[j] == '\"')
 			{
-				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC);
+				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC | flag_add);
 				handle_dquote(str, &j, tokens, 0);
 			}
 			else
-				word_li_append(tokens, ft_substr(str, i, j - i), 0);
+				word_li_append(tokens, ft_substr(str, i, j - i), flag_add);
 			i = j;
 			if (!str[j])
 				break;
@@ -274,36 +276,11 @@ void	split_on_special(t_list **tokens, t_list **delims)
 		while (li)
 		{
 			word_desc = li->content;
-			if (word_desc->flags & (T_DQUOTE | T_NOEXP))
+			if (word_desc->flags & (T_DQUOTE | T_NOEXP | T_SPEC))
 				split = NULL;
 			else
-				split = ft_split2(word_desc->word, delim->content, word_desc->flags);
-			if (!split)
-			{
-				prev = li;
-				/* fprintf(stderr, "didnt split !!\n"); */
-			}
-			else if (!prev)
-			{
-				/* fprintf(stderr, "first branch, split is: \n"); */
-				/* word_list_print(split); */
-				ft_lstadd_back(split, li->next);
-				word_li_free(*tokens);
-
-				*tokens = *split;
-				li = ft_lstlast(*split);
-				prev = li;
-			}
-			else
-			{
-				/* fprintf(stderr, "second branch, split is: \n"); */
-				/* word_list_print(split); */
-				li = ft_lstlast(*split);
-				ft_lstadd_back(split, prev->next->next);
-				word_li_free(prev->next);
-				prev->next = *split;
-				prev = li;
-			}
+				split = ft_split2(word_desc->word, delim->content, word_desc->flags, T_SPEC);
+			tokens_insert(split, &li, &prev, tokens);
 			free(split);
 			li = li->next;
 		}
@@ -318,19 +295,24 @@ t_list **string_tokenize(t_minishell *state)
 
 	delims = NULL;
 	ft_lstadd_back(&delims, ft_lstnew("|"));
-	ft_lstadd_back(&delims, ft_lstnew(">"));
-	ft_lstadd_back(&delims, ft_lstnew("<"));
 	ft_lstadd_back(&delims, ft_lstnew("<<"));
 	ft_lstadd_back(&delims, ft_lstnew(">>"));
+	ft_lstadd_back(&delims, ft_lstnew(">"));
+	ft_lstadd_back(&delims, ft_lstnew("<"));
 
-	tokens = first_pass(state);
+	tokens = first_pass(state->line, 0);
 
-	/* fprintf(stderr, "after first_pass:\n"); */
-	/* word_list_print(tokens); */
+	fprintf(stderr, "=== after first_pass: ===\n");
+	word_list_print(tokens);
 
 	split_on_special(tokens, &delims);
 
-	fprintf(stderr, "final list:\n");
+	fprintf(stderr, "=== after split_on_special: ===\n");
+	word_list_print(tokens);
+
+	split_on_vars(tokens);
+
+	fprintf(stderr, "=== after split_on_vars: ===\n");
 	word_list_print(tokens);
 
 	delims_free(&delims);

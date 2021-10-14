@@ -8,14 +8,14 @@ void	split_on_eq(t_list **tokens)
 	t_list **split;
 
 	li = *tokens;
-	fprintf(stderr, "t_assign = 0x%X\n", T_ASSIGN);
+	/* fprintf(stderr, "t_assign = 0x%X\n", T_ASSIGN); */
 	while (li)
 	{
 		word_desc = li->content;
 		if (word_desc->flags & (T_DQUOTE | T_NOEXP))
 			split = NULL;
 		else
-			split = ft_split2(word_desc->word, "=", T_ASSIGN | word_desc->flags);
+			split = ft_split2(word_desc->word, "=", T_ASSIGN | word_desc->flags, 0);
 		if (!split)
 			prev = li;
 		else if (!prev)
