@@ -302,13 +302,17 @@ t_list **string_tokenize(t_minishell *state)
 
 	tokens = first_pass(state->line, 0);
 
-	/* fprintf(stderr, "after first_pass:\n"); */
-	/* word_list_print(tokens); */
+	fprintf(stderr, "=== after first_pass: ===\n");
+	word_list_print(tokens);
 
 	split_on_special(tokens, &delims);
+
+	fprintf(stderr, "=== after split_on_special: ===\n");
+	word_list_print(tokens);
+
 	split_on_vars(tokens);
 
-	fprintf(stderr, "=== tokens: ===\n");
+	fprintf(stderr, "=== after split_on_vars: ===\n");
 	word_list_print(tokens);
 
 	delims_free(&delims);
