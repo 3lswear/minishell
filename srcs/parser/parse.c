@@ -101,7 +101,7 @@ static size_t args_count(t_list *arg_tok)
 		/* if current token is special symbol */
 		if (word->flags & T_SPEC)
 			break;
-		else if (word->flags & T_NOSPC)
+		else if ((word->flags & T_NOSPC) && arg_tok->next)
 		{
 			if (((t_word_desc *)arg_tok->next->content)->flags & T_SPEC)
 			{
