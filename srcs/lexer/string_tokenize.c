@@ -280,32 +280,7 @@ void	split_on_special(t_list **tokens, t_list **delims)
 				split = NULL;
 			else
 				split = ft_split2(word_desc->word, delim->content, word_desc->flags, T_SPEC);
-			if (!split)
-			{
-				prev = li;
-				/* fprintf(stderr, "didnt split !!\n"); */
-			}
-			else if (!prev)
-			{
-				/* fprintf(stderr, "first branch, split is: \n"); */
-				/* word_list_print(split); */
-				ft_lstadd_back(split, li->next);
-				word_li_free(*tokens);
-
-				*tokens = *split;
-				li = ft_lstlast(*split);
-				prev = li;
-			}
-			else
-			{
-				/* fprintf(stderr, "second branch, split is: \n"); */
-				/* word_list_print(split); */
-				li = ft_lstlast(*split);
-				ft_lstadd_back(split, prev->next->next);
-				word_li_free(prev->next);
-				prev->next = *split;
-				prev = li;
-			}
+			tokens_insert(split, &li, &prev, tokens);
 			free(split);
 			li = li->next;
 		}
