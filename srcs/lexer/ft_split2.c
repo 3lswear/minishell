@@ -1,6 +1,8 @@
 #include "minishell.h"
 
-t_list	**ft_split2(char const *s, const char *delim, int flags, int spc_flg)
+/* split string by delim, creating list of tokens,
+ * adding flags to each and special_flg to a token with delim as a word */
+t_list	**ft_split2(char const *s, const char *delim, int flags, int special_flg)
 {
 	int				len;
 	int delim_len;
@@ -24,9 +26,16 @@ t_list	**ft_split2(char const *s, const char *delim, int flags, int spc_flg)
 		 substr = ft_strnstr(s, delim, len);
 		 if (substr)
 		 {
-			 if (substr - &s[i])
-				 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(s, 0, substr - &s[i]), flags | T_NOSPC)));
-			 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(substr, 0, delim_len), flags | T_NOSPC | spc_flg)));
+			 /* if s contains ONLY delim */
+			 if (len == delim_len)
+				 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(substr, 0, delim_len), flags | special_flg)));
+			 /* if there is a string BEFORE the delim */
+			 else
+			 {
+				 if (substr - &s[i])
+					 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(s, 0, substr - &s[i]), flags | T_NOSPC)));
+				 ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(substr, 0, delim_len), flags | T_NOSPC | special_flg)));
+			 }
 			 s = substr + delim_len;
 		 }
 		 else
