@@ -19,15 +19,14 @@ void	parse_env(t_minishell *mini, char **env)
 
 	i = 0;
 	mini->env = malloc(sizeof(t_list *));
-	mini->env[0] = malloc(sizeof(t_list));
 	tmp = NULL;
-	ft_lstadd_back(&tmp, ft_lstnew(""));
+	ft_lstadd_back(&tmp, ft_lstnew(ft_strdup("")));
 	while (env[i])
 	{
-		ft_lstadd_back(&tmp, ft_lstnew(env[i]));
+		ft_lstadd_back(&tmp, ft_lstnew(ft_strdup(env[i])));
 		i++;
 	}
-	mini->env[0] = tmp;
+	*mini->env = tmp;
 }
 
 int		print_env(t_list **env)
@@ -44,8 +43,6 @@ int		print_env(t_list **env)
 			ft_putstr(envp);
 			ft_putstr("\n");
 		}
-		// else
-		// 	ft_putstr_fd("error: print env\n", 2);
 		tmp = tmp->next;
 	}
 	return (1);

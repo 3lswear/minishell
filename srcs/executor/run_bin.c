@@ -62,8 +62,8 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 	}
 	else
 		waitpid(pid, &exit_status, 0);
-	return (exit_status);
 	ft_split_clear(envp);
+	return (exit_status);
 }
 
 int	run_bins(t_minishell *mini, t_command *comm)
@@ -86,7 +86,7 @@ int	run_bins(t_minishell *mini, t_command *comm)
 	else
 		i = run_cmd(comm->path, comm->arg, mini);
 	ft_split_clear(all_path);
-	// free(path);
+	free(path);
 	// free(env);
 	return (i);
 }

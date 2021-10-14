@@ -31,10 +31,13 @@ int	execute(t_minishell *mini)
 		// 	redirect(mini, command->red, 1);
 		// else if (command->append->out)
 		// 	redirect(mini, command->append, 2);
-		// else if (command->pipe)
+		// if (command->pipe)
 		// 	pip = make_pipe(mini);
 		// if (pip == 0)
+		// {
+		// 	commands = commands->next;
 		// 	continue ;
+		// }
 		if (is_builtins(command))
 			run_builtins(mini, command);
 		else

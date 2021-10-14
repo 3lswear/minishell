@@ -79,9 +79,10 @@ int		update_env(t_list **env, char *key, char *new_line);
 void	sig_handler(int sig);
 
 /* int		parse(t_minishell *mini, char **env); */
-int re_input(t_minishell *mini, t_redir *input);
-int	redirect(t_minishell *mini, t_redir *redir, int type);
-int	make_pipe(t_minishell *mini);
+int 	re_input(t_minishell *mini, t_redir *input);
+int		redirect(t_minishell *mini, t_redir *redir, int type);
+int		make_pipe(t_minishell *mini);
+void	env_free(t_list **env);
 
 
 #endif
