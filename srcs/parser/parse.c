@@ -210,10 +210,12 @@ void	parse(t_minishell *mini)
 	t_list	*head_token;
 
 	tokens = string_tokenize(mini);
+	vars_substitute(tokens, mini->env);
 	/* handle_assignment(tokens); */
+	fprintf(stderr, "=== tokens expanded: ===\n");
+	word_list_print(tokens);
 	head_token = *tokens;
 	commands = get_commands(&head_token);
-	/* word_list_print(tokens); */
 	word_list_free(tokens);
 	free(tokens);
 	mini->commands = *commands;
