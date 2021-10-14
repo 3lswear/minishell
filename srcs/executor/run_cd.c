@@ -131,7 +131,7 @@ char *get_env_path(char *arg, t_list **env)
 		free(path1);
 	}
 	else
-		path = arg;
+		path = ft_strdup(arg);
 	return (path);
 }
 
