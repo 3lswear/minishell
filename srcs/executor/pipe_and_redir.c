@@ -12,46 +12,65 @@
 
 #include "minishell.h"
 
-// int re_input(t_minishell *mini, t_redir *input)
-// {
-// 	if (mini->fd_in > 0)
-// 		close(mini->fd_in);
-// 	mini->fd_in = open(input->in, O_RDONLY);
-// 	if (mini->fd_in == -1)
-// 	{
-// 		ft_putstr_fd("minishell: ", 2);
-// 		ft_putstr_fd(input->in, 2);
-// 		ft_putstr_fd(": ", 2);
-// 		ft_putstr_fd(strerror(errno), 2);
-// 		ft_putstr_fd("\n", 2);
-// 		mini->exit_status = 1;
-// 		return (0);
-// 	}
-// 	dup2(mini->fd_in, mini->STDin);
-// 	return (1);
-// }
+int	is_redir(t_command *command)
+{
+	return(0);
+	(void) command;
+}
 
-// int	redirect(t_minishell *mini, t_redir *redir, int type)
-// {
-// 	if (mini->fd_out > 0)
-// 		close(mini->fd_out);
-// 	if (type == 1)
-// 		mini->fd_out = open(redir->out, O_CREAT | O_WRONLY | O_TRUNC);
-// 	else
-// 		mini->fd_out = open(redir->out, O_CREAT | O_WRONLY | O_APPEND);
-// 	if (mini->fd_out == -1)
-// 	{
-// 		ft_putstr_fd("minishell: ", 2);
-// 		ft_putstr_fd(redir->out, 2);
-// 		ft_putstr_fd(": ", 2);
-// 		ft_putstr_fd(strerror(errno), 2);
-// 		ft_putstr_fd("\n", 2);
-// 		mini->exit_status = 1;
-// 		return (0);
-// 	}
-// 	dup2(mini->fd_out, mini->STDout);
-// 	return (1);
-// }
+int	redirect(t_minishell *mini, t_command *command)
+{
+	if (command->red->in)
+		re_input(mini, command->red);
+	else if (command->append->in)
+		re_input(mini, command->append);
+	else if (command->red->out)
+		re_output(mini, command->red, 1);
+	else if (command->append->out)
+		re_output(mini, command->append, 2);
+	return (0);
+}
+
+int re_input(t_minishell *mini, t_redir *input)
+{
+	if (mini->fd.fd_redir_in > 0)
+		close(mini->fd.fd_redir_in);
+	mini->fd.fd_redir_in = open(input->in, O_RDONLY);
+	if (mini->fd.fd_redir_in == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(input->in, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		mini->exit_status = 1;
+		return (0);
+	}
+	dup2(mini->fd.fd_redir_in, 0);
+	return (1);
+}
+
+int	re_output(t_minishell *mini, t_redir *redir, int type)
+{
+	if (mini->fd.fd_redir_out > 0)
+		close(mini->fd.fd_redir_out);
+	if (type == 1)
+		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_TRUNC);
+	else
+		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_APPEND);
+	if (mini->fd.fd_redir_out == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(redir->out, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		mini->exit_status = 1;
+		return (0);
+	}
+	dup2(mini->fd.fd_redir_out, 1);
+	return (1);
+}
 
 int	make_pipe(t_minishell *mini)
 {

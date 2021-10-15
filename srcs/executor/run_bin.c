@@ -87,6 +87,5 @@ int	run_bins(t_minishell *mini, t_command *comm)
 		i = run_cmd(comm->path, comm->arg, mini);
 	ft_split_clear(all_path);
 	free(path);
-	// free(env);
 	return (i);
 }

@@ -8,6 +8,7 @@ t_fd	init_fd()
 	fd.fd_out = dup(1);
 	fd.fd_pipe_in = -1;
 	fd.fd_pipe_out = -1;
+	fd.pid = 2;
 	return (fd);
 }
 
@@ -19,6 +20,8 @@ void	reset_fd(t_minishell *mini)
 
 void	close_fd(t_minishell *mini)
 {
+	close(mini->fd.fd_redir_in);
+	close(mini->fd.fd_redir_out);
 	close(mini->fd.fd_pipe_in);
 	close(mini->fd.fd_pipe_out);
 }

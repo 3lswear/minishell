@@ -40,8 +40,11 @@ typedef struct s_command
 
 typedef struct s_fd
 {
+	int	pid;
 	int	fd_in;
 	int	fd_out;
+	int	fd_redir_in;
+	int	fd_redir_out;
 	int	fd_pipe_in;
 	int	fd_pipe_out;
 } t_fd;
@@ -84,8 +87,10 @@ int		update_env(t_list **env, char *key, char *new_line);
 void	sig_handler(int sig);
 
 /* int		parse(t_minishell *mini, char **env); */
+int		is_redir(t_command *command);
 int 	re_input(t_minishell *mini, t_redir *input);
-int		redirect(t_minishell *mini, t_redir *redir, int type);
+int		re_output(t_minishell *mini, t_redir *redir, int type);
+int		redirect(t_minishell *mini, t_command *command);
 int		make_pipe(t_minishell *mini);
 void	env_free(t_list **env);
 t_fd	init_fd();
