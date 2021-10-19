@@ -14,8 +14,13 @@
 
 int	is_redir(t_command *command)
 {
+	if (command->red || command->append)
+	{
+		if (command->red->in || command->red->out
+			|| command->append->in || command->append->out)
+			return (1);
+	}
 	return(0);
-	(void) command;
 }
 
 int	redirect(t_minishell *mini, t_command *command)
@@ -55,9 +60,9 @@ int	re_output(t_minishell *mini, t_redir *redir, int type)
 	if (mini->fd.fd_redir_out > 0)
 		close(mini->fd.fd_redir_out);
 	if (type == 1)
-		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_TRUNC);
+		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	else
-		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_APPEND);
+		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	if (mini->fd.fd_redir_out == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
