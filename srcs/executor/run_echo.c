@@ -36,5 +36,5 @@ int	run_echo(t_command *command)
 	}
 	if (!newline)
 		ft_putstr("\n");
-	return (1);	
+	return (0);	
 }

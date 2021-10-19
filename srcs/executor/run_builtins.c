@@ -47,5 +47,5 @@ int	run_builtins(t_minishell *mini, t_command *command)
 		return (run_cd(command, mini->env));			//?
 	else if (ft_strequ(command->path, "exit"))
 		return (run_exit(mini, command));			//?
-	return (0);
+	return (1);
 }

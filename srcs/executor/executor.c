@@ -30,9 +30,9 @@ int	execute(t_minishell *mini)
 			continue ;
 		}
 		if (is_builtins(command))
-			run_builtins(mini, command);
+			mini->exit_status = run_builtins(mini, command);
 		else if (command->path)
-			run_bins(mini, command);
+			mini->exit_status = run_bins(mini, command);
 		else if (!command->path && is_redir(command))
 			open_input();
 		mini->commands = mini->commands->next;

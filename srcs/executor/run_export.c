@@ -35,15 +35,12 @@ int	ft_error_export(char *arg, int error)
 	int i;
 
 	i = 1;
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(arg, 2);
 	if (error == 0)
-		ft_putstr_fd("export: not valid in this contex: ", 2);
+		ft_putstr_fd("\': not valid in this contex ", 2);
 	else if (error == -1)
-		ft_putstr_fd("export: not a valid identifier: ", 2);
-	while (arg[i] && (arg[i] != 0 || arg[i] != '='))
-	{
-		ft_putchar_fd(arg[i], 2);
-		i++;
-	}
+		ft_putstr_fd("\': not a valid identifier", 2);
 	ft_putchar_fd('\n', 2);
 	return (0);
 }
@@ -81,7 +78,6 @@ int	check_export_handler(char *arg, t_list **env)
 
 	i = 0;
 	k = 1;
-	// printf("export arg = %s\n", arg);
 	while (arg[i] && arg[i] != '=')
 	{
 		if (ft_isalnum(arg[i]) == 0)
@@ -110,7 +106,7 @@ int	check_export_arg(char **arg, t_list **env)
 	{
 		j = 0;
 		if (ft_isdigit(arg[i][0]) || arg[i][0] == '=')
-			k = ft_error_export(arg[i], 0);
+			k = ft_error_export(arg[i], -1);
 		else
 			k = check_export_handler(arg[i], env);
 		i++;

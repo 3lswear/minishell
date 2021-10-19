@@ -17,7 +17,7 @@ int	cd_error(char **arg)
 	int	i;
 
 	i = ft_strlen2(arg) - 1;
-	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	if (i > 2)
 		ft_putstr_fd("too many arguments", 2);
 	else
@@ -29,7 +29,7 @@ int	cd_error(char **arg)
 		ft_putstr_fd(arg[1], 2);
 	}
 	ft_putstr_fd("\n", 2);
-	return (0);
+	return (1);
 }
 
 int	update_env(t_list **env, char *key, char *new_line)

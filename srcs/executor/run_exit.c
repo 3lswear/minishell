@@ -66,5 +66,5 @@ int	run_exit(t_minishell *mini, t_command *command)
 		}
 	}
 	ft_putstr_fd("\n", 2);
-	return (mini->exit_status);
+	return (mini->exit_status % 256);
 }

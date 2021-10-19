@@ -15,15 +15,15 @@
 int	ft_error_unset(char *arg, int error)
 {
 	if (error == 0)
-		ft_putstr_fd("unset: not enough arguments", 2);
+		ft_putstr_fd("minishell: unset: not enough arguments", 2);
 	else if (error == -1)
 	{
-		ft_putstr_fd("unset: ", 2);
+		ft_putstr_fd("minishell: unset: `", 2);
 		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": invalid parameter name", 2);
+		ft_putstr_fd("\': not a valid identifier", 2);
 	}
 	ft_putstr_fd("\n", 2);
-	return (0);
+	return (1);
 }
 
 int	check_arg_unset(char *arg, t_list **env)
@@ -36,7 +36,7 @@ int	check_arg_unset(char *arg, t_list **env)
 		return (-1);
 	while (arg[i])
 	{
-		if (!ft_isalnum(arg[i]))
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (-1);
 		i++;
 	}
@@ -91,5 +91,5 @@ int	run_unset(t_command *command, t_list **env)
 			return(ft_error_unset(command->arg[i], -1));
 		i++;
 	}
-	return (1);
+	return (0);
 }
