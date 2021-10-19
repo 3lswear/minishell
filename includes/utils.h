@@ -10,4 +10,9 @@ void	word_list_free(t_list **tokens);
 void	word_list_print(t_list **head);
 char *get_flag_name(int flag);
 
+/* debug funcs */
+void	strarr_print(char **arr);
+void	cmd_print(t_command *cmd);
+void	commands_print(t_list **cmds);
+
 #endif
