@@ -84,7 +84,9 @@ char	*get_path(t_list **tokens)
 	if (!token)
 		return (NULL);
 	word = token->content;
-	if ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
+	if (word->flags & T_SPEC)
+		return (NULL);
+	if (!(word->flags & T_SPEC) && (word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 	{
 		path = ft_strdup(word->word);
 		while ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
