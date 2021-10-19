@@ -1,5 +1,30 @@
 #include "minishell.h"
 
+/* same as tokens_insert, but make li first in split */
+void	tokens_insert2(t_list **split, t_list **li, t_list **prev, t_list **tokens)
+{
+	if (!split)
+		(*prev) = (*li);
+	else if (!(*prev))
+	{
+		ft_lstadd_back(split, (*li)->next);
+		word_li_free(*tokens);
+		*tokens = *split;
+		/* (*li) = ft_lstlast(*split); */
+		(*li) = (*split);
+		(*prev) = (*li);
+	}
+	else
+	{
+		/* (*li) = ft_lstlast(*split); */
+		(*li) = (*split);
+		ft_lstadd_back(split, (*prev)->next->next);
+		word_li_free((*prev)->next);
+		(*prev)->next = *split;
+		(*prev) = (*li);
+	}
+}
+
 char *token_get_var(t_list *token)
 {
 	char *result;
@@ -41,26 +66,9 @@ void	split_on_vars(t_list **tokens)
 			split = NULL;
 		else
 			split = ft_split2(word_desc->word, var, word_desc->flags & (~T_NOSPC), T_VAR);
-		if (!split)
-			prev = li;
-		else if (!prev)
-		{
-			ft_lstadd_back(split, li->next);
-			word_li_free(*tokens);
-			*tokens = *split;
-			li = ft_lstlast(*split);
-			prev = li;
-		}
-		else
-		{
-			li = ft_lstlast(*split);
-			/* if (prev->next) */
-			ft_lstadd_back(split, prev->next->next);
-			word_li_free(prev->next);
-			prev->next = *split;
-			prev = li;
-		}
+		tokens_insert2(split, &li, &prev, tokens);
 		free(split);
+		free(var);
 		li = li->next;
 	}
 }
