@@ -30,14 +30,14 @@ void	cmd_print(t_command *cmd)
 		fprintf(stderr, " < from [%s]\n", cmd->red->in);
 	}
 	else
-		fprintf(stderr, "*** no redirects ***\n");
+		fprintf(stderr, "- redirects\n");
 	if (cmd->append)
 	{
 		fprintf(stderr, " >> to [%s]\n", cmd->append->out);
 		fprintf(stderr, " << from [%s]\n", cmd->append->in);
 	}
 	else
-		fprintf(stderr, "*** no appends ***\n");
+		fprintf(stderr, "- no appends\n");
 	fprintf(stderr, "pipe = [%d]\n", cmd->pipe);
 	fprintf(stderr, "<<<\n");
 	// redirect
@@ -91,7 +91,7 @@ t_redirects get_redir(t_list **tokens)
 	word = token->content;
 	res.append = ft_calloc(sizeof(t_redir), 1);
 	res.redir = ft_calloc(sizeof(t_redir), 1);
-	while (token && (word->flags & T_SPEC) && (!(res.redir->in) || !(res.redir->out)
+	while (token && (word->flags & T_SPEC) && (word->flags & T_REDIR) && (!(res.redir->in) || !(res.redir->out)
 				|| !(res.append->in) || !(res.append->out)))
 	{
 		redir_op = word->word;
