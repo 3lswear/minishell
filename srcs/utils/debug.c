@@ -56,3 +56,52 @@ void	commands_print(t_list **cmds)
 		li = li->next;
 	}
 }
+
+char *get_flag_name(int flag)
+{
+	char *result;
+
+	result = ft_calloc(sizeof(char), 1);
+	if (flag & T_NOEXP)
+		result = ft_strjoin2(result, "T_NOEXP ");
+	if (flag & T_DQUOTE)
+		result = ft_strjoin2(result, "T_DQUOTE ");
+	if (flag & T_NOSPC)
+		result = ft_strjoin2(result, "T_NOSPC ");
+	if (flag & T_ASSIGN)
+		result = ft_strjoin2(result, "T_ASSIGN ");
+	if (flag & T_SPEC)
+		result = ft_strjoin2(result, "T_SPEC ");
+	if (flag & T_VAR)
+		result = ft_strjoin2(result, "T_VAR ");
+	if (flag & T_REDIR)
+		result = ft_strjoin2(result, "T_REDIR ");
+
+	return (result);
+}
+
+void	word_list_print(t_list **head)
+{
+	t_list	*item;
+	t_word_desc *word;
+	char *str_flag;
+
+	fprintf(stderr, ">>>\n");
+	if (!head || !(*head))
+	{
+		fprintf(stderr, "NULL word list\n");
+		return;
+	}
+	item = *head;
+	while (item)
+	{
+		word = item->content;
+		str_flag = get_flag_name(word->flags);
+		fprintf(stderr, "[%s],\t\t[%s]\n", word->word, str_flag);
+		free(str_flag);
+		item = item->next;
+	}
+	/* fprintf(stderr, "<<END\n"); */
+	fprintf(stderr, "<<<\n");
+	/* printf("\n"); */
+}
