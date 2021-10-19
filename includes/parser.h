@@ -22,13 +22,19 @@ typedef struct s_redirects
 	t_redir *redir;
 }	t_redirects;
 
-void	parse(t_minishell *mini);
+/* main parse block */
+void		parse(t_minishell *mini);
+char		*get_path(t_list **tokens);
+t_redirects	get_redir(t_list **tokens);
+char		**get_args(t_list **tokens, char *path);
 
+/* lexer */
 t_list	**string_tokenize(t_minishell *state);
 t_list	**first_pass(char *str, int flag_add);
 void	handle_assignment(t_list **tokens);
 void	word_li_append(t_list **tokens, char *word, int flag);
 
+/* vars */
 void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens);
 void	split_on_vars(t_list **tokens);
 void	vars_substitute(t_list **tokens, t_list **env, int exit_code);
@@ -37,5 +43,4 @@ t_word_desc *wdesc_new(char *word, int flags);
 t_list	**ft_split2(char const *s, const char *delim, int flags, int spec_flg);
 
 
-char	*ft_strjoin2(char const *s1, char const *s2);
 #endif

@@ -98,6 +98,7 @@ void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens)
 	}
 }
 
+/* expand vars and insert them */
 void	vars_substitute(t_list **tokens, t_list **env, int exit_code)
 {
 	t_list *li;

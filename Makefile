@@ -42,6 +42,9 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
+debug: CFLAGS += -D DEBUG=1
+debug: run
+
 run: $(NAME)
 	@ ASAN_OPTIONS=detect_leaks=0 LSAN_OPTIONS=suppressions=.readline.supp ./$(NAME)
 
