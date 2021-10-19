@@ -31,8 +31,10 @@ int	execute(t_minishell *mini)
 		}
 		if (is_builtins(command))
 			run_builtins(mini, command);
-		else
+		else if (command->path)
 			run_bins(mini, command);
+		else if (!command->path && is_redir(command))
+			open_input();
 		mini->commands = mini->commands->next;
 		if (mini->fd.pid == 0)
 			exit(mini->exit_status);

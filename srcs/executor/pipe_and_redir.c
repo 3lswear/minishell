@@ -102,3 +102,15 @@ int	make_pipe(t_minishell *mini)
 		return (1);
 	}
 }
+
+void	open_input()
+{
+	char	*str;
+	int		i;
+
+	str = NULL;
+	while ((i = get_next_line(0, &str)))
+	{
+		ft_putendl_fd(str, 1);
+	}
+}

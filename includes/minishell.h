@@ -96,6 +96,7 @@ void	env_free(t_list **env);
 t_fd	init_fd();
 void	close_fd(t_minishell *mini);
 void	reset_fd(t_minishell *mini);
+void	open_input(void);
 
 
 #endif
