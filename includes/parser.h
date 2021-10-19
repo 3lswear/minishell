@@ -15,11 +15,18 @@ typedef struct s_word_desc
 	int		flags;
 }	t_word_desc;
 
+typedef struct s_redirects
+{
+	t_redir *append;
+	t_redir *redir;
+}	t_redirects;
+
 void	parse(t_minishell *mini);
 
 t_list	**string_tokenize(t_minishell *state);
 t_list	**first_pass(char *str, int flag_add);
 void	handle_assignment(t_list **tokens);
+void	word_li_append(t_list **tokens, char *word, int flag);
 
 void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens);
 void	split_on_vars(t_list **tokens);

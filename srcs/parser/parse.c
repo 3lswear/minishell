@@ -24,6 +24,20 @@ void	cmd_print(t_command *cmd)
 	strarr_print(cmd->arg);
 	/* fprintf(stderr, "envp = [%d]", ); */
 	/* strarr_print(cmd->envp); */
+	if (cmd->red)
+	{
+		fprintf(stderr, " > to [%s]\n", cmd->red->out);
+		fprintf(stderr, " < from [%s]\n", cmd->red->in);
+	}
+	else
+		fprintf(stderr, "*** no redirects ***\n");
+	if (cmd->append)
+	{
+		fprintf(stderr, " >> to [%s]\n", cmd->append->out);
+		fprintf(stderr, " << from [%s]\n", cmd->append->in);
+	}
+	else
+		fprintf(stderr, "*** no appends ***\n");
 	fprintf(stderr, "pipe = [%d]\n", cmd->pipe);
 	fprintf(stderr, "<<<\n");
 	// redirect
@@ -57,6 +71,63 @@ char *str_enlarge(char *orig, char *add)
 
 	free(orig);
 	return (result);
+}
+
+t_redirects get_redir(t_list **tokens)
+{
+	t_redirects res;
+	t_list *token;
+	t_word_desc *word;
+	char *filename;
+	char *redir_op;
+
+	token = *tokens;
+	if (!token)
+	{
+		res.redir = NULL;
+		res.append = NULL;
+		return (res);
+	}
+	word = token->content;
+	res.append = ft_calloc(sizeof(t_redir), 1);
+	res.redir = ft_calloc(sizeof(t_redir), 1);
+	while (token && (word->flags & T_SPEC) && (!(res.redir->in) || !(res.redir->out)
+				|| !(res.append->in) || !(res.append->out)))
+	{
+		redir_op = word->word;
+		token = token->next;
+		word = token->content;
+		if ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
+		{
+			filename = ft_strdup(word->word);
+			while ((word->flags & T_NOSPC) && token->next && !(((t_word_desc *)token->next->content)->flags & T_SPEC))
+			{
+				token = token->next;
+				word = token->content;
+				filename = str_enlarge(filename, word->word);
+				*tokens = token->next;
+			}
+		}
+		else
+		{
+			filename = ft_strdup(word->word);
+			*tokens = token->next;
+		}
+
+		if (!ft_strncmp(redir_op, ">", 2))
+			res.redir->out = filename;
+		else if (!ft_strncmp(redir_op, "<", 2))
+			res.redir->in = filename;
+		else if (!ft_strncmp(redir_op, ">>", 2))
+			res.append->out = filename;
+		else if (!ft_strncmp(redir_op, "<<", 2))
+			res.append->in = filename;
+		token = token->next;
+	}
+	if (token)
+		word = token->content;
+
+	return (res);
 }
 
 char	*get_path(t_list **tokens)
@@ -171,6 +242,7 @@ t_list **get_commands(t_list **tokens)
 	t_command *cmd;
 	t_list **commands;
 	int next_cmd;
+	t_redirects cmd_redirs;
 
 	next_cmd = 1;
 
@@ -183,6 +255,9 @@ t_list **get_commands(t_list **tokens)
 		/* fprintf(stderr, "==> current token = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
 		cmd->arg = get_args(tokens, cmd->path);
 		/* fprintf(stderr, "==> token after args = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
+		cmd_redirs = get_redir(tokens);
+		cmd->red = cmd_redirs.redir;
+		cmd->append = cmd_redirs.append;
 		if ((*tokens))
 		{
 			if (ft_strncmp(((t_word_desc *)*tokens)->word , "|", 2))
@@ -193,8 +268,8 @@ t_list **get_commands(t_list **tokens)
 		}
 		else
 			cmd->pipe = 0;
-		cmd->red = NULL;
-		cmd->append = NULL;
+		/* cmd->red = NULL; */
+		/* cmd->append = NULL; */
 		ft_lstadd_back(commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
 	}
@@ -220,4 +295,5 @@ void	parse(t_minishell *mini)
 	free(tokens);
 	mini->commands = *commands;
 	free(commands);
+	fprintf(stderr, "========================================\n");
 }
