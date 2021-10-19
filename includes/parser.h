@@ -22,6 +22,8 @@ typedef struct s_redirects
 	t_redir *redir;
 }	t_redirects;
 
+typedef int t_flg;
+
 /* main parse block */
 void		parse(t_minishell *mini);
 char		*get_path(t_list **tokens);
