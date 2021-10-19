@@ -17,6 +17,12 @@
 # define PIPE 	0
 # define REDIR	1
 
+
+/* DEBUG */
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
+
 typedef struct s_env
 {
 	struct s_env	*next;

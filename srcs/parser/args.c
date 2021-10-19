@@ -41,7 +41,8 @@ char **get_args(t_list **tokens, char *path)
 
 	token = *tokens;
 	arg_num = args_count(*tokens);
-	fprintf(stderr, "arg count is [%lu]\n", arg_num);
+	if (DEBUG)
+		fprintf(stderr, "arg count is [%lu]\n", arg_num);
 	result = ft_calloc(sizeof(char *), arg_num + 2);
 	result[0] = path;
 

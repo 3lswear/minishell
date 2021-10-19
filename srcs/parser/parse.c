@@ -50,7 +50,8 @@ t_list **get_commands(t_list **tokens)
 		ft_lstadd_back(commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
 	}
-	commands_print(commands);
+	if (DEBUG)
+		commands_print(commands);
 
 	return (commands);
 }
@@ -64,13 +65,17 @@ void	parse(t_minishell *mini)
 	tokens = string_tokenize(mini);
 	vars_substitute(tokens, mini->env, mini->exit_status);
 	/* handle_assignment(tokens); */
-	fprintf(stderr, "=== tokens expanded: ===\n");
-	word_list_print(tokens);
+	if (DEBUG)
+	{
+		fprintf(stderr, "=== tokens expanded: ===\n");
+		word_list_print(tokens);
+	}
 	head_token = *tokens;
 	commands = get_commands(&head_token);
 	word_list_free(tokens);
 	free(tokens);
 	mini->commands = *commands;
 	free(commands);
-	fprintf(stderr, "========================================\n");
+	if (DEBUG)
+		fprintf(stderr, "========================================\n");
 }

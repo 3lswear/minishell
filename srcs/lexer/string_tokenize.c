@@ -250,8 +250,11 @@ t_list **string_tokenize(t_minishell *state)
 
 	tokens = first_pass(state->line, 0);
 
-	fprintf(stderr, "=== after first_pass: ===\n");
-	word_list_print(tokens);
+	if (DEBUG)
+	{
+		fprintf(stderr, "=== after first_pass: ===\n");
+		word_list_print(tokens);
+	}
 
 	ft_lstadd_back(&delims, ft_lstnew("|"));
 	split_on_special(tokens, &delims, T_SPEC);
@@ -265,13 +268,19 @@ t_list **string_tokenize(t_minishell *state)
 	split_on_special(tokens, &delims, T_SPEC | T_REDIR);
 	delims_free(&delims);
 
-	fprintf(stderr, "=== after split_on_special: ===\n");
-	word_list_print(tokens);
+	if (DEBUG)
+	{
+		fprintf(stderr, "=== after split_on_special: ===\n");
+		word_list_print(tokens);
+	}
 
 	split_on_vars(tokens);
 
-	fprintf(stderr, "=== after split_on_vars: ===\n");
-	word_list_print(tokens);
+	if (DEBUG)
+	{
+		fprintf(stderr, "=== after split_on_vars: ===\n");
+		word_list_print(tokens);
+	}
 
 	/* word_list_free(tokens); */
 	/* free(tokens); */
