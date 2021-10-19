@@ -8,6 +8,7 @@
 # define T_VAR			0b00001000
 # define T_ASSIGN		0b00010000
 # define T_SPEC			0b00100000
+# define T_REDIR		0b01000000
 
 typedef struct s_word_desc
 {
