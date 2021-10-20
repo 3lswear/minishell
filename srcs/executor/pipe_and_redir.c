@@ -26,13 +26,13 @@ int	is_redir(t_command *command)
 int	redirect(t_minishell *mini, t_command *command)
 {
 	if (command->red->in)
-		re_input(mini, command->red);
-	else if (command->append->in)
-		re_input(mini, command->append);
-	else if (command->red->out)
-		re_output(mini, command->red, 1);
-	else if (command->append->out)
-		re_output(mini, command->append, 2);
+		return(re_input(mini, command->red));
+	if (command->append->in)
+		return(re_input(mini, command->append));
+	if (command->red->out)
+		return(re_output(mini, command->red, 1));
+	if (command->append->out)
+		return(re_output(mini, command->append, 2));
 	return (0);
 }
 
@@ -49,10 +49,10 @@ int re_input(t_minishell *mini, t_redir *input)
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
 		mini->exit_status = 1;
-		return (0);
+		return (1);
 	}
 	dup2(mini->fd.fd_redir_in, 0);
-	return (1);
+	return (0);
 }
 
 int	re_output(t_minishell *mini, t_redir *redir, int type)
@@ -71,10 +71,10 @@ int	re_output(t_minishell *mini, t_redir *redir, int type)
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
 		mini->exit_status = 1;
-		return (0);
+		return (1);
 	}
 	dup2(mini->fd.fd_redir_out, 1);
-	return (1);
+	return (0);
 }
 
 int	make_pipe(t_minishell *mini)

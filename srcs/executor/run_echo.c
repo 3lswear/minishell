@@ -23,15 +23,16 @@ int	run_echo(t_command *command)
 	flag = 0;
 	while (command->arg[i])
 	{
-		while (flag == 0 && ft_strequ("-n", command->arg[i]))
-		{
+		if (flag == 0 && ft_strequ("-n", command->arg[i]))
 			newline = 1;
-			i++;
+		else
+		{
+			flag = 1;
+			if (command->arg[i])
+				ft_putstr(command->arg[i]);
+			if (command->arg[i + 1] && command->arg[i][0] != '\0')
+				ft_putstr(" ");
 		}
-		flag = 1;
-		ft_putstr(command->arg[i]);
-		if (command->arg[i + 1] && command->arg[i][0] != '\0')
-			ft_putstr(" ");
 		i++;
 	}
 	if (!newline)

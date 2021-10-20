@@ -77,7 +77,7 @@ int	check_export_handler(char *arg, t_list **env)
 	int	k;
 
 	i = 0;
-	k = 1;
+	k = 0;
 	while (arg[i] && arg[i] != '=')
 	{
 		if (ft_isalnum(arg[i]) == 0)
