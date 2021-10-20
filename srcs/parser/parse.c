@@ -39,11 +39,13 @@ t_list **get_commands(t_list **tokens)
 		cmd->append = cmd_redirs.append;
 		if ((*tokens))
 		{
-			if (ft_strncmp(((t_word_desc *)*tokens)->word , "|", 2))
+			if (!ft_strncmp(((t_word_desc *)(*tokens)->content)->word , "|", 2))
 			{
 				cmd->pipe = 1;
 				*tokens = (*tokens)->next;
 			}
+			else
+				cmd->pipe = 0;
 		}
 		else
 			cmd->pipe = 0;
