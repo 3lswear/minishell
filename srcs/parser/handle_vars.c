@@ -67,7 +67,7 @@ void	split_on_vars(t_list **tokens)
 		if (word_desc->flags & (T_NOEXP | T_SPEC) || !var)
 			split = NULL;
 		else
-			split = ft_split2(word_desc->word, var, word_desc->flags & (~T_NOSPC), T_VAR);
+			split = ft_split2(word_desc->word, var, word_desc->flags, T_VAR);
 		tokens_insert2(split, &li, &prev, tokens);
 		free(split);
 		free(var);
