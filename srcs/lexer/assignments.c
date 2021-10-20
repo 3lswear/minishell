@@ -40,10 +40,55 @@ void	split_on_eq(t_list **tokens)
 	}
 }
 
+int	assignment_test(t_list **tokens)
+{
+	t_list *token;
+	t_list **split;
+	t_word_desc *word;
+	int result;
+
+	token = *tokens;
+	word = token->content;
+	result = 0;
+
+	if (word->flags & (T_DQUOTE | T_NOEXP | T_SPEC))
+		split = NULL;
+	else
+		split = ft_split2(word->word, "=", word->flags, 0);
+
+	if (split && (*split) && (*split)->next)
+	{
+		if (!ft_strncmp(((t_word_desc *)(*split)->content)->word, "=", 2))
+			result = 0;
+		else
+			result = 1;
+		word_list_free(split);
+	}
+	else
+		result = 0;
+	free(split);
+
+	return(result);
+}
+
 void	handle_assignment(t_list **tokens)
 {
 	t_list_vars **vars;
+	int result;
+
+	result = assignment_test(tokens);
+
+	if (DEBUG)
+	{
+		if (result)
+		{
+			fprintf(stderr, ">>> yes assignment <<<\n");
+		}
+		else
+			fprintf(stderr, ">>> no assignment <<<\n");
+	}
+
 
 	(void)vars;
-	split_on_eq(tokens);
+	/* split_on_eq(tokens); */
 }

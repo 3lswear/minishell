@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 21:08:17 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/19 19:28:45 by talyx            ###   ########.fr       */
+/*   Updated: 2021/10/20 10:36:47 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,15 @@
 
 int	read_line(t_minishell *mini)
 {
+	const char *prompt;
+
 	// signal(SIGINT, sig_handler);
 	// signal(SIGQUIT, sig_handler);
-	mini->line = readline("\033[32mminishell\033[0m \033[31m➢\033[0m ");
+	if (!(mini->exit_status))
+		prompt = PROMPT_OK;
+	else
+		prompt = PROMPT_BAD;
+	mini->line = readline(prompt);
 	if (!mini->line)
 	{
 		free(mini->line);

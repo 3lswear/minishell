@@ -17,6 +17,9 @@
 # define PIPE 	0
 # define REDIR	1
 
+# define PROMPT_OK	"🤏🐚🙂~> "
+# define PROMPT_BAD	"🤏🐚🤬~> "
+
 
 /* DEBUG */
 # ifndef DEBUG
