@@ -16,14 +16,16 @@ int	execute(t_minishell *mini)
 {
 	t_command	*command;
 	t_list	*commands;
+	int		k;
 
+	k = -1;
 	commands = mini->commands;
 	while (commands)
 	{
 		mini->fd.pid = 2;
 		command = commands->content;
 		if (is_redir(command))
-			redirect(mini, command);
+			k = redirect(mini, command);
 		if (command->pipe)
 			mini->fd.pid = make_pipe(mini);
 		if (mini->fd.pid == 1)
@@ -31,6 +33,8 @@ int	execute(t_minishell *mini)
 			commands = commands->next;
 			continue ;
 		}
+		if (k == 1)
+			return (1);
 		if (is_builtins(command))
 			mini->exit_status = run_builtins(mini, command);
 		else if (command->path)
