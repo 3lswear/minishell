@@ -27,11 +27,11 @@ int	redirect(t_minishell *mini, t_command *command)
 {
 	if (command->red->in)
 		re_input(mini, command->red);
-	else if (command->append->in)
+	if (command->append->in)
 		re_input(mini, command->append);
-	else if (command->red->out)
+	if (command->red->out)
 		re_output(mini, command->red, 1);
-	else if (command->append->out)
+	if (command->append->out)
 		re_output(mini, command->append, 2);
 	return (0);
 }
@@ -65,6 +65,7 @@ int	re_output(t_minishell *mini, t_redir *redir, int type)
 		mini->fd.fd_redir_out = open(redir->out, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	if (mini->fd.fd_redir_out == -1)
 	{
+		ft_putstr_fd("aboba\n", 2);
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(redir->out, 2);
 		ft_putstr_fd(": ", 2);
