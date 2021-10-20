@@ -62,14 +62,15 @@ char **get_args(t_list **tokens, char *path)
 				token = token->next;
 				word = token->content;
 				tmp = str_enlarge(tmp, word->word);
-				*tokens = token->next;
 			}
+			token = token->next;
+			*tokens = token;
 		}
 		else
 		{
 			tmp = ft_strdup(word->word);
-			*tokens = token->next;
 			token = token->next;
+			*tokens = token;
 		}
 		result[i] = tmp;
 		i++;
