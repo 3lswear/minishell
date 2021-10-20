@@ -25,15 +25,18 @@ int	is_redir(t_command *command)
 
 int	redirect(t_minishell *mini, t_command *command)
 {
+	int i;
+
+	i = 0;
 	if (command->red->in)
-		return(re_input(mini, command->red));
-	if (command->append->in)
-		return(re_input(mini, command->append));
-	if (command->red->out)
-		return(re_output(mini, command->red, 1));
-	if (command->append->out)
-		return(re_output(mini, command->append, 2));
-	return (0);
+		i = re_input(mini, command->red);
+	if (command->append->in && i == 0)
+		i = re_input(mini, command->append);
+	if (command->red->out && i == 0)
+		i = re_output(mini, command->red, 1);
+	if (command->append->out && i == 0)
+		i = re_output(mini, command->append, 2);
+	return (i);
 }
 
 int re_input(t_minishell *mini, t_redir *input)
