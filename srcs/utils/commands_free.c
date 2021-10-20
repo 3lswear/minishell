@@ -16,6 +16,18 @@ static void	cmd_free(t_command *cmd)
 		}
 		free(cmd->arg);
 	}
+	if (cmd->red)
+	{
+		free(cmd->red->in);
+		free(cmd->red->out);
+		free(cmd->red);
+	}
+	if (cmd->append)
+	{
+		free(cmd->append->in);
+		free(cmd->append->out);
+		free(cmd->append);
+	}
 
 	//TODO: free redirects
 	//
