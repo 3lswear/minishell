@@ -9,6 +9,8 @@ char *tokens_merge(t_list **tokens, t_flg stop_on)
 	result = NULL;
 	(void)stop_on;
 	token = *tokens;
+	if (!token)
+		return (NULL);
 	word = token->content;
 	if ((word->flags & T_NOSPC) && token->next &&
 			!(((t_word_desc *)token->next->content)->flags & T_SPEC))
