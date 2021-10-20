@@ -98,13 +98,32 @@ void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens)
 	}
 }
 
+t_list	**vars_subst_get_split(t_word_desc *word, int exit_code, t_list **env)
+{
+	char *value;
+	t_list **split;
+
+	if (!ft_strncmp("$?", word->word, 3))
+		value = ft_strdup(itoa2(exit_code));
+	else
+		value = get_env_param(env, word->word + 1);
+	/* fprintf(stderr, "[%s] = [%s]\n", env_name, value); */
+	if (!value)
+	{
+		split = ft_calloc(sizeof(t_list *), 1);
+		ft_lstadd_back(split, ft_lstnew(wdesc_new(ft_strdup(""), word->flags)));
+	}
+	else
+		split = first_pass(value, word->flags);
+	return (split);
+}
+
 /* expand vars and insert them */
 void	vars_substitute(t_list **tokens, t_list **env, int exit_code)
 {
 	t_list *li;
 	t_list *prev;
 	t_word_desc *word;
-	char *value;
 	t_list **split;
 
 	li = *tokens;
@@ -114,21 +133,12 @@ void	vars_substitute(t_list **tokens, t_list **env, int exit_code)
 		word = li->content;
 		if (word->flags & T_VAR)
 		{
-			if (!ft_strncmp("$?", word->word, 3))
-				value = ft_strdup(itoa2(exit_code));
-			else
-				value = get_env_param(env, word->word + 1);
-			if (!value)
-			{
-				split = ft_calloc(sizeof(t_list *), 1);
-				ft_lstadd_back(split, ft_lstnew(wdesc_new(ft_strdup(""), word->flags)));
-			}
-			else
-				split = first_pass(value, word->flags);
-			/* fprintf(stderr, "[%s] = [%s]\n", env_name, value); */
+			split = vars_subst_get_split(word, exit_code, env);
 			tokens_insert(split, &li, &prev, tokens);
 			free(split);
 		}
+		if (!li)
+			break;
 		prev = li;
 		li = li->next;
 	}
