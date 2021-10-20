@@ -201,18 +201,6 @@ t_list	**first_pass(char *str, int flag_add)
 	return (tokens);
 }
 
-void	split_print(char **split)
-{
-	int i;
-
-	i = 0;
-	while (split[i])
-	{
-		fprintf(stderr, "(%s), ", split[i++]);
-	}
-	fprintf(stderr, "\n");
-}
-
 void	split_on_special(t_list **tokens, t_list **delims, int spec_flg)
 {
 	t_list *li;

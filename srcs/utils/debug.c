@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+void	split_print(char **split)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+	{
+		fprintf(stderr, "(%s), ", split[i++]);
+	}
+	fprintf(stderr, "\n");
+}
+
 void	strarr_print(char **arr)
 {
 	int i;
