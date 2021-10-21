@@ -27,7 +27,7 @@ t_list **get_commands(t_list **tokens, t_minishell *mini)
 
 	commands = malloc(sizeof(t_list *));
 	*commands = NULL;
-	while(next_cmd)
+	while(next_cmd && !(mini->exit_status))
 	{
 		cmd = malloc(sizeof(t_command));
 		cmd->path = get_path(tokens);
@@ -37,22 +37,12 @@ t_list **get_commands(t_list **tokens, t_minishell *mini)
 		cmd_redirs = get_redir(tokens, mini);
 		cmd->red = cmd_redirs.redir;
 		cmd->append = cmd_redirs.append;
-		if ((*tokens))
-		{
-			if (!ft_strncmp(((t_word_desc *)(*tokens)->content)->word , "|", 2))
-			{
-				cmd->pipe = 1;
-				*tokens = (*tokens)->next;
-			}
-			else
-				cmd->pipe = 0;
-		}
-		else
-			cmd->pipe = 0;
+		cmd->pipe = get_pipe(tokens, mini);
 		ft_lstadd_back(commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
 	}
-	validity_check(commands, mini);
+	if (!mini->exit_status)
+		validity_check(commands, mini);
 	if (DEBUG)
 		commands_print(commands);
 

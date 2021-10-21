@@ -31,6 +31,7 @@ void		parse(t_minishell *mini);
 char		*get_path(t_list **tokens);
 t_redirects	get_redir(t_list **tokens, t_minishell *mini);
 char		**get_args(t_list **tokens, char *path);
+int			get_pipe(t_list **tokens, t_minishell *mini);
 
 /* first_pass */
 t_list	**first_pass(char *str, t_minishell *mini, int flag_add);
