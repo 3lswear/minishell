@@ -1,7 +1,8 @@
 #include "minishell.h"
 
 /* same as tokens_insert, but make li first in split */
-void	tokens_insert2(t_list **split, t_list **li, t_list **prev, t_list **tokens)
+void	tokens_insert2(t_list **split, t_list **li, t_list **prev,
+		t_list **tokens)
 {
 	if (!split)
 		(*prev) = (*li);
@@ -10,13 +11,11 @@ void	tokens_insert2(t_list **split, t_list **li, t_list **prev, t_list **tokens)
 		ft_lstadd_back(split, (*li)->next);
 		word_li_free(*tokens);
 		*tokens = *split;
-		/* (*li) = ft_lstlast(*split); */
 		(*li) = (*split);
 		(*prev) = (*li);
 	}
 	else
 	{
-		/* (*li) = ft_lstlast(*split); */
 		(*li) = (*split);
 		ft_lstadd_back(split, (*prev)->next->next);
 		word_li_free((*prev)->next);
@@ -25,12 +24,12 @@ void	tokens_insert2(t_list **split, t_list **li, t_list **prev, t_list **tokens)
 	}
 }
 
-char *token_get_var(t_list *token)
+char	*token_get_var(t_list *token)
 {
-	char *result;
-	char *str;
-	unsigned int i;
-	t_word_desc *word;
+	char			*result;
+	char			*str;
+	unsigned int	i;
+	t_word_desc		*word;
 
 	word = token->content;
 	if (word->flags & (T_NOEXP | T_SPEC))
@@ -52,11 +51,11 @@ char *token_get_var(t_list *token)
 
 void	split_on_vars(t_list **tokens)
 {
-	t_list *li;
-	t_list *prev;
-	t_word_desc *word_desc;
-	t_list **split;
-	char *var;
+	t_list		*li;
+	t_list		*prev;
+	t_word_desc	*word_desc;
+	t_list		**split;
+	char		*var;
 
 	li = *tokens;
 	prev = NULL;
@@ -76,7 +75,8 @@ void	split_on_vars(t_list **tokens)
 }
 
 /* if-else-if-else statement to insert split in tokens, pass &li and &prev */
-void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens)
+void	tokens_insert(t_list **split, t_list **li, t_list **prev,
+		t_list **tokens)
 {
 	if (!split)
 		(*prev) = (*li);
@@ -100,14 +100,13 @@ void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens)
 
 t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 {
-	char *value;
-	t_list **split;
+	char	*value;
+	t_list	**split;
 
 	if (!ft_strncmp("$?", word->word, 3))
 		value = ft_strdup(itoa2(mini->exit_status));
 	else
 		value = get_env_param(mini->env, word->word + 1);
-	/* fprintf(stderr, "[%s] = [%s]\n", env_name, value); */
 	if (!value)
 	{
 		split = ft_calloc(sizeof(t_list *), 1);
@@ -121,10 +120,10 @@ t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 /* expand vars and insert them */
 void	vars_substitute(t_list **tokens, t_minishell *mini)
 {
-	t_list *li;
-	t_list *prev;
-	t_word_desc *word;
-	t_list **split;
+	t_list		*li;
+	t_list		*prev;
+	t_word_desc	*word;
+	t_list		**split;
 
 	li = *tokens;
 	prev = NULL;
@@ -138,7 +137,7 @@ void	vars_substitute(t_list **tokens, t_minishell *mini)
 			free(split);
 		}
 		if (!li)
-			break;
+			break ;
 		prev = li;
 		li = li->next;
 	}
