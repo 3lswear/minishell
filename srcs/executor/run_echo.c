@@ -30,7 +30,7 @@ int	run_echo(t_command *command)
 			flag = 1;
 			if (command->arg[i])
 				ft_putstr(command->arg[i]);
-			if (command->arg[i + 1] && command->arg[i][0] != '\0')
+			if (command->arg[i + 1])
 				ft_putstr(" ");
 		}
 		i++;
