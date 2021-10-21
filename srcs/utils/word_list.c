@@ -12,8 +12,8 @@ void	word_li_append(t_list **tokens, char *word, int flag)
 
 void	delims_free(t_list **delims)
 {
-	t_list *delim;
-	t_list *tmp;
+	t_list	*delim;
+	t_list	*tmp;
 
 	delim = *delims;
 	while (delim)
@@ -36,9 +36,9 @@ void	word_li_free(t_list *li)
 
 void	word_list_free(t_list **tokens)
 {
-	t_list *token;
-	t_list *tmp;
-	t_word_desc *word;
+	t_list		*token;
+	t_list		*tmp;
+	t_word_desc	*word;
 
 	token = *tokens;
 	while (token)
