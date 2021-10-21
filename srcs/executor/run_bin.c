@@ -21,7 +21,7 @@ char	**lst_to_char(t_list **env)
 	int		j;
 
 	j = 0;
-	tmp = *env;
+	tmp = (*env)->next;
 	len = ft_lstsize(tmp);
 	ret = malloc(sizeof(char *) * (len + 1));
 	while (tmp)
