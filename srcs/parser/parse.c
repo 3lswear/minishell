@@ -52,6 +52,7 @@ t_list **get_commands(t_list **tokens)
 		ft_lstadd_back(commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
 	}
+	validity_check(commands, mini);
 	if (DEBUG)
 		commands_print(commands);
 
