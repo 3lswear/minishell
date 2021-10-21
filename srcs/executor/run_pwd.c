@@ -48,7 +48,7 @@ int	update_pwd(t_list **env)
 	if (!new_pwd)
 		return (0);
 	update_env(env, "PWD", new_pwd);
-	free(new_pwd);
 	free(pwd);
+	free(new_pwd);
 	return (0);
 }

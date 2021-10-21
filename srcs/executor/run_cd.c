@@ -87,7 +87,7 @@ int	cd_home(t_list **env)
 		return (0);
 	}
 	i = chdir(path);
-	// free(path);
+	update_pwd(env);
 	return (i);
 }
 

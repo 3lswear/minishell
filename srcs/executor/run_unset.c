@@ -43,7 +43,7 @@ int	check_arg_unset(char *arg, t_list **env)
 	line = get_env_param(env, arg);
 	if (!line)
 		return (0);
-	return (1);	
+	return (1);
 }
 
 int	delete_env_param(char *arg, t_list **env)
@@ -62,7 +62,7 @@ int	delete_env_param(char *arg, t_list **env)
 		line = tmp->content;
 		if (!ft_strncmp(line, arg, ft_strlen(arg)))
 		{
-				prev->next = tmp->next;
+			prev->next = tmp->next;
 			free(tmp->content);
 			free(tmp);
 			return (1);
@@ -88,7 +88,7 @@ int	run_unset(t_command *command, t_list **env)
 		if (a == 1)
 			delete_env_param(command->arg[i], env);
 		else if (a == -1)
-			return(ft_error_unset(command->arg[i], -1));
+			return (ft_error_unset(command->arg[i], -1));
 		i++;
 	}
 	return (0);
