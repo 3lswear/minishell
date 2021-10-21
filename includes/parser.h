@@ -10,6 +10,8 @@
 # define T_SPEC			0b00100000
 # define T_REDIR		0b01000000
 
+# define IFS	" \t\n"
+
 typedef struct s_word_desc
 {
 	char	*word;
@@ -30,9 +32,15 @@ char		*get_path(t_list **tokens);
 t_redirects	get_redir(t_list **tokens, t_minishell *mini);
 char		**get_args(t_list **tokens, char *path);
 
+/* first_pass */
+t_list	**first_pass(char *str, t_minishell *mini, int flag_add);
+void	handle_dollar(char *str, int *i, t_list *tokens);
+int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add);
+int	handle_quote(char *str, int *i, t_list **tokens, int flag_add);
+int	in_set(char *chr, const char *special);
+
 /* lexer */
 t_list	**string_tokenize(t_minishell *state);
-t_list	**first_pass(char *str, t_minishell *mini, int flag_add);
 void	handle_assignment(t_list **tokens);
 void	word_li_append(t_list **tokens, char *word, int flag);
 
