@@ -2,11 +2,9 @@
 
 static void	cmd_free(t_command *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	/* if (cmd->path) */
-	/* 	free(cmd->path); */
 	if (cmd->arg)
 	{
 		while (cmd->arg[i])
@@ -16,16 +14,24 @@ static void	cmd_free(t_command *cmd)
 		}
 		free(cmd->arg);
 	}
-
-	//TODO: free redirects
-	//
+	if (cmd->red)
+	{
+		free(cmd->red->in);
+		free(cmd->red->out);
+		free(cmd->red);
+	}
+	if (cmd->append)
+	{
+		free(cmd->append->in);
+		free(cmd->append->out);
+		free(cmd->append);
+	}
 	free (cmd);
-
 }
 
 void	commands_free(t_list *commands)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	while (commands)
 	{

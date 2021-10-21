@@ -1,76 +1,78 @@
 #include "minishell.h"
 
-char *tokens_merge(t_list **tokens, t_flg stop_on)
+void	redir_error_dup(char *redir_op, t_minishell *mini)
 {
-	t_list *token;
-	t_word_desc *word;
-	char *result;
-
-	result = NULL;
-	(void)stop_on;
-	token = *tokens;
-	word = token->content;
-	if ((word->flags & T_NOSPC) && token->next &&
-			!(((t_word_desc *)token->next->content)->flags & T_SPEC))
+	if (redir_op)
 	{
-		result = ft_strdup(word->word);
-		while (token && (word->flags & T_NOSPC) && token->next &&
-				!(((t_word_desc *)token->next->content)->flags & T_SPEC))
-		{
-			token = token->next;
-			word = token->content;
-			result = str_enlarge(result, word->word);
-			*tokens = token->next;
-		}
+		handle_error(ERR_P_UNEXP, redir_op);
+		mini->exit_status = ERR_P_UNEXP;
 	}
-	else
-	{
-		result = ft_strdup(word->word);
-		*tokens = token->next;
-	}
-
-	return (result);
 }
 
-t_redirects get_redir(t_list **tokens)
+static void	redir_error_missing(char *filename, t_minishell *mini)
 {
-	t_redirects res;
-	t_list *token;
-	t_word_desc *word;
-	char *filename;
-	char *redir_op;
+	if (!filename || !(*filename))
+	{
+		handle_error(ERR_P_MISSING, "redirect argument");
+		mini->exit_status = ERR_P_MISSING;
+	}
+}
+
+int	assign_file_to_op(char **redir_field, char *filename)
+{
+	if (!(*redir_field))
+	{
+		*redir_field = filename;
+		return (0);
+	}
+	else
+		return (1);
+}
+
+char	*dispatch_to_redir_field(t_redirects *res, char *redir_op,
+		char *filename)
+{
+	char	**redir_field;
+
+	redir_field = NULL;
+	if (!ft_strncmp(redir_op, ">", 2))
+		redir_field = &(res->redir->out);
+	else if (!ft_strncmp(redir_op, "<", 2))
+		redir_field = &(res->redir->in);
+	else if (!ft_strncmp(redir_op, ">>", 2))
+		redir_field = &(res->append->out);
+	else if (!ft_strncmp(redir_op, "<<", 2))
+		redir_field = &(res->append->in);
+	if (assign_file_to_op(redir_field, filename))
+		return (redir_op);
+	return (NULL);
+}
+
+t_redirects	get_redir(t_list **tokens, t_minishell *mini)
+{
+	t_redirects	res;
+	t_list		*token;
+	t_word_desc	*word;
+	char		*filename;
+	char		*op;
 
 	token = *tokens;
-	if (!token)
-	{
-		res.redir = NULL;
-		res.append = NULL;
-		return (res);
-	}
-	word = token->content;
 	res.append = ft_calloc(sizeof(t_redir), 1);
 	res.redir = ft_calloc(sizeof(t_redir), 1);
-	while (*tokens && (word->flags & T_SPEC) && (word->flags & T_REDIR) && (!(res.redir->in) || !(res.redir->out)
-				|| !(res.append->in) || !(res.append->out)))
+	if (!token)
+		return (res);
+	word = token->content;
+	while (*tokens && (word->flags & T_REDIR) && (!(res.redir->in)
+			|| !(res.redir->out) || !(res.append->in) || !(res.append->out)))
 	{
 		word = (*tokens)->content;
-		redir_op = word->word;
-		/* token = token->next; */
+		op = word->word;
 		*tokens = (*tokens)->next;
 		filename = tokens_merge(tokens, 0);
-
-		if (!ft_strncmp(redir_op, ">", 2))
-			res.redir->out = filename;
-		else if (!ft_strncmp(redir_op, "<", 2))
-			res.redir->in = filename;
-		else if (!ft_strncmp(redir_op, ">>", 2))
-			res.append->out = filename;
-		else if (!ft_strncmp(redir_op, "<<", 2))
-			res.append->in = filename;
-		/* token = token->next; */
+		redir_error_missing(filename, mini);
+		redir_error_dup(dispatch_to_redir_field(&res, op, filename), mini);
+		if (mini->exit_status)
+			break ;
 	}
-	/* if (token) */
-	/* 	word = token->content; */
-
 	return (res);
 }
