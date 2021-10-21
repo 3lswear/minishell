@@ -152,6 +152,7 @@ int	run_cd(t_command *command, t_list **env)
 		i *= -1;
 	if (i != 0)
 		cd_error(command->arg);
-	free (path);
+	i = update_pwd(env);
+	free(path);
 	return (i);
 }
