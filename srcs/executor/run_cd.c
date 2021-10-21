@@ -32,33 +32,6 @@ int	cd_error(char **arg)
 	return (1);
 }
 
-int	update_env(t_list **env, char *key, char *new_line)
-{
-	t_list	*tmp;
-	t_list	*temp;
-	t_list	*new;
-	char	*line;
-
-	tmp = *env;
-	temp = *env;
-	while (tmp)
-	{
-		line = (char *)tmp->content;
-		if (!ft_strncmp(line, key, ft_strlen(key)))
-		{
-			new = ft_lstnew(ft_strdup(new_line));
-			temp->next = new;
-			new->next = tmp->next;
-			free(tmp->content);
-			free(tmp);
-			return (1);
-		}
-		temp = tmp;
-		tmp = tmp->next;
-	}
-	return (0);	
-}
-
 int	update_old(t_list **env)
 {
 	char	arr[4096];
@@ -87,28 +60,11 @@ int	cd_home(t_list **env)
 		return (0);
 	}
 	i = chdir(path);
-	// free(path);
+	update_pwd(env);
 	return (i);
 }
 
-int	get_old(t_list **env)
-{
-	char	*path;
-	int		i;
-
-	path = get_env_param(env, "OLDPWD");
-	if (!path)
-	{
-		ft_putstr_fd("minishell: cd: OLDPWD not set", 2);
-		return (0);
-	}
-	update_old(env);
-	i = chdir(path);
-	// free(path);
-	return (i);
-}
-
-char *get_env_path(char *arg, t_list **env)
+char	*get_env_path(char *arg, t_list **env)
 {
 	char	*path;
 	char	*path1;
@@ -120,7 +76,7 @@ char *get_env_path(char *arg, t_list **env)
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: OLDPWD not set", 2);
-			return NULL;
+			return (NULL);
 		}
 	}
 	else if (ft_strlen(arg) > 1 && !ft_strncmp("~", arg, 1))
@@ -137,8 +93,8 @@ char *get_env_path(char *arg, t_list **env)
 
 int	run_cd(t_command *command, t_list **env)
 {
-	int	i;
-	char *path;
+	int		i;
+	char	*path;
 
 	if (!command->arg[1] || ft_strequ(command->arg[1], "~"))
 		return (cd_home(env));

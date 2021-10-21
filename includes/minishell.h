@@ -52,8 +52,8 @@ typedef struct s_fd
 	int	pid;
 	int	fd_in;
 	int	fd_out;
-	int	fd_redir_in;
-	int	fd_redir_out;
+	int	redir_in;
+	int	redir_out;
 	int	fd_pipe_in;
 	int	fd_pipe_out;
 } t_fd;
@@ -105,9 +105,9 @@ void	env_free(t_list **env);
 t_fd	init_fd();
 void	close_fd(t_minishell *mini);
 void	reset_fd(t_minishell *mini);
-void	open_input(void);
 char 	*get_pwd(void);
 int		update_pwd(t_list **env);
+int		print_export(t_list **env);
 
 
 #endif

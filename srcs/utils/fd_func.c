@@ -20,8 +20,8 @@ void	reset_fd(t_minishell *mini)
 
 void	close_fd(t_minishell *mini)
 {
-	close(mini->fd.fd_redir_in);
-	close(mini->fd.fd_redir_out);
+	close(mini->fd.redir_in);
+	close(mini->fd.redir_out);
 	close(mini->fd.fd_pipe_in);
 	close(mini->fd.fd_pipe_out);
 }

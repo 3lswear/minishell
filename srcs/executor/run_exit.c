@@ -28,7 +28,7 @@ int	str_is_num(char *str)
 
 	i = 0;
 	if (!str)
-		return(0);
+		return (0);
 	while (str[i])
 	{
 		if (i == 0 && (str[i] == '-' || str[i] == '+'))
@@ -37,7 +37,7 @@ int	str_is_num(char *str)
 			return (0);
 		i++;
 	}
-	return (1);	
+	return (1);
 }
 
 int	run_exit(t_minishell *mini, t_command *command)

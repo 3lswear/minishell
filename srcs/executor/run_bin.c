@@ -21,7 +21,7 @@ char	**lst_to_char(t_list **env)
 	int		j;
 
 	j = 0;
-	tmp = *env;
+	tmp = (*env)->next;
 	len = ft_lstsize(tmp);
 	ret = malloc(sizeof(char *) * (len + 1));
 	while (tmp)
@@ -31,10 +31,10 @@ char	**lst_to_char(t_list **env)
 		tmp = tmp->next;
 	}
 	ret[j] = NULL;
-	return (ret);	
+	return (ret);
 }
 
-int		check_dir(char *path)
+int	check_dir(char *path)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(path, 2);
@@ -75,7 +75,7 @@ int	run_bins(t_minishell *mini, t_command *comm)
 	i = 0;
 	env = get_env_param(mini->env, "PATH");
 	if (!env)
-		return(run_cmd(comm->path, comm->arg, mini));
+		return (run_cmd(comm->path, comm->arg, mini));
 	all_path = ft_split(env, ':');
 	while (all_path[i] && path == NULL)
 		path = get_need_path(all_path[i++], comm->path);
