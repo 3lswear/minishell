@@ -106,6 +106,8 @@ t_fd	init_fd();
 void	close_fd(t_minishell *mini);
 void	reset_fd(t_minishell *mini);
 void	open_input(void);
+char 	*get_pwd(void);
+int		update_pwd(t_list **env);
 
 
 #endif
