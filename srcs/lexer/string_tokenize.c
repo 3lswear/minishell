@@ -29,7 +29,7 @@ void	split_on_special(t_list **tokens, t_list **delims, int spec_flg)
 	}
 }
 
-t_list **string_tokenize(t_minishell *state)
+t_list	**string_tokenize(t_minishell *state)
 {
 	t_list	**tokens;
 	t_list	*delims;
@@ -62,7 +62,5 @@ t_list **string_tokenize(t_minishell *state)
 		fprintf(stderr, "=== after split_on_vars: ===\n");
 		word_list_print(tokens);
 	}
-	/* word_list_free(tokens); */
-	/* free(tokens); */
 	return (tokens);
 }
