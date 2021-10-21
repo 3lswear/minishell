@@ -9,41 +9,52 @@ void	redir_error_dup(char *redir_op, t_minishell *mini)
 	}
 }
 
+static void	redir_error_missing(char *filename, t_minishell *mini)
+{
+	if (!filename || !(*filename))
+	{
+		handle_error(ERR_P_MISSING, "redirect argument");
+		mini->exit_status = ERR_P_MISSING;
+	}
+}
+
+int	assign_file_to_op(char **redir_field, char *filename)
+{
+	if (!(*redir_field))
+	{
+		*redir_field = filename;
+		return (0);
+	}
+	else
+		return (1);
+}
+
 char	*dispatch_to_redir_field(t_redirects *res, char *redir_op,
 		char *filename)
 {
-		if (!ft_strncmp(redir_op, ">", 2))
-			if (!res->redir->out)
-				res->redir->out = filename;
-			else
-				return (">");
-		else if (!ft_strncmp(redir_op, "<", 2))
-			if (!res->redir->in)
-				res->redir->in = filename;
-			else
-				return ("<");
-		else if (!ft_strncmp(redir_op, ">>", 2))
-			if (!res->append->out)
-				res->append->out = filename;
-			else
-				return (">>");
-		else if (!ft_strncmp(redir_op, "<<", 2))
-		{
-			if (!res->append->in)
-				res->append->in = filename;
-			else
-				return ("<<");
-		}
-		return (NULL);
+	char	**redir_field;
+
+	redir_field = NULL;
+	if (!ft_strncmp(redir_op, ">", 2))
+		redir_field = &(res->redir->out);
+	else if (!ft_strncmp(redir_op, "<", 2))
+		redir_field = &(res->redir->in);
+	else if (!ft_strncmp(redir_op, ">>", 2))
+		redir_field = &(res->append->out);
+	else if (!ft_strncmp(redir_op, "<<", 2))
+		redir_field = &(res->append->in);
+	if (assign_file_to_op(redir_field, filename))
+		return (redir_op);
+	return (NULL);
 }
 
-t_redirects get_redir(t_list **tokens, t_minishell *mini)
+t_redirects	get_redir(t_list **tokens, t_minishell *mini)
 {
-	t_redirects res;
-	t_list *token;
-	t_word_desc *word;
-	char *filename;
-	char *redir_op;
+	t_redirects	res;
+	t_list		*token;
+	t_word_desc	*word;
+	char		*filename;
+	char		*op;
 
 	token = *tokens;
 	res.append = ft_calloc(sizeof(t_redir), 1);
@@ -51,22 +62,17 @@ t_redirects get_redir(t_list **tokens, t_minishell *mini)
 	if (!token)
 		return (res);
 	word = token->content;
-	while (*tokens && (word->flags & T_REDIR) && (!(res.redir->in) ||
-				!(res.redir->out) || !(res.append->in) || !(res.append->out)))
+	while (*tokens && (word->flags & T_REDIR) && (!(res.redir->in)
+			|| !(res.redir->out) || !(res.append->in) || !(res.append->out)))
 	{
 		word = (*tokens)->content;
-		redir_op = word->word;
+		op = word->word;
 		*tokens = (*tokens)->next;
 		filename = tokens_merge(tokens, 0);
-		if (!filename || !(*filename))
-		{
-			handle_error(ERR_P_MISSING, "redirect argument");
-			mini->exit_status = ERR_P_MISSING;
-		}
-		redir_error_dup(dispatch_to_redir_field(&res, redir_op, filename),
-				mini);
+		redir_error_missing(filename, mini);
+		redir_error_dup(dispatch_to_redir_field(&res, op, filename), mini);
 		if (mini->exit_status)
-			break;
+			break ;
 	}
 	return (res);
 }
