@@ -7,14 +7,20 @@ assignees: ''
 
 ---
 **Command**
-```command```
+```
+command
+```
 
 
 **bash output**
-```output```
+```
+output
+```
 
 **minishell output**
-```output```
+```
+output
+```
 
 **Комментарии, советы, пожелания**
 сюда
