@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-t_list_vars *list_vars_new(char *name, char *value)
+t_list_vars	*list_vars_new(char *name, char *value)
 {
-	t_list_vars *result;
+	t_list_vars	*result;
 
 	result = malloc(sizeof(t_list_vars));
 	if (!result)

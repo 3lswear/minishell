@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list_head *list_last(t_list_head *list)
+t_list_head	*list_last(t_list_head *list)
 {
 	if (!list)
 		return (NULL);
