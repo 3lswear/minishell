@@ -18,7 +18,7 @@ static size_t	ft_lg(int n)
 
 	result = 0;
 	if (!n)
-		return(1);
+		return (1);
 	while (n)
 	{
 		n /= 10;
