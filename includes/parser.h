@@ -24,6 +24,21 @@ typedef struct s_redirects
 	t_redir *redir;
 }	t_redirects;
 
+typedef struct s_split
+{
+	const char	*delim;
+	int			delim_len;
+	const char	*str;
+	int			len;
+	char		*substr;
+} t_split;
+
+typedef struct s_flags
+{
+	int flag;
+	int f_spec;
+} t_flags;
+
 typedef int t_flg;
 
 /* main parse block */
