@@ -98,15 +98,15 @@ void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens)
 	}
 }
 
-t_list	**vars_subst_get_split(t_word_desc *word, int exit_code, t_list **env)
+t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 {
 	char *value;
 	t_list **split;
 
 	if (!ft_strncmp("$?", word->word, 3))
-		value = ft_strdup(itoa2(exit_code));
+		value = ft_strdup(itoa2(mini->exit_status));
 	else
-		value = get_env_param(env, word->word + 1);
+		value = get_env_param(mini->env, word->word + 1);
 	/* fprintf(stderr, "[%s] = [%s]\n", env_name, value); */
 	if (!value)
 	{
@@ -114,12 +114,12 @@ t_list	**vars_subst_get_split(t_word_desc *word, int exit_code, t_list **env)
 		ft_lstadd_back(split, ft_lstnew(wdesc_new(ft_strdup(""), word->flags)));
 	}
 	else
-		split = first_pass(value, word->flags);
+		split = first_pass(value, mini, word->flags);
 	return (split);
 }
 
 /* expand vars and insert them */
-void	vars_substitute(t_list **tokens, t_list **env, int exit_code)
+void	vars_substitute(t_list **tokens, t_minishell *mini)
 {
 	t_list *li;
 	t_list *prev;
@@ -133,7 +133,7 @@ void	vars_substitute(t_list **tokens, t_list **env, int exit_code)
 		word = li->content;
 		if (word->flags & T_VAR)
 		{
-			split = vars_subst_get_split(word, exit_code, env);
+			split = vars_subst_get_split(word, mini);
 			tokens_insert(split, &li, &prev, tokens);
 			free(split);
 		}
