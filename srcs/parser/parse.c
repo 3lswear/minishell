@@ -16,7 +16,7 @@ char *str_enlarge(char *orig, char *add)
 	return (result);
 }
 
-t_list **get_commands(t_list **tokens)
+t_list **get_commands(t_list **tokens, t_minishell *mini)
 {
 	t_command *cmd;
 	t_list **commands;
@@ -34,7 +34,7 @@ t_list **get_commands(t_list **tokens)
 		/* fprintf(stderr, "==> current token = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
 		cmd->arg = get_args(tokens, cmd->path);
 		/* fprintf(stderr, "==> token after args = [%s]\n", ((t_word_desc *)((*tokens)->content))->word); */
-		cmd_redirs = get_redir(tokens);
+		cmd_redirs = get_redir(tokens, mini);
 		cmd->red = cmd_redirs.redir;
 		cmd->append = cmd_redirs.append;
 		if ((*tokens))
@@ -74,7 +74,7 @@ void	parse(t_minishell *mini)
 		word_list_print(tokens);
 	}
 	head_token = *tokens;
-	commands = get_commands(&head_token);
+	commands = get_commands(&head_token, mini);
 	word_list_free(tokens);
 	free(tokens);
 	mini->commands = *commands;
