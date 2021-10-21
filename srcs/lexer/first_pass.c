@@ -37,14 +37,14 @@ void	handle_dollar(char *str, int *i, t_list *tokens)
 
 }
 
-void	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
+int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 {
 	int len;
 
 	if (str[*i] != 0x22)
-		return;
+		return (0);
 	if ((*i) && str[*i - 1] == '\\')
-		return;
+		return (0);
 	(*i)++;
 	len = ft_strchr(&str[*i], 0x22) - &str[*i];
 	if (len < 0)
@@ -52,23 +52,24 @@ void	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 		handle_error(ERR_P_MISSING, "closing \'\"\'");
 		word_list_free(tokens);
 		str[*i] = 0;
-		return;
+		return (ERR_P_MISSING);
 	}
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
 
 	word_li_append(tokens, ft_substr(str, *i, len), T_DQUOTE | flag_add);
 	*i += len + 1;
+	return (0);
 }
 
-void	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
+int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 {
 	int len;
 
 	if (str[*i] != 0x27)
-		return;
+		return (0);
 	if ((*i) && str[*i - 1] == '\\')
-		return;
+		return (0);
 	(*i)++;
 	len = ft_strchr(&str[*i], 0x27) - &str[*i];
 	if (len < 0)
@@ -76,13 +77,14 @@ void	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 		handle_error(ERR_P_MISSING, "closing \'\'\'");
 		word_list_free(tokens);
 		str[*i] = 0;
-		return;
+		return (ERR_P_MISSING);
 	}
 
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
 	word_li_append(tokens, ft_substr(str, *i, len), T_NOEXP | flag_add);
 	*i += len + 1;
+	return (0);
 }
 
 int		is_sep(char *chr)
@@ -101,12 +103,13 @@ void	scroll_ifs(char *str, int *i)
 }
 
 // splits by IFS, respecting quotes
-t_list	**first_pass(char *str, int flag_add)
+t_list	**first_pass(char *str, t_minishell *mini, int flag_add)
 {
 	t_list **tokens;
 	int i;
 	int j;
 	char *ifs;
+	int error;
 
 	ifs = " \t\n";
 
@@ -121,8 +124,12 @@ t_list	**first_pass(char *str, int flag_add)
 		while (str[i])
 		{
 			scroll_ifs(str, &i);
-			handle_quote(str, &i, tokens, flag_add);
-			handle_dquote(str, &i, tokens, flag_add);
+			error = handle_quote(str, &i, tokens, flag_add);
+			if (error)
+				mini->exit_status = error;
+			error = handle_dquote(str, &i, tokens, flag_add);
+			if (error)
+				mini->exit_status = error;
 			scroll_ifs(str, &i);
 			if (!str[i])
 				break;
@@ -133,12 +140,16 @@ t_list	**first_pass(char *str, int flag_add)
 			{
 
 				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC | flag_add);
-				handle_quote(str, &j, tokens, 0);
+				error = handle_quote(str, &j, tokens, 0);
+				if (error)
+					mini->exit_status = error;
 			}
 			else if (str[j] == '\"')
 			{
 				word_li_append(tokens, ft_substr(str, i, j - i), T_NOSPC | flag_add);
-				handle_dquote(str, &j, tokens, 0);
+				error = handle_dquote(str, &j, tokens, 0);
+				if (error)
+					mini->exit_status = error;
 			}
 			else
 				word_li_append(tokens, ft_substr(str, i, j - i), flag_add);

@@ -36,7 +36,7 @@ t_list **string_tokenize(t_minishell *state)
 
 	delims = NULL;
 
-	tokens = first_pass(state->line, 0);
+	tokens = first_pass(state->line, state, 0);
 
 	if (DEBUG)
 	{
