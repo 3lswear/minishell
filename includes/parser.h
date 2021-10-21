@@ -62,6 +62,7 @@ void	word_li_append(t_list **tokens, char *word, int flag);
 
 /* vars */
 void	tokens_insert(t_list **split, t_list **li, t_list **prev, t_list **tokens);
+void	tokens_insert2(t_list **split, t_list **li, t_list **prev, t_list **tokens);
 void	split_on_vars(t_list **tokens);
 void	vars_substitute(t_list **tokens, t_minishell *mini);
 
