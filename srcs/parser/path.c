@@ -13,6 +13,5 @@ char	*get_path(t_list **tokens)
 	if (word->flags & T_SPEC)
 		return (NULL);
 	path = tokens_merge(tokens, 0);
-	
 	return (path);
 }
