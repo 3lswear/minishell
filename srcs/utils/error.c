@@ -5,8 +5,9 @@ static int	print_err(int code, char *msg, char *token)
 	ft_putstr_fd("minishell: 😨 syntax error: ", 2);
 	if (code == ERR_P_UNEXP)
 	{
-		ft_putstr_fd("unexpected token: \"", 2);
+		ft_putstr_fd(msg, 2);
 		ft_putstr_fd(token, 2);
+		ft_putendl_fd("\"", 2);
 	}
 	else if (code == ERR_P_MISSING)
 	{
@@ -23,13 +24,15 @@ static int	print_err(int code, char *msg, char *token)
 
 void	handle_error(int code, char *token)
 {
-	char *msg;
+	char *prefix;
 
 	if (code == ERR_P_SYNTAX)
-		msg = "Syntax error.";
+		prefix = "Syntax error.";
 	else if (code == ERR_P_MISSING)
-		msg = "missing ";
+		prefix = "missing ";
+	else if (code == ERR_P_UNEXP)
+		prefix = "unexpected token: \"";
 	else
-		msg = "Unknown errOR 🤔";
-	print_err(code, msg, token);
+		prefix = "Unknown errOR 🤔";
+	print_err(code, prefix, token);
 }
