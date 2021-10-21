@@ -66,6 +66,7 @@ void	parse(t_minishell *mini)
 
 	tokens = string_tokenize(mini);
 	vars_substitute(tokens, mini);
+	mini->exit_status = 0;
 	if (DEBUG)
 	{
 		fprintf(stderr, "=== tokens expanded: ===\n");
