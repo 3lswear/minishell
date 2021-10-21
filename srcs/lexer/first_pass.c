@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int		in_set(char *chr, const char *special)
+int	in_set(char *chr, const char *special)
 {
-	char *special_copy;
+	char	*special_copy;
 
 	special_copy = (char *)special;
 	while (*special_copy)
@@ -17,13 +17,13 @@ int		in_set(char *chr, const char *special)
 
 void	handle_dollar(char *str, int *i, t_list *tokens)
 {
-	char *delim;
-	int len;
-	int flags;
+	char	*delim;
+	int		len;
+	int		flags;
 
 	delim = " \t\n$><|";
 	if (str[*i] != '$')
-		return;
+		return ;
 	(*i)++;
 	len = 0;
 	flags = 0;
@@ -33,13 +33,13 @@ void	handle_dollar(char *str, int *i, t_list *tokens)
 	}
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flags |= T_NOSPC;
-	ft_lstadd_back(&tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len), T_NOEXP | T_VAR)));
-
+	ft_lstadd_back(&tokens, ft_lstnew(wdesc_new(ft_substr(str, *i, len),
+				T_NOEXP | T_VAR)));
 }
 
 int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 {
-	int len;
+	int	len;
 
 	if (str[*i] != 0x22)
 		return (0);
@@ -56,7 +56,6 @@ int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 	}
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
-
 	word_li_append(tokens, ft_substr(str, *i, len), T_DQUOTE | flag_add);
 	*i += len + 1;
 	return (0);
@@ -64,7 +63,7 @@ int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 
 int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 {
-	int len;
+	int	len;
 
 	if (str[*i] != 0x27)
 		return (0);
@@ -79,7 +78,6 @@ int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 		str[*i] = 0;
 		return (ERR_P_MISSING);
 	}
-
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
 	word_li_append(tokens, ft_substr(str, *i, len), T_NOEXP | flag_add);
@@ -87,15 +85,15 @@ int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 	return (0);
 }
 
-int		is_sep(char *chr)
+int	is_sep(char *chr)
 {
 	return (*chr == '|' || *chr == ' ' || *chr == '>' || *chr == '<');
 }
 
 void	scroll_ifs(char *str, int *i)
 {
-	if (!str || !(*str))
-		return;
+	if (!str || !(*str) || !(str[*i]))
+		return ;
 	while ((str[*i] == ' ') || (str[*i] == '\n') || (str[*i] == '\t'))
 	{
 		(*i)++;
