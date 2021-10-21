@@ -42,7 +42,7 @@ int	ft_error_export(char *arg, int error)
 	else if (error == -1)
 		ft_putstr_fd("\': not a valid identifier", 2);
 	ft_putchar_fd('\n', 2);
-	return (0);
+	return (1);
 }
 
 int	not_env(char *arg, int j, t_list **env)
@@ -121,7 +121,7 @@ int	run_export(t_command *command, t_list **env)
 	if (!command->arg[1])
 	{
 		print_export(env);
-		return (1);
+		return (0);
 	}
 	else
 		i = check_export_arg(command->arg, env);
