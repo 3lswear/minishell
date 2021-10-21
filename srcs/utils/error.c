@@ -18,13 +18,12 @@ static int	print_err(int code, char *msg, char *token)
 	{
 		ft_putendl_fd(msg, 2);
 	}
-	/* exit(code); */
 	return (code);
 }
 
 void	handle_error(int code, char *token)
 {
-	char *prefix;
+	char	*prefix;
 
 	if (code == ERR_P_SYNTAX)
 		prefix = "Syntax error.";
