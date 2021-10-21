@@ -15,8 +15,8 @@
 int	execute(t_minishell *mini)
 {
 	t_command	*command;
-	t_list	*commands;
-	int		k;
+	t_list		*commands;
+	int			k;
 
 	k = -1;
 	commands = mini->commands;

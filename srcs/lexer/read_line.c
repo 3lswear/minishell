@@ -16,8 +16,8 @@ int	read_line(t_minishell *mini)
 {
 	const char *prompt;
 
-	// signal(SIGINT, sig_handler);
-	// signal(SIGQUIT, sig_handler);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	if (!(mini->exit_status))
 		prompt = PROMPT_OK;
 	else
@@ -26,9 +26,9 @@ int	read_line(t_minishell *mini)
 	if (!mini->line)
 	{
 		free(mini->line);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("exit\n", 2);
 		exit(0);
-		return (-1);
+		return (1);
 	}
 	else if (ft_strlen(mini->line) == 0)
 		return (0);

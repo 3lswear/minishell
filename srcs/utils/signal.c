@@ -17,7 +17,7 @@ void	sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr("\n");
-		ft_putstr("\033[32mminishell\033[0m \033[31m➢\033[0m ");
+		ft_putstr(PROMPT_BAD);
 	}
 	else if (sig == SIGQUIT)
 	{

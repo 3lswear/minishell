@@ -11,6 +11,6 @@
 #define ERR_P_NOREDIN	106
 
 void	handle_error(int code, char *token);
-
+int		ft_error_export(char *arg, int error);
 #endif
 

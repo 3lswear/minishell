@@ -26,7 +26,7 @@ int	run_pwd(void)
 		return (1);
 }
 
-char *get_pwd(void)
+char	*get_pwd(void)
 {
 	char	arr[4096];
 
