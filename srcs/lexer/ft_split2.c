@@ -47,7 +47,7 @@ t_list	**ft_split2(const char *s, const char *delim, int flags,
 		free(list);
 		return (NULL);
 	}
-	while (sp.str)
+	while (*sp.str)
 	{
 		sp.substr = ft_strnstr(sp.str, delim, sp.len);
 		if (loop(&sp, list, flags, special_flg))
