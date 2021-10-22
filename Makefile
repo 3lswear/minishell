@@ -1,11 +1,11 @@
 NAME = minishell
 
-CC = clang
+CC = gcc
 
 LIBFT = ./libft/libft.a
 LIBFT_FLAGS = -L=libft -lft
 
-SANFLAGS = -fsanitize=address
+#SANFLAGS = -fsanitize=address
 
 CFLAGS = -Wall -Wextra -Werror -g $(SANFLAGS)
 

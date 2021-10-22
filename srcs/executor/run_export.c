@@ -64,14 +64,12 @@ int	check_export_handler(char *arg, t_list **env)
 int	check_export_arg(char **arg, t_list **env)
 {
 	int	i;
-	int	j;
 	int	k;
 
 	i = 1;
 	k = 1;
 	while (arg[i])
 	{
-		j = 0;
 		if (ft_isdigit(arg[i][0]) || arg[i][0] == '=')
 			k = ft_error_export(arg[i], -1);
 		else

@@ -20,9 +20,6 @@ int	print_export(t_list **env)
 
 int	ft_error_export(char *arg, int error)
 {
-	int	i;
-
-	i = 1;
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(arg, 2);
 	if (error == 0)

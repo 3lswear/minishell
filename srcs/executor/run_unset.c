@@ -52,13 +52,11 @@ int	delete_env_param(char *arg, t_list **env)
 	int		i;
 	t_list	*tmp;
 	t_list	*prev;
-	t_list	*next;
 
 	i = 0;
 	tmp = *env;
 	while (tmp)
 	{
-		next = tmp->next;
 		line = tmp->content;
 		if (!ft_strncmp(line, arg, ft_strlen(arg)))
 		{
