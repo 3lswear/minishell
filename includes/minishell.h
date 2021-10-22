@@ -20,7 +20,6 @@
 # define PROMPT_OK	"🤏🐚🙂~> "
 # define PROMPT_BAD	"🤏🐚🤬~> "
 
-
 /* DEBUG */
 # ifndef DEBUG
 #  define DEBUG 0
@@ -56,7 +55,9 @@ typedef struct s_fd
 	int	redir_out;
 	int	fd_pipe_in;
 	int	fd_pipe_out;
-} t_fd;
+	int	end_herecode;
+	int	not_line;
+}			t_fd;
 
 typedef struct s_minishell
 {
@@ -68,13 +69,15 @@ typedef struct s_minishell
 	char	**envp;
 	t_list	*commands;
 	t_list	**env;
-	char*	prompt;
+	char	*prompt;
 }				t_minishell;
 
 # include "error.h"
 # include "parser.h"
 # include "list2.h"
 # include "utils.h"
+
+t_fd	g_all_fd;
 
 int		ft_strlen2(char **str);
 int		read_line(t_minishell *mini);
@@ -100,14 +103,19 @@ int		is_redir(t_command *command);
 int		re_input(t_minishell *mini, char *path);
 int		re_output(t_minishell *mini, char *path, int type);
 int		redirect(t_minishell *mini, t_command *command);
+int		run_redir(t_minishell *mini, t_redir *redir, int flag);
+int		run_heredoc(char *eof);
+int		run_heredoc_chile(char *eof);
 int		make_pipe(t_minishell *mini);
 void	env_free(t_list **env);
-t_fd	init_fd();
-void	close_fd(t_minishell *mini);
-void	reset_fd(t_minishell *mini);
-char 	*get_pwd(void);
+void	init_fd(void);
+void	reset_fd(void);
+void	close_fd(void);
+void	close_and_reset_all(void);
+void	close_and_reset_out(void);
+char	*get_pwd(void);
 int		update_pwd(t_list **env);
 int		print_export(t_list **env);
-
+int		ft_atoi2(const char *nptr);
 
 #endif

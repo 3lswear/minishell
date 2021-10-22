@@ -18,6 +18,7 @@ int	read_line(t_minishell *mini)
 
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
+	g_all_fd.not_line = 1;
 	if (!(mini->exit_status))
 		prompt = PROMPT_OK;
 	else
@@ -33,5 +34,6 @@ int	read_line(t_minishell *mini)
 		return (0);
 	else if (ft_strlen(mini->line) > 0)
 		add_history(mini->line);
+	g_all_fd.not_line = 0;
 	return (1);
 }

@@ -12,58 +12,67 @@
 
 #include "minishell.h"
 
-int	is_redir(t_command *command)
+int	run_heredoc_chile(char *eof)
 {
-	if (command->red || command->append)
+	char	*line;
+
+	line = ft_strdup("");
+	while (!ft_strequ(eof, line))
 	{
-			return (1);
+		dup2(g_all_fd.fd_out, 1);
+		free(line);
+		line = readline("herecode> ");
+		if (!line)
+		{
+			free(line);
+			close_and_reset_all();
+			ft_putstr("\n");
+			return (0);
+		}
+		dup2(g_all_fd.fd_pipe_out, 1);
+		if (!ft_strequ(eof, line))
+			ft_putendl_fd(line, 1);
+	}
+	free(line);
+	close_and_reset_out();
+	return (0);
+}
+
+int	run_heredoc(char *eof)
+{
+	int		fd_pipe[2];
+	pid_t	pid;
+	int		i;
+
+	close_and_reset_all();
+	pipe(fd_pipe);
+	pid = fork();
+	g_all_fd.fd_pipe_out = fd_pipe[1];
+	g_all_fd.fd_pipe_in = fd_pipe[0];
+	if (pid == 0)
+	{
+		g_all_fd.end_herecode = 0;
+		i = run_heredoc_chile(eof);
+		exit(0);
+	}
+	else
+	{
+		if (fd_pipe[1] > 0)
+			close(fd_pipe[1]);
+		waitpid(pid, &i, 0);
+		if (i <= 256)
+			dup2(fd_pipe[0], 0);
+		return (i);
 	}
 	return (0);
 }
 
-int	run_redir(t_minishell *mini, t_redir *redir, int flag)
-{
-	t_list	*in;
-	t_list	*out;
-	char	*path;
-	int		i;
-
-	i = 0;
-	in = redir->in;
-	out = redir->out;
-	while (in && i == 0)
-	{
-		path = in->content;
-		i = re_input(mini, path);
-		in = in->next;
-	}
-	while (out && i == 0)
-	{
-		path = out->content;
-		i = re_output(mini, path, flag);
-		out = out->next;
-	}
-	return (i);
-}
-
-int	redirect(t_minishell *mini, t_command *command)
-{
-	int	i;
-
-	i = 0;
-	if (command->red->in || command->red->out)
-		i = run_redir(mini, command->red, 1);
-	else if (command->append->in || command->append->out)
-		i = run_redir(mini, command->append, 2);
-	return (i);
-}
-
 int	re_input(t_minishell *mini, char *path)
 {
-	if (mini->fd.redir_in > 0)
-		close(mini->fd.redir_in);
-	mini->fd.redir_in = open(path, O_RDONLY);
-	if (mini->fd.redir_in == -1)
+	if (g_all_fd.redir_in > 0)
+		close(g_all_fd.redir_in);
+	g_all_fd.redir_in = open(path, O_RDONLY);
+	if (g_all_fd.redir_in == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
@@ -73,7 +82,7 @@ int	re_input(t_minishell *mini, char *path)
 		mini->exit_status = 1;
 		return (1);
 	}
-	dup2(mini->fd.redir_in, 0);
+	dup2(g_all_fd.redir_in, 0);
 	return (0);
 }
 
@@ -81,14 +90,14 @@ int	re_output(t_minishell *mini, char *path, int type)
 {
 	int	fd;
 
-	if (mini->fd.redir_out > 0)
-		close(mini->fd.redir_out);
+	if (g_all_fd.redir_out > 0)
+		close(g_all_fd.redir_out);
 	if (type == 1)
 		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	else
 		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-	mini->fd.redir_out = fd;
-	if (mini->fd.redir_out == -1)
+	g_all_fd.redir_out = fd;
+	if (g_all_fd.redir_out == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
@@ -98,7 +107,7 @@ int	re_output(t_minishell *mini, char *path, int type)
 		mini->exit_status = 1;
 		return (1);
 	}
-	dup2(mini->fd.redir_out, 1);
+	dup2(g_all_fd.redir_out, 1);
 	return (0);
 }
 
@@ -114,7 +123,7 @@ int	make_pipe(t_minishell *mini)
 		if (fd_pipe[0] > 0)
 			close(fd_pipe[0]);
 		dup2(fd_pipe[1], 1);
-		mini->fd.fd_pipe_in = fd_pipe[0];
+		g_all_fd.fd_pipe_in = fd_pipe[0];
 		return (0);
 	}
 	else
@@ -123,7 +132,7 @@ int	make_pipe(t_minishell *mini)
 			close(fd_pipe[1]);
 		dup2(fd_pipe[0], 0);
 		waitpid(pid, &mini->exit_status, 0);
-		mini->fd.fd_pipe_out = fd_pipe[0];
+		g_all_fd.fd_pipe_out = fd_pipe[1];
 		return (1);
 	}
 }

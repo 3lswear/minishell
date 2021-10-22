@@ -14,8 +14,8 @@
 
 void	parse_env(t_minishell *mini, char **env)
 {
-	int	i;
-	t_list *tmp;
+	int		i;
+	t_list	*tmp;
 
 	i = 0;
 	mini->env = malloc(sizeof(t_list *));
@@ -29,7 +29,7 @@ void	parse_env(t_minishell *mini, char **env)
 	*mini->env = tmp;
 }
 
-int		print_env(t_list **env)
+int	print_env(t_list **env)
 {
 	t_list	*tmp;
 	char	*envp;
@@ -45,5 +45,5 @@ int		print_env(t_list **env)
 		}
 		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }

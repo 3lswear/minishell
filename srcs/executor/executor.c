@@ -22,28 +22,28 @@ int	execute(t_minishell *mini)
 	commands = mini->commands;
 	while (commands)
 	{
-		mini->fd.pid = 2;
+		g_all_fd.pid = 2;
 		command = commands->content;
 		if (is_redir(command))
 			k = redirect(mini, command);
 		if (command->pipe)
-			mini->fd.pid = make_pipe(mini);
-		if (mini->fd.pid == 1)
+			g_all_fd.pid = make_pipe(mini);
+		if (g_all_fd.pid == 1)
 		{
 			commands = commands->next;
 			continue ;
 		}
-		if (k == 1)
+		if (k >= 512 || k == 1)
 			return (1);
 		if (is_builtins(command))
 			mini->exit_status = run_builtins(mini, command);
 		else if (command->path)
 			mini->exit_status = run_bins(mini, command);
 		commands = commands->next;
-		if (mini->fd.pid == 0)
+		if (g_all_fd.pid == 0)
 			exit(mini->exit_status);
-		close_fd(mini);
-		reset_fd(mini);
+		close_fd();
+		reset_fd();
 	}
 	return (0);
 }
