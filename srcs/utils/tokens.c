@@ -13,6 +13,9 @@ static void	loop(t_list *token, t_list **tokens, char **result,
 	}
 }
 
+/* merge tokens when there is no space between,
+ * stop_on is broken */
+
 char	*tokens_merge(t_list **tokens, t_flg stop_on)
 {
 	t_list		*token;
@@ -36,4 +39,37 @@ char	*tokens_merge(t_list **tokens, t_flg stop_on)
 		*tokens = token->next;
 	}
 	return (result);
+}
+
+/* delete tokens with same logic as tokens_merge */
+int	*tokens_del_redirs(t_list **redir_token)
+{
+	t_list		*token;
+	t_list		*tmp;
+	t_word_desc	*word;
+
+	token = (*redir_token)->next;
+	if (!token || !((((t_word_desc *)(*redir_token)->content)->flags) & T_REDIR))
+		return (NULL);
+	word = token->content;
+	if ((word->flags & T_NOSPC) && token->next
+		&& !(((t_word_desc *)token->next->content)->flags & T_SPEC))
+	{
+
+		while (token && (word->flags & T_NOSPC) && token->next
+				&& !(((t_word_desc *)token->next->content)->flags & T_SPEC))
+		{
+			tmp = token->next;
+			word_li_free(token);
+			token = tmp;
+		}
+		(*redir_token)->next = tmp;
+	}
+	else if (!(word->flags & (T_NOSPC | T_SPEC)))
+	{
+		tmp = token->next;
+		word_li_free(token);
+		(*redir_token)->next = tmp;
+	}
+	return (0);
 }
