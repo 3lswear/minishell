@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+void	string_list_print(t_list **list, char *prefix)
+{
+	t_list *li;
+
+	li = *list;
+	if (!prefix)
+		prefix = "";
+	if (!li)
+		return;
+	while (li)
+	{
+		fprintf(stderr, "%s [%s], ", prefix, (char *)li->content);
+		li = li->next;
+	}
+	fprintf(stderr, "\n");
+}
+
 void	split_print(char **split)
 {
 	int i;
@@ -38,15 +55,15 @@ void	cmd_print(t_command *cmd)
 	/* strarr_print(cmd->envp); */
 	if (cmd->red)
 	{
-		fprintf(stderr, " > to [%s]\n", cmd->red->out);
-		fprintf(stderr, " < from [%s]\n", cmd->red->in);
+		string_list_print(&cmd->red->out, ">");
+		string_list_print(&cmd->red->in, "<");
 	}
 	else
 		fprintf(stderr, "- redirects\n");
 	if (cmd->append)
 	{
-		fprintf(stderr, " >> to [%s]\n", cmd->append->out);
-		fprintf(stderr, " << from [%s]\n", cmd->append->in);
+		string_list_print(&cmd->append->in, "<<");
+		string_list_print(&cmd->append->out, ">>");
 	}
 	else
 		fprintf(stderr, "- no appends\n");

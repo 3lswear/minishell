@@ -18,11 +18,12 @@ static void	redir_error_missing(char *filename, t_minishell *mini)
 	}
 }
 
-int	assign_file_to_op(char **redir_field, char *filename)
+int	assign_file_to_op(t_list **redir_field, char *filename)
 {
-	if ((redir_field) && !(*redir_field))
+	if (redir_field)
 	{
-		*redir_field = filename;
+		ft_lstadd_back(redir_field, ft_lstnew(ft_strdup(filename)));
+		/* *redir_field = filename; */
 		return (0);
 	}
 	else
@@ -32,7 +33,7 @@ int	assign_file_to_op(char **redir_field, char *filename)
 char	*dispatch_to_redir_field(t_redirects *res, char *redir_op,
 		char *filename)
 {
-	char	**redir_field;
+	t_list	**redir_field;
 
 	redir_field = NULL;
 	if (!ft_strncmp(redir_op, ">", 2))
@@ -60,14 +61,13 @@ t_redirects	get_redir(t_list **tokens, t_minishell *mini)
 	if (!tokens || !(*tokens))
 		return (res);
 	word = (*tokens)->content;
-	while (*tokens && (word->flags & T_REDIR) && (!(res.redir->in)
-			|| !(res.redir->out) || !(res.append->in) || !(res.append->out)))
+	while (*tokens && (word->flags & T_REDIR))
 	{
 		op = word->word;
 		*tokens = (*tokens)->next;
 		filename = tokens_merge(tokens, 0);
 		redir_error_missing(filename, mini);
-		redir_error_dup(dispatch_to_redir_field(&res, op, filename), mini);
+		dispatch_to_redir_field(&res, op, filename);
 		if (mini->exit_status)
 			break ;
 		if (*tokens)
