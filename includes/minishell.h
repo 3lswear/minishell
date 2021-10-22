@@ -97,8 +97,8 @@ void	sig_handler(int sig);
 
 /* int		parse(t_minishell *mini, char **env); */
 int		is_redir(t_command *command);
-int 	re_input(t_minishell *mini, t_redir *input);
-int		re_output(t_minishell *mini, t_redir *redir, int type);
+int		re_input(t_minishell *mini, char *path);
+int		re_output(t_minishell *mini, char *path, int type);
 int		redirect(t_minishell *mini, t_command *command);
 int		make_pipe(t_minishell *mini);
 void	env_free(t_list **env);
