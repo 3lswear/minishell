@@ -68,6 +68,7 @@ t_redirects	get_redir(t_list **tokens, t_minishell *mini)
 		filename = tokens_merge(tokens, 0);
 		redir_error_missing(filename, mini);
 		dispatch_to_redir_field(&res, op, filename);
+		free(filename);
 		if (mini->exit_status)
 			break ;
 		if (*tokens)
