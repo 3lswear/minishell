@@ -16,14 +16,14 @@ static void	cmd_free(t_command *cmd)
 	}
 	if (cmd->red)
 	{
-		free(cmd->red->in);
-		free(cmd->red->out);
+		string_list_free(&cmd->red->in);
+		string_list_free(&cmd->red->out);
 		free(cmd->red);
 	}
 	if (cmd->append)
 	{
-		free(cmd->append->in);
-		free(cmd->append->out);
+		string_list_free(&cmd->append->in);
+		string_list_free(&cmd->append->out);
 		free(cmd->append);
 	}
 	free (cmd);

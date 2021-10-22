@@ -21,6 +21,8 @@ void	commands_print(t_list **cmds);
 void	word_list_print(t_list **head);
 char	*get_flag_name(int flag);
 void	word_list_print(t_list **head);
+
 void	string_list_print(t_list **list, char *prefix);
+void	string_list_free(t_list **list);
 
 #endif
