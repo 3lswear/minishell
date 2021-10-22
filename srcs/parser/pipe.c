@@ -10,17 +10,17 @@ int	get_pipe(t_list **tokens, t_minishell *mini)
 	if (!tokens || !(*tokens))
 		return (0);
 	word = (*tokens)->content;
-	if ((*tokens))
+	while (*tokens && (word->flags & T_SPEC))
 	{
-		if ((word->flags & T_SPEC) && (!ft_strncmp(word->word, "|", 2)))
+		if (word->flags & T_PIPE)
 		{
 			pipe = 1;
 			*tokens = (*tokens)->next;
+			break;
 		}
-		else
-			pipe = 0;
+		(*tokens) = (*tokens)->next;
+		if (*tokens)
+			word = (*tokens)->content;
 	}
-	else
-		pipe = 0;
 	return (pipe);
 }
