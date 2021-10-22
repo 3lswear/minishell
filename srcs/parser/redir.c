@@ -9,13 +9,16 @@ void	redir_error_dup(char *redir_op, t_minishell *mini)
 	}
 }
 
-static void	redir_error_missing(char *filename, t_minishell *mini)
+static int	redir_error_missing(char *filename, t_minishell *mini)
 {
 	if (!filename || !(*filename))
 	{
 		handle_error(ERR_P_MISSING, "redirect argument");
 		mini->exit_status = ERR_P_MISSING;
+		return (1);
 	}
+	else
+		return (0);
 }
 
 int	assign_file_to_op(t_list **redir_field, char *filename)
@@ -66,8 +69,8 @@ t_redirects	get_redir(t_list **tokens, t_minishell *mini)
 		op = word->word;
 		*tokens = (*tokens)->next;
 		filename = tokens_merge(tokens, 0);
-		redir_error_missing(filename, mini);
-		dispatch_to_redir_field(&res, op, filename);
+		if (!redir_error_missing(filename, mini))
+			dispatch_to_redir_field(&res, op, filename);
 		free(filename);
 		if (mini->exit_status)
 			break ;
