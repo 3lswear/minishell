@@ -1,26 +1,57 @@
 #include "minishell.h"
 
+/* static size_t	args_count(t_list *arg_tok) */
+/* { */
+/* 	size_t		result; */
+/* 	t_word_desc	*word; */
+
+/* 	result = 0; */
+/* 	while (arg_tok) */
+/* 	{ */
+/* 		word = arg_tok->content; */
+/* 		if (word->flags & T_PIPE) */
+/* 			break ; */
+/* 		else if ((word->flags & T_NOSPC) && arg_tok->next) */
+/* 		{ */
+/* 			if (((t_word_desc *)arg_tok->next->content)->flags & T_SPEC) */
+/* 			{ */
+/* 				result++; */
+/* 				break ; */
+/* 			} */
+/* 		} */
+/* 		else if (!(word->flags & T_NOSPC) || !(arg_tok->next)) */
+/* 			result++; */
+
+/* 		arg_tok = arg_tok->next; */
+/* 	} */
+/* 	return (result); */
+/* } */
+
+
 static size_t	args_count(t_list *arg_tok)
 {
-	size_t		result;
-	t_word_desc	*word;
+	t_word_desc *word;
+	size_t result;
 
 	result = 0;
-	while (arg_tok)
+	if (!arg_tok || (((t_word_desc *)arg_tok->content)->flags) & T_SPEC)
+		return (0);
+	word = arg_tok->content;
+	if ((word->flags & T_NOSPC) && arg_tok->next
+			&& !(((t_word_desc *)arg_tok->next->content)->flags & T_SPEC))
 	{
-		word = arg_tok->content;
-		if (word->flags & T_SPEC)
-			break ;
-		else if ((word->flags & T_NOSPC) && arg_tok->next)
+		result++;
+		while (arg_tok && (word->flags & T_NOSPC) && arg_tok->next
+				&& !(((t_word_desc *)arg_tok->next->content)->flags & T_SPEC))
 		{
-			if (((t_word_desc *)arg_tok->next->content)->flags & T_SPEC)
-			{
-				result++;
-				break ;
-			}
-		}
-		else
+			arg_tok = arg_tok->next;
+			word = arg_tok->content;
 			result++;
+		}
+	}
+	else
+	{
+		result++;
 		arg_tok = arg_tok->next;
 	}
 	return (result);
@@ -41,11 +72,15 @@ char	**get_args(t_list **tokens, char *path)
 	if (!(*tokens) || ((t_word_desc *)(*tokens)->content)->flags & T_SPEC)
 		return (result);
 	i = 1;
-	while (i <= arg_num)
+	while (i <= arg_num && !(((t_word_desc *)(*tokens)->content)->flags & T_PIPE))
 	{
+		while (*tokens && ((t_word_desc *)(*tokens)->content)->flags & T_REDIR)
+			(*tokens) = (*tokens)->next;
 		tmp = tokens_merge(tokens, 0);
 		result[i] = tmp;
 		i++;
+		if (!(*tokens))
+			break;
 	}
 	return (result);
 }
