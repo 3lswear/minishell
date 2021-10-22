@@ -42,7 +42,7 @@ t_list	**string_tokenize(t_minishell *state)
 		word_list_print(tokens);
 	}
 	ft_lstadd_back(&delims, ft_lstnew("|"));
-	split_on_special(tokens, &delims, T_SPEC);
+	split_on_special(tokens, &delims, T_SPEC | T_PIPE);
 	delims_free(&delims);
 	delims = NULL;
 	ft_lstadd_back(&delims, ft_lstnew("<<"));
