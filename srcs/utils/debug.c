@@ -105,6 +105,8 @@ char *get_flag_name(int flag)
 		result = ft_strjoin2(result, "T_VAR ");
 	if (flag & T_REDIR)
 		result = ft_strjoin2(result, "T_REDIR ");
+	if (flag & T_PIPE)
+		result = ft_strjoin2(result, "T_PIPE ");
 
 	return (result);
 }

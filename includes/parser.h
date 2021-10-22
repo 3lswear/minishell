@@ -9,6 +9,7 @@
 # define T_ASSIGN		0b00010000
 # define T_SPEC			0b00100000
 # define T_REDIR		0b01000000
+# define T_PIPE			0b10000000
 
 # define IFS	" \t\n"
 
@@ -44,7 +45,8 @@ typedef int t_flg;
 /* main parse block */
 void		parse(t_minishell *mini);
 char		*get_path(t_list **tokens);
-t_redirects	get_redir(t_list **tokens, t_minishell *mini);
+int			*tokens_del_redirs(t_list **redir_token);
+t_redirects	get_redir(t_list *token, t_minishell *mini);
 char		**get_args(t_list **tokens, char *path);
 int			get_pipe(t_list **tokens, t_minishell *mini);
 
