@@ -28,11 +28,11 @@ t_list	**get_commands(t_list **tokens, t_minishell *mini)
 	while (next_cmd && !(mini->exit_status))
 	{
 		cmd = malloc(sizeof(t_command));
-		cmd->path = get_path(tokens);
-		cmd->arg = get_args(tokens, cmd->path);
-		cmd_redirs = get_redir(tokens, mini);
+		cmd_redirs = get_redir(*tokens, mini);
 		cmd->red = cmd_redirs.redir;
 		cmd->append = cmd_redirs.append;
+		cmd->path = get_path(tokens);
+		cmd->arg = get_args(tokens, cmd->path);
 		cmd->pipe = get_pipe(tokens, mini);
 		ft_lstadd_back(commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
