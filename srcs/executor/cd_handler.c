@@ -24,5 +24,6 @@ int	update_env(t_list **env, char *key, char *new_line)
 		temp = tmp;
 		tmp = tmp->next;
 	}
+	ft_lstadd_back(env, ft_lstnew(ft_strdup(new_line)));
 	return (0);
 }

@@ -17,11 +17,16 @@ void	sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr("\n");
-		ft_putstr(PROMPT_BAD);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
-		ft_putstr("\033[2D");
+		ft_putstr("\033[12D");
 		ft_putstr("\033[K");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 }

@@ -47,7 +47,7 @@ int	check_export_handler(char *arg, t_list **env)
 	k = 0;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (ft_isalnum(arg[i]) == 0)
+		if (ft_isalnum(arg[i]) == 0 && arg[i] != '_')
 		{
 			k = ft_error_export(arg, -1);
 			break ;

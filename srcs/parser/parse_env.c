@@ -45,5 +45,5 @@ int		print_env(t_list **env)
 		}
 		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }

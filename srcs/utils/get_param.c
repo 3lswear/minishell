@@ -23,7 +23,7 @@ char	*get_env_param(t_list **env, char *param)
 	while (tmp)
 	{
 		line = tmp->content;
-		if (!ft_strncmp(line, param, len))
+		if (!ft_strncmp(line, param, len) && line[len] == '=')
 			return(line + len + 1);
 		tmp = tmp->next;
 	}
