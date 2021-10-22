@@ -32,9 +32,9 @@ int	ft_atoi(const char *nptr)
 	while (ft_isdigit(nptr[i]))
 	{
 		if (n > max && sign == 1)
-			error_exit("Error\n");
+			return(1);
 		else if (n > max + 1 && sign == -1)
-			error_exit("Error\n");
+			return(1);
 		n = n * 10 + (nptr[i++] - '0');
 	}
 	return ((int)(n * sign));
