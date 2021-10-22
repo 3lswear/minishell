@@ -34,8 +34,8 @@ typedef struct s_env
 
 typedef struct s_redir
 {
-	char	*in;
-	char	*out;
+	t_list	*in;
+	t_list	*out;
 }				t_redir;
 
 typedef struct s_command
