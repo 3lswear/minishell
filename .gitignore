@@ -1,5 +1,4 @@
 srcs/*.o
-test
 minishell
 .vscode
 *.o
