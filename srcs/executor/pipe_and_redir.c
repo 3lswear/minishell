@@ -16,11 +16,34 @@ int	is_redir(t_command *command)
 {
 	if (command->red || command->append)
 	{
-		if (command->red->in || command->red->out
-			|| command->append->in || command->append->out)
 			return (1);
 	}
 	return (0);
+}
+
+int	run_redir(t_minishell *mini, t_redir *redir, int flag)
+{
+	t_list	*in;
+	t_list	*out;
+	char	*path;
+	int		i;
+
+	i = 0;
+	in = redir->in;
+	out = redir->out;
+	while (in && i == 0)
+	{
+		path = in->content;
+		i = re_input(mini, path);
+		in = in->next;
+	}
+	while (out && i == 0)
+	{
+		path = out->content;
+		i = re_output(mini, path, flag);
+		out = out->next;
+	}
+	return (i);
 }
 
 int	redirect(t_minishell *mini, t_command *command)
@@ -28,26 +51,22 @@ int	redirect(t_minishell *mini, t_command *command)
 	int	i;
 
 	i = 0;
-	if (command->red->in)
-		i = re_input(mini, command->red);
-	if (command->append->in && i == 0)
-		i = re_input(mini, command->append);
-	if (command->red->out && i == 0)
-		i = re_output(mini, command->red, 1);
-	if (command->append->out && i == 0)
-		i = re_output(mini, command->append, 2);
+	if (command->red->in || command->red->out)
+		i = run_redir(mini, command->red, 1);
+	else if (command->append->in || command->append->out)
+		i = run_redir(mini, command->append, 2);
 	return (i);
 }
 
-int	re_input(t_minishell *mini, t_redir *input)
+int	re_input(t_minishell *mini, char *path)
 {
 	if (mini->fd.redir_in > 0)
 		close(mini->fd.redir_in);
-	mini->fd.redir_in = open(input->in, O_RDONLY);
+	mini->fd.redir_in = open(path, O_RDONLY);
 	if (mini->fd.redir_in == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(input->in, 2);
+		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
@@ -58,21 +77,21 @@ int	re_input(t_minishell *mini, t_redir *input)
 	return (0);
 }
 
-int	re_output(t_minishell *mini, t_redir *redir, int type)
+int	re_output(t_minishell *mini, char *path, int type)
 {
 	int	fd;
 
 	if (mini->fd.redir_out > 0)
 		close(mini->fd.redir_out);
 	if (type == 1)
-		fd = open(redir->out, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 	else
-		fd = open(redir->out, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		fd = open(path, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 	mini->fd.redir_out = fd;
 	if (mini->fd.redir_out == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redir->out, 2);
+		ft_putstr_fd(path, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
