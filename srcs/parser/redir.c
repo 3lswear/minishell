@@ -49,14 +49,10 @@ char	*dispatch_to_redir_field(t_redirects *res, char *redir_op,
 		redir_field = &(res->append->in);
 	if (assign_file_to_op(redir_field, filename))
 	{
-		free(filename);
-		free(redir_op);
 		return (redir_op);
 	}
 	else
 	{
-		free(redir_op);
-		free(filename);
 		return (NULL);
 	}
 }
@@ -76,6 +72,8 @@ static int handle_redir(t_list **token, t_minishell *mini, t_redirects *res)
 	tokens_del_redirs(&redir_token);
 	if (!redir_error_missing(filename, mini))
 		dispatch_to_redir_field(res, op, filename);
+	free(op);
+	free(filename);
 	if (mini->exit_status)
 		return (1);
 	else
