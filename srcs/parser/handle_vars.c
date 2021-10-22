@@ -56,16 +56,19 @@ t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 	t_list	**split;
 
 	if (!ft_strncmp("$?", word->word, 3))
-		value = ft_strdup(itoa2(mini->exit_status));
+		value = itoa2(mini->exit_status);
 	else
-		value = get_env_param(mini->env, word->word + 1);
+		value = ft_strdup(get_env_param(mini->env, word->word + 1));
 	if (!value)
 	{
 		split = ft_calloc(sizeof(t_list *), 1);
 		ft_lstadd_back(split, ft_lstnew(wdesc_new(ft_strdup(""), word->flags)));
 	}
 	else
+	{
 		split = first_pass(value, mini, word->flags);
+		free(value);
+	}
 	return (split);
 }
 
