@@ -56,7 +56,7 @@ int	run_exit(t_minishell *mini, t_command *command)
 	else if (count == 1)
 	{
 		if (str_is_num(command->arg[1]))
-			mini->exit_status = ft_atoi(command->arg[1]);
+			mini->exit_status = ft_atoi2(command->arg[1]);
 		else
 		{
 			mini->exit_status = 255;

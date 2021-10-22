@@ -24,7 +24,7 @@ int	main(int argc, char *argv[], char **env)
 		parse_env(&mini, env);
 		while (mini.exit != 1)
 		{
-			mini.fd = init_fd();
+			init_fd();
 			i = read_line(&mini);
 			if (i == 0)
 				continue ;

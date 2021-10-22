@@ -41,7 +41,7 @@ int	check_dir(char *path)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
-	return (1);
+	return (127);
 }
 
 int	run_cmd(char *path, char **arg, t_minishell *mini)
@@ -85,7 +85,7 @@ int	run_bins(t_minishell *mini, t_command *comm)
 		i = run_cmd(comm->path, comm->arg, mini);
 	ft_split_clear(all_path);
 	free(path);
-	if (i > 1)
-		i = 1;
+	if (i > 200)
+		i = i / 256;
 	return (i);
 }

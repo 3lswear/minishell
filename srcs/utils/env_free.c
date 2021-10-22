@@ -7,7 +7,6 @@ void	env_free(t_list **env)
 	char	*line;
 
 	tmp = *env;
-
 	while (tmp)
 	{
 		next = tmp->next;
@@ -16,6 +15,5 @@ void	env_free(t_list **env)
 		free(tmp);
 		tmp = next;
 	}
-	// free(env);
 	free(env);
 }

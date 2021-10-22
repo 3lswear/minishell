@@ -16,10 +16,18 @@ void	sig_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (g_all_fd.end_herecode == 0)
+		{
+			ft_putstr("\n");
+			exit(2);
+		}
+		else if (g_all_fd.not_line == 1)
+		{
+			ft_putstr("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 	}
 	else if (sig == SIGQUIT)
 	{

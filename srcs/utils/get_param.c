@@ -24,7 +24,7 @@ char	*get_env_param(t_list **env, char *param)
 	{
 		line = tmp->content;
 		if (!ft_strncmp(line, param, len) && line[len] == '=')
-			return(line + len + 1);
+			return (line + len + 1);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -49,7 +49,7 @@ char	*get_need_path(char *path_dir, char *command)
 			tmp = ft_strjoin("/", command);
 			path = ft_strjoin(path_dir, tmp);
 			free(tmp);
-			break;
+			break ;
 		}
 		item = readdir(dir);
 	}
