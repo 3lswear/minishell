@@ -43,7 +43,7 @@ typedef struct s_flags
 typedef int t_flg;
 
 /* main parse block */
-void		parse(t_minishell *mini);
+int		parse(t_minishell *mini);
 char		*get_path(t_list **tokens);
 int			*tokens_del_redirs(t_list **redir_token);
 t_redirects	get_redir(t_list *token, t_minishell *mini);

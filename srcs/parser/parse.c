@@ -44,14 +44,22 @@ t_list	*get_commands(t_list **tokens, t_minishell *mini)
 	return (commands);
 }
 
-void	parse(t_minishell *mini)
+int	parse(t_minishell *mini)
 {
 	t_list	**tokens;
 	t_list	*head_token;
+	int		parser_status;
+	int		saved_exit;
 
+	parser_status = 0;
+	saved_exit = mini->exit_status;
 	tokens = string_tokenize(mini);
+	if ((saved_exit != mini->exit_status) && mini->exit_status)
+	{
+		parser_status = mini->exit_status;
+		saved_exit = mini->exit_status;
+	}
 	vars_substitute(tokens, mini);
-	mini->exit_status = 0;
 	if (DEBUG)
 	{
 		fprintf(stderr, "=== tokens expanded: ===\n");
@@ -59,8 +67,13 @@ void	parse(t_minishell *mini)
 	}
 	head_token = *tokens;
 	mini->commands = get_commands(&head_token, mini);
+	if ((saved_exit != mini->exit_status) && mini->exit_status)
+		parser_status = mini->exit_status;
+	if (!mini->exit_status && parser_status)
+		mini->exit_status = parser_status;
 	word_list_free(tokens);
 	free(tokens);
 	if (DEBUG)
 		fprintf(stderr, "========================================\n");
+	return (parser_status);
 }

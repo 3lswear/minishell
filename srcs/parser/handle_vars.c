@@ -93,4 +93,5 @@ void	vars_substitute(t_list **tokens, t_minishell *mini)
 		prev = li;
 		li = li->next;
 	}
+	mini->exit_status = 0;
 }
