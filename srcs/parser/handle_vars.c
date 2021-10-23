@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:22 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:02:23 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/23 20:52:30 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ void	split_on_vars(t_list **tokens)
 	}
 }
 
-t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini, t_list *prev)
+t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini,
+		t_list *prev)
 {
 	char	*value;
-	char 	*env_val;
+	char	*env_val;
 	t_list	**split;
 
 	if (!ft_strncmp("$?", word->word, 3))
