@@ -1,13 +1,13 @@
 NAME = minishell
 
-CC = gcc
+CC = clang
 
 LIBFT = ./libft/libft.a
 LIBFT_FLAGS = -L=libft -lft
 
-#SANFLAGS = -fsanitize=address
+SANFLAGS = -fsanitize=address
 
-CFLAGS = -Wall -Wextra -Werror -g $(SANFLAGS)
+CFLAGS = -Wall -Wextra -Werror -fcommon -g $(SANFLAGS)
 
 LIBS = -lreadline
 
@@ -17,6 +17,7 @@ INCLUDES = ./includes
 HEADERS = $(wildcard $(INCLUDES)/*.h)
 
 SRC = $(wildcard ./srcs/*/*.c)
+LIBFT_SRC = $(wildcard ./libft/*.c)
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
@@ -27,7 +28,7 @@ $(OBJ): %.o: %.c $(HEADERS) Makefile
 $(NAME): $(LIBFT) $(OBJ) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_FLAGS) $(LIBS) -o $(NAME)
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_SRC)
 	$(MAKE) -C ./libft
 
 clean:
@@ -46,7 +47,7 @@ debug: CFLAGS += -D DEBUG=1
 debug: run
 
 run: $(NAME)
-	@ ASAN_OPTIONS=detect_leaks=0 LSAN_OPTIONS=suppressions=.readline.supp ./$(NAME)
+	@ ASAN_OPTIONS=detect_leaks=1 LSAN_OPTIONS=suppressions=.readline.supp ./$(NAME)
 
 norm: 
 	norminette $(SRC)

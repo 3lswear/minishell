@@ -9,13 +9,16 @@ void	redir_error_dup(char *redir_op, t_minishell *mini)
 	}
 }
 
-static void	redir_error_missing(char *filename, t_minishell *mini)
+static int	redir_error_missing(char *filename, t_minishell *mini)
 {
 	if (!filename || !(*filename))
 	{
 		handle_error(ERR_P_MISSING, "redirect argument");
 		mini->exit_status = ERR_P_MISSING;
+		return (1);
 	}
+	else
+		return (0);
 }
 
 int	assign_file_to_op(t_list **redir_field, char *filename)
@@ -45,33 +48,60 @@ char	*dispatch_to_redir_field(t_redirects *res, char *redir_op,
 	else if (!ft_strncmp(redir_op, "<<", 3))
 		redir_field = &(res->append->in);
 	if (assign_file_to_op(redir_field, filename))
+	{
 		return (redir_op);
-	return (NULL);
+	}
+	else
+	{
+		return (NULL);
+	}
 }
 
-t_redirects	get_redir(t_list **tokens, t_minishell *mini)
+static int handle_redir(t_list **token, t_minishell *mini, t_redirects *res)
+{
+	char *filename;
+	char *op;
+	t_list *redir_token;
+	t_word_desc *word;
+
+	word = (*token)->content;
+	redir_token = *token;
+	op = ft_strdup(word->word);
+	*token = (*token)->next;
+	filename = tokens_merge(token, 0);
+	tokens_del_redirs(&redir_token);
+	if (!redir_error_missing(filename, mini))
+		dispatch_to_redir_field(res, op, filename);
+	free(op);
+	free(filename);
+	if (mini->exit_status)
+		return (1);
+	else
+		return (0);
+}
+
+t_redirects	get_redir(t_list *token, t_minishell *mini)
 {
 	t_redirects	res;
 	t_word_desc	*word;
-	char		*filename;
-	char		*op;
+	/* char		*op; */
 
 	res.append = ft_calloc(sizeof(t_redir), 1);
 	res.redir = ft_calloc(sizeof(t_redir), 1);
-	if (!tokens || !(*tokens))
+	if (!token)
 		return (res);
-	word = (*tokens)->content;
-	while (*tokens && (word->flags & T_REDIR))
+	word = (token)->content;
+	while (token && !(word->flags & T_PIPE))
 	{
-		op = word->word;
-		*tokens = (*tokens)->next;
-		filename = tokens_merge(tokens, 0);
-		redir_error_missing(filename, mini);
-		dispatch_to_redir_field(&res, op, filename);
-		if (mini->exit_status)
-			break ;
-		if (*tokens)
-			word = (*tokens)->content;
+		if (word->flags & T_REDIR)
+		{
+			if (handle_redir(&token, mini, &res))
+				break;
+		}
+		else
+			(token) = (token)->next;
+		if (token)
+			word = (token)->content;
 	}
 	return (res);
 }

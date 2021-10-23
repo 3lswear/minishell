@@ -31,6 +31,7 @@ void	word_li_free(t_list *li)
 		free(((t_word_desc *)li->content)->word);
 		free(li->content);
 		free(li);
+		li = NULL;
 	}
 }
 

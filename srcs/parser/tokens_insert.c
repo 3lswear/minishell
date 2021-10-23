@@ -4,14 +4,17 @@
 void	tokens_insert(t_list **split, t_list **li, t_list **prev,
 		t_list **tokens)
 {
+	t_list *tmp;
+
 	if (!split)
 		(*prev) = (*li);
 	else if (!(*prev))
 	{
+		tmp = ft_lstlast(*split);
 		ft_lstadd_back(split, (*li)->next);
 		word_li_free(*tokens);
 		*tokens = *split;
-		(*li) = ft_lstlast(*split);
+		(*li) = tmp;
 		(*prev) = (*li);
 	}
 	else
