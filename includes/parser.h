@@ -56,6 +56,8 @@ void	handle_dollar(char *str, int *i, t_list *tokens);
 int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add);
 int	handle_quote(char *str, int *i, t_list **tokens, int flag_add);
 int	in_set(char *chr, const char *special);
+void	scroll_ifs(char *str, int *i);
+t_list	**wordsplit(char *str, int add, t_list *prev);
 
 /* lexer */
 t_list	**string_tokenize(t_minishell *state);
