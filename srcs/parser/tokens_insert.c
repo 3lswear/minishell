@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_insert.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/23 20:07:26 by sunderle          #+#    #+#             */
+/*   Updated: 2021/10/23 20:07:33 by sunderle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* if-else-if-else statement to insert split in tokens, pass &li and &prev */
 void	tokens_insert(t_list **split, t_list **li, t_list **prev,
 		t_list **tokens)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	if (!split)
 		(*prev) = (*li);

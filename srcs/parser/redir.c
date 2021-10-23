@@ -1,32 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/23 20:07:05 by sunderle          #+#    #+#             */
+/*   Updated: 2021/10/23 20:07:06 by sunderle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-void	redir_error_dup(char *redir_op, t_minishell *mini)
-{
-	if (redir_op)
-	{
-		handle_error(ERR_P_UNEXP, redir_op);
-		mini->exit_status = ERR_P_UNEXP;
-	}
-}
-
-static int	redir_error_missing(char *filename, t_minishell *mini)
-{
-	if (!filename || !(*filename))
-	{
-		handle_error(ERR_P_MISSING, "redirect argument");
-		mini->exit_status = ERR_P_MISSING;
-		return (1);
-	}
-	else
-		return (0);
-}
 
 int	assign_file_to_op(t_list **redir_field, char *filename)
 {
 	if (redir_field)
 	{
 		ft_lstadd_back(redir_field, ft_lstnew(ft_strdup(filename)));
-		/* *redir_field = filename; */
 		return (0);
 	}
 	else
@@ -57,12 +47,12 @@ char	*dispatch_to_redir_field(t_redirects *res, char *redir_op,
 	}
 }
 
-static int handle_redir(t_list **token, t_minishell *mini, t_redirects *res)
+static int	handle_redir(t_list **token, t_minishell *mini, t_redirects *res)
 {
-	char *filename;
-	char *op;
-	t_list *redir_token;
-	t_word_desc *word;
+	char		*filename;
+	char		*op;
+	t_list		*redir_token;
+	t_word_desc	*word;
 
 	word = (*token)->content;
 	redir_token = *token;
@@ -84,7 +74,6 @@ t_redirects	get_redir(t_list *token, t_minishell *mini)
 {
 	t_redirects	res;
 	t_word_desc	*word;
-	/* char		*op; */
 
 	res.append = ft_calloc(sizeof(t_redir), 1);
 	res.redir = ft_calloc(sizeof(t_redir), 1);
@@ -96,7 +85,7 @@ t_redirects	get_redir(t_list *token, t_minishell *mini)
 		if (word->flags & T_REDIR)
 		{
 			if (handle_redir(&token, mini, &res))
-				break;
+				break ;
 		}
 		else
 			(token) = (token)->next;

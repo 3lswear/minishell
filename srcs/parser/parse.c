@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/23 20:02:29 by sunderle          #+#    #+#             */
+/*   Updated: 2021/10/23 20:02:30 by sunderle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*str_enlarge(char *orig, char *add)
@@ -23,7 +35,6 @@ t_list	*get_commands(t_list **tokens, t_minishell *mini)
 	t_redirects	cmd_redirs;
 
 	next_cmd = 1;
-	/* commands = malloc(sizeof(t_list *)); */
 	commands = NULL;
 	while (next_cmd && !(mini->exit_status))
 	{
@@ -32,6 +43,8 @@ t_list	*get_commands(t_list **tokens, t_minishell *mini)
 		cmd->red = cmd_redirs.redir;
 		cmd->append = cmd_redirs.append;
 		cmd->path = get_path(tokens);
+		if (DEBUG && (*tokens))
+			fprintf(stderr, "current token: [%s]\n", ((t_word_desc *)(*tokens)->content)->word);
 		cmd->arg = get_args(tokens, cmd->path);
 		cmd->pipe = get_pipe(tokens, mini);
 		ft_lstadd_back(&commands, ft_lstnew(cmd));
