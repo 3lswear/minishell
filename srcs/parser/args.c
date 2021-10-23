@@ -1,31 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   args.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/23 20:02:17 by sunderle          #+#    #+#             */
+/*   Updated: 2021/10/23 20:02:18 by sunderle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-/* static size_t	args_count(t_list *arg_tok) */
-/* { */
-/* 	size_t		result; */
-/* 	t_word_desc	*word; */
-
-/* 	result = 0; */
-/* 	while (arg_tok) */
-/* 	{ */
-/* 		word = arg_tok->content; */
-/* 		if (word->flags & T_PIPE) */
-/* 			break ; */
-/* 		else if ((word->flags & T_NOSPC) && arg_tok->next) */
-/* 		{ */
-/* 			if (((t_word_desc *)arg_tok->next->content)->flags & T_SPEC) */
-/* 			{ */
-/* 				result++; */
-/* 				break ; */
-/* 			} */
-/* 		} */
-/* 		else if (!(word->flags & T_NOSPC) || !(arg_tok->next)) */
-/* 			result++; */
-
-/* 		arg_tok = arg_tok->next; */
-/* 	} */
-/* 	return (result); */
-/* } */
 
 static void	loop_nospace(t_list **tok, size_t *result)
 {
