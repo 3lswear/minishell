@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 17:58:55 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 17:58:57 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/23 19:34:01 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 char	*itoa2(int n);
 char	*ft_strjoin2(char const *s1, char const *s2);
 char	*str_enlarge(char *orig, char *add);
+char 	*heredoc_subst(char *input, t_minishell *mini);
 
 /* free */
 void	commands_free(t_list *commands);
