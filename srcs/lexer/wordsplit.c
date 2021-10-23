@@ -42,6 +42,12 @@ static int	scroll_ifs2(char *str, int *i)
 	return (count);
 }
 
+static t_list **append_all(t_list **tokens, char *str, int flag)
+{
+	word_li_append(tokens, ft_strdup(str), flag);
+	return (tokens);
+}
+
 // splits by IFS, respecting quotes
 t_list	**wordsplit(char *str, int flag, t_list *prev)
 {
@@ -53,10 +59,7 @@ t_list	**wordsplit(char *str, int flag, t_list *prev)
 	tokens = ft_calloc(sizeof(t_list *), 1);
 	i = 0;
 	if (flag & T_DQUOTE)
-	{
-		word_li_append(tokens, ft_strdup(str), flag);
-		return (tokens);
-	}
+		return (append_all(tokens, str, flag));
 	if (prev)
 		prev_flg = &((t_word_desc *)prev->content)->flags;
 	if (prev && scroll_ifs2(str, &i))
