@@ -25,7 +25,7 @@ int	run_redir(t_minishell *mini, t_redir *redir, int flag)
 		if (flag == 1)
 			i = re_input(mini, path);
 		else
-			i = run_heredoc(path);
+			i = run_heredoc(mini, path);
 		in = in->next;
 	}
 	while (out && i == 0)

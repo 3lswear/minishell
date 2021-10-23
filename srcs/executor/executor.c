@@ -12,38 +12,46 @@
 
 #include "minishell.h"
 
+int	run_command(t_minishell *mini, t_command *command)
+{
+	int	k;
+
+	k = -1;
+	if (is_redir(command))
+		k = redirect(mini, command);
+	if (k >= 512 || k == 1)
+		return (1);
+	if (command->pipe)
+		mini->fd.error = make_pipe(mini);
+	if (mini->fd.error == 1)
+		return (0);
+	if (is_builtins(command))
+			mini->exit_status = run_builtins(mini, command);
+	else if (command->path)
+		mini->exit_status = run_bins(mini, command);
+	if (mini->fd.error == 0)
+		exit(mini->exit_status);
+	return (0);
+}
+//cat /dev/random | head -c 100 | wc -c
 int	execute(t_minishell *mini)
 {
 	t_command	*command;
 	t_list		*commands;
-	int			k;
-
-	k = -1;
+	int			check;
+	
 	commands = mini->commands;
+	check = 0;
 	while (commands)
 	{
-		g_all_fd.pid = 2;
+		mini->fd.error = 2;
 		command = commands->content;
-		if (is_redir(command))
-			k = redirect(mini, command);
-		if (command->pipe)
-			g_all_fd.pid = make_pipe(mini);
-		if (g_all_fd.pid == 1)
-		{
-			commands = commands->next;
-			continue ;
-		}
-		if (k >= 512 || k == 1)
+		check = run_command(mini, command);
+		if (check == 1)
 			return (1);
-		if (is_builtins(command))
-			mini->exit_status = run_builtins(mini, command);
-		else if (command->path)
-			mini->exit_status = run_bins(mini, command);
 		commands = commands->next;
-		if (g_all_fd.pid == 0)
-			exit(mini->exit_status);
-		close_fd();
-		reset_fd();
+		if (mini->fd.error != 1)
+			close_and_reset_all();
 	}
 	return (0);
 }

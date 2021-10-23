@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-int	run_heredoc_chile(char *eof)
+int	run_heredoc_chile(t_minishell *mini, char *eof)
 {
 	char	*line;
+	char	*sub_line;
 
 	line = ft_strdup("");
 	while (!ft_strequ(eof, line))
@@ -31,14 +32,18 @@ int	run_heredoc_chile(char *eof)
 		}
 		dup2(g_all_fd.fd_pipe_out, 1);
 		if (!ft_strequ(eof, line))
-			ft_putendl_fd(line, 1);
+		{
+			sub_line = heredoc_subst(line, mini);
+			ft_putendl_fd(sub_line, 1);
+			free (sub_line);
+		}
 	}
 	free(line);
 	close_and_reset_out();
 	return (0);
 }
 
-int	run_heredoc(char *eof)
+int	run_heredoc(t_minishell *mini, char *eof)
 {
 	int		fd_pipe[2];
 	pid_t	pid;
@@ -52,7 +57,7 @@ int	run_heredoc(char *eof)
 	if (pid == 0)
 	{
 		g_all_fd.end_herecode = 0;
-		i = run_heredoc_chile(eof);
+		i = run_heredoc_chile(mini, eof);
 		exit(0);
 	}
 	else
@@ -123,6 +128,7 @@ int	make_pipe(t_minishell *mini)
 		if (fd_pipe[0] > 0)
 			close(fd_pipe[0]);
 		dup2(fd_pipe[1], 1);
+		mini->fd.pid = 0;
 		g_all_fd.fd_pipe_in = fd_pipe[0];
 		return (0);
 	}
@@ -133,6 +139,8 @@ int	make_pipe(t_minishell *mini)
 		dup2(fd_pipe[0], 0);
 		waitpid(pid, &mini->exit_status, 0);
 		g_all_fd.fd_pipe_out = fd_pipe[1];
+		mini->fd.pid = pid;
 		return (1);
+		mini->fd.not_line = 0;
 	}
 }
