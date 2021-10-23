@@ -53,12 +53,19 @@ void	split_on_vars(t_list **tokens)
 t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 {
 	char	*value;
+	char 	*env_val;
 	t_list	**split;
 
 	if (!ft_strncmp("$?", word->word, 3))
 		value = itoa2(mini->exit_status);
 	else
-		value = ft_strdup(get_env_param(mini->env, word->word + 1));
+	{
+		env_val = get_env_param(mini->env, word->word + 1);
+		if (env_val)
+			value = ft_strdup(env_val);
+		else
+			value = NULL;
+	}
 	if (!value)
 	{
 		split = ft_calloc(sizeof(t_list *), 1);
@@ -66,6 +73,8 @@ t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 	}
 	else
 	{
+		if (DEBUG)
+			fprintf(stderr, "var value is: [%s]\n", value);
 		split = first_pass(value, mini, word->flags);
 		free(value);
 	}
