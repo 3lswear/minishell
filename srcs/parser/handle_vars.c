@@ -97,7 +97,7 @@ void	vars_substitute(t_list **tokens, t_minishell *mini)
 		if (word->flags & T_VAR)
 		{
 			split = vars_subst_get_split(word, mini);
-			tokens_insert2(split, &li, &prev, tokens);
+			tokens_insert(split, &li, &prev, tokens);
 			free(split);
 		}
 		if (!li)
