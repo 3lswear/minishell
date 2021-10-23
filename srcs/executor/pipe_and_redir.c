@@ -123,6 +123,7 @@ int	make_pipe(t_minishell *mini)
 		if (fd_pipe[0] > 0)
 			close(fd_pipe[0]);
 		dup2(fd_pipe[1], 1);
+		mini->fd.pid = 0;
 		g_all_fd.fd_pipe_in = fd_pipe[0];
 		return (0);
 	}
@@ -133,6 +134,8 @@ int	make_pipe(t_minishell *mini)
 		dup2(fd_pipe[0], 0);
 		waitpid(pid, &mini->exit_status, 0);
 		g_all_fd.fd_pipe_out = fd_pipe[1];
+		mini->fd.pid = pid;
 		return (1);
+		mini->fd.not_line = 0;
 	}
 }

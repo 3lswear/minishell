@@ -57,6 +57,7 @@ typedef struct s_fd
 	int	fd_pipe_out;
 	int	end_herecode;
 	int	not_line;
+	int	error;
 }			t_fd;
 
 typedef struct s_minishell
