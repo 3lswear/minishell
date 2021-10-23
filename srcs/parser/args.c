@@ -39,7 +39,7 @@ static void	loop_nospace(t_list **tok, size_t *result)
 		(*tok) = (*tok)->next;
 		word = (*tok)->content;
 	}
-	result++;
+	(*result)++;
 }
 
 static size_t	args_count(t_list *arg_tok)
@@ -58,9 +58,9 @@ static size_t	args_count(t_list *arg_tok)
 			loop_nospace(&arg_tok, &result);
 		else if (!(word->flags & T_SPEC))
 			result++;
-		if (arg_tok->next)
-			word = arg_tok->content;
 		arg_tok = arg_tok->next;
+		if (arg_tok)
+			word = arg_tok->content;
 	}
 	return (result);
 }
