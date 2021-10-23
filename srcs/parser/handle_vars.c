@@ -50,7 +50,7 @@ void	split_on_vars(t_list **tokens)
 	}
 }
 
-t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
+t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini, t_list *prev)
 {
 	char	*value;
 	char 	*env_val;
@@ -75,7 +75,7 @@ t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini)
 	{
 		if (DEBUG)
 			fprintf(stderr, "var value is: [%s]\n", value);
-		split = first_pass(value, mini, word->flags);
+		split = wordsplit(value, word->flags, prev);
 		free(value);
 	}
 	return (split);
@@ -96,7 +96,7 @@ void	vars_substitute(t_list **tokens, t_minishell *mini)
 		word = li->content;
 		if (word->flags & T_VAR)
 		{
-			split = vars_subst_get_split(word, mini);
+			split = vars_subst_get_split(word, mini, prev);
 			tokens_insert(split, &li, &prev, tokens);
 			free(split);
 		}
