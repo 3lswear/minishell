@@ -21,24 +21,33 @@ void	reset_fd(void)
 
 void	close_fd(void)
 {
-	close(g_all_fd.redir_in);
-	close(g_all_fd.redir_out);
-	close(g_all_fd.fd_pipe_in);
-	close(g_all_fd.fd_pipe_out);
+	if (g_all_fd.redir_in > 0)
+		close(g_all_fd.redir_in);
+	if (g_all_fd.redir_out > 0)
+		close(g_all_fd.redir_out);
+	if (g_all_fd.fd_pipe_in > 0)
+		close(g_all_fd.fd_pipe_in);
+	if (g_all_fd.fd_pipe_out > 0)
+		close(g_all_fd.fd_pipe_out);
 }
 
 void	close_and_reset_all(void)
 {
-	close(g_all_fd.redir_in);
-	close(g_all_fd.redir_out);
-	close(g_all_fd.fd_pipe_in);
-	close(g_all_fd.fd_pipe_out);
+	if (g_all_fd.redir_in > 0)
+		close(g_all_fd.redir_in);
+	if (g_all_fd.redir_out > 0)
+		close(g_all_fd.redir_out);
+	if (g_all_fd.fd_pipe_in > 0)
+		close(g_all_fd.fd_pipe_in);
+	if (g_all_fd.fd_pipe_out > 0)
+		close(g_all_fd.fd_pipe_out);
 	dup2(g_all_fd.fd_in, 0);
 	dup2(g_all_fd.fd_out, 1);
 }
 
 void	close_and_reset_out(void)
 {
-	close(g_all_fd.fd_pipe_out);
+	if (g_all_fd.fd_pipe_out)
+		close(g_all_fd.fd_pipe_out);
 	dup2(g_all_fd.fd_out, 1);
 }
