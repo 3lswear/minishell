@@ -34,16 +34,18 @@ int	cd_error(char **arg)
 
 int	update_old(t_list **env)
 {
-	char	arr[4096];
+	char	*tmp;
 	char	*old;
 
-	if (!getcwd(arr, 4096))
-		return (0);
-	old = ft_strjoin("OLDPWD=", arr);
+	tmp = get_env_param(env, "PWD");
+	if (tmp == NULL)
+		tmp = "";
+	old = ft_strjoin("OLDPWD=", tmp);
 	if (!old)
 		return (0);
 	update_env(env, "OLDPWD", old);
 	free(old);
+	// free(tmp);
 	return (1);
 }
 
@@ -108,7 +110,7 @@ int	run_cd(t_command *command, t_list **env)
 		i *= -1;
 	if (i != 0)
 		cd_error(command->arg);
-	i = update_pwd(env);
+	update_pwd(env);
 	free(path);
 	return (i);
 }

@@ -16,7 +16,7 @@ int	read_line(t_minishell *mini)
 {
 	const char	*prompt;
 
-	signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_int_handler);
 	signal(SIGQUIT, sig_handler);
 	g_all_fd.not_line = 1;
 	if (!(mini->exit_status))

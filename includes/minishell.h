@@ -62,6 +62,7 @@ char	*get_env_param(t_list **env, char *param);
 char	*get_need_path(char *path, char *command);
 int		update_env(t_list **env, char *key, char *new_line);
 void	sig_handler(int sig);
+void	sig_int_handler(int sig);
 
 /* int		parse(t_minishell *mini, char **env); */
 int		is_redir(t_command *command);
