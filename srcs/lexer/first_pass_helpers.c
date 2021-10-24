@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:01:21 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:51:03 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 14:27:28 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,16 @@ void	handle_dollar(char *str, int *i, t_list *tokens)
 
 int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 {
-	int	len;
+	int		len;
+	char	*quote;
 
 	if (str[*i] != 0x22)
 		return (0);
 	(*i)++;
-	len = ft_strchr(&str[*i], 0x22) - &str[*i];
-	if (len < 0)
+	quote = ft_strchr(&str[*i], 0x22);
+	if (quote)
+		len = quote - &str[*i];
+	else
 	{
 		handle_error(ERR_P_MISSING, "closing \'\"\'");
 		word_list_free(tokens);
@@ -58,13 +61,16 @@ int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 
 int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 {
-	int	len;
+	int		len;
+	char	*quote;
 
 	if (str[*i] != 0x27)
 		return (0);
 	(*i)++;
-	len = ft_strchr(&str[*i], 0x27) - &str[*i];
-	if (len < 0)
+	quote = ft_strchr(&str[*i], 0x27);
+	if (quote)
+		len = quote - &str[*i];
+	else
 	{
 		handle_error(ERR_P_MISSING, "closing \'\'\'");
 		word_list_free(tokens);
