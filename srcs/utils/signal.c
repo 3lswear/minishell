@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	sig_handler(int sig)
+void	sig_int_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -29,12 +29,26 @@ void	sig_handler(int sig)
 			rl_redisplay();
 		}
 	}
-	else if (sig == SIGQUIT)
+
+}
+void	sig_handler(int sig)
+{
+	if (sig == SIGQUIT)
 	{
-		ft_putstr("\033[12D");
-		ft_putstr("\033[K");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		// rl_catch_signals = 0;
+		if (g_all_fd.end_herecode == 0)
+		{
+			ft_putstr("\033[2D");
+			ft_putstr("\033[K");
+		}
+		else if (g_all_fd.not_line == 1)
+		{
+			ft_putstr("\033[12D");
+			ft_putstr("\033[K");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+
 	}
 }
