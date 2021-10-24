@@ -28,7 +28,7 @@ int	read_line(t_minishell *mini)
 	{
 		free(mini->line);
 		ft_putstr_fd("exit\n", 2);
-		exit(0);
+		exit(mini->exit_status);
 	}
 	else if (ft_strlen(mini->line) == 0)
 		return (0);

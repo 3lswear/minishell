@@ -46,11 +46,10 @@ int	run_exit(t_minishell *mini, t_command *command)
 
 	count = ft_strlen2(command->arg) - 1;
 	mini->exit = 1;
-	mini->exit_status = 0;
 	ft_putstr_fd("exit", 2);
 	if (count > 1)
 	{
-		mini->exit_status = 1;
+		mini->exit_status = 2;
 		ft_putstr_fd("minishell: exit: too many argument", 2);
 	}
 	else if (count == 1)
@@ -59,7 +58,7 @@ int	run_exit(t_minishell *mini, t_command *command)
 			mini->exit_status = ft_atoi2(command->arg[1]);
 		else
 		{
-			mini->exit_status = 255;
+			mini->exit_status = 2;
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(command->arg[1], 2);
 			ft_putstr_fd(": numeric argument required", 2);
