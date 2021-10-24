@@ -30,6 +30,8 @@ int	main(int argc, char *argv[], char **env)
 				continue ;
 			if (!parse(&mini))
 				execute(&mini);
+			else
+				mini.exit_status = mini.parse_status;
 			commands_free(mini.commands);
 			free(mini.line);
 		}
