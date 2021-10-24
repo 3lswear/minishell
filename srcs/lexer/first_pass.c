@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:01:15 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:01:16 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 19:49:03 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_list	**first_pass(char *str, t_minishell *mini, int add)
 			scroll_ifs(str, &i);
 		}
 		if (error)
-			mini->exit_status = error;
+			mini->parse_status = error;
 	}
 	return (tokens);
 }

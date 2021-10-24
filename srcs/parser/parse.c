@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:29 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/24 16:59:59 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 19:47:15 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_list	*get_commands(t_list **tokens, t_minishell *mini)
 
 	next_cmd = 1;
 	commands = NULL;
-	while (next_cmd && !(mini->exit_status))
+	while (next_cmd && !(mini->parse_status))
 	{
 		cmd = malloc(sizeof(t_command));
 		cmd_redirs = get_redir(*tokens, mini);
@@ -50,7 +50,7 @@ t_list	*get_commands(t_list **tokens, t_minishell *mini)
 		ft_lstadd_back(&commands, ft_lstnew(cmd));
 		next_cmd = cmd->pipe;
 	}
-	if (!mini->exit_status)
+	if (!mini->parse_status)
 		validity_check(&commands, mini);
 	if (DEBUG)
 		commands_print(&commands);
@@ -61,19 +61,20 @@ int	parse(t_minishell *mini)
 {
 	t_list	**tokens;
 	t_list	*head_token;
-	int		parser_status;
+	/* int		parser_status; */
 	int		saved_exit;
 
-	parser_status = 0;
-	saved_exit = mini->exit_status;
+	/* parser_status = 0; */
+	mini->parse_status = 0;
+	saved_exit = mini->parse_status;
 	tokens = string_tokenize(mini);
-	if ((saved_exit != mini->exit_status) && mini->exit_status)
-	{
-		parser_status = mini->exit_status;
-		saved_exit = mini->exit_status;
-	}
+	/* if ((saved_exit != mini->parse_status) && mini->parse_status) */
+	/* { */
+	/* 	mini->parse_status = mini->parse_status; */
+	/* 	saved_exit = mini->exit_status; */
+	/* } */
 	vars_substitute(tokens, mini);
-	mini->exit_status = 0;
+	/* mini->exit_status = 0; */
 	if (*tokens && DEBUG)
 	{
 		fprintf(stderr, "=== tokens expanded: ===\n");
@@ -81,13 +82,13 @@ int	parse(t_minishell *mini)
 	}
 	head_token = *tokens;
 	mini->commands = get_commands(&head_token, mini);
-	if ((saved_exit != mini->exit_status) && mini->exit_status)
-		parser_status = mini->exit_status;
-	if (!mini->exit_status && parser_status)
-		mini->exit_status = parser_status;
+	/* if ((saved_exit != mini->exit_status) && mini->exit_status) */
+	/* 	mini->parse_status = mini->exit_status; */
+	/* if (!mini->exit_status && mini->parse_status) */
+	/* 	mini->exit_status = mini->parse_status; */
 	word_list_free(tokens);
 	free(tokens);
 	if (DEBUG)
 		fprintf(stderr, "========================================\n");
-	return (parser_status);
+	return (mini->parse_status);
 }

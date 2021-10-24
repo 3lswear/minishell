@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:07:05 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:07:06 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 19:48:24 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	handle_redir(t_list **token, t_minishell *mini, t_redirects *res)
 		dispatch_to_redir_field(res, op, filename);
 	free(op);
 	free(filename);
-	if (mini->exit_status)
+	if (mini->parse_status)
 		return (1);
 	else
 		return (0);
