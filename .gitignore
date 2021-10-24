@@ -1,4 +1,5 @@
 srcs/*.o
+.ccls-cache
 minishell
 .vscode
 *.o
