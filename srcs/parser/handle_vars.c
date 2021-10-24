@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:22 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:52:30 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 18:17:42 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,42 @@ t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini,
 		else
 			value = NULL;
 	}
-	if (!value)
+	if (!value && !(word->flags & T_DQUOTE))
+		split = NULL;
+	else if (!value)
 	{
 		split = ft_calloc(sizeof(t_list *), 1);
 		ft_lstadd_back(split, ft_lstnew(wdesc_new(ft_strdup(""), word->flags)));
 	}
 	else
-	{
-		if (DEBUG)
-			fprintf(stderr, "var value is: [%s]\n", value);
 		split = wordsplit(value, word->flags, prev);
-		free(value);
-	}
+	if (value && DEBUG)
+		fprintf(stderr, "var value is: [%s]\n", value);
+	free(value);
 	return (split);
+}
+
+/* returns 1 if needs to restart loop */
+static int	token_del(t_list **tokens, t_list **li, t_list **prev)
+{
+	t_list	*tmp;
+
+	if ((*prev))
+	{
+		(*prev)->next = (*li)->next;
+		word_li_free((*li));
+		(*li) = (*prev);
+		return (0);
+	}
+	else
+	{
+		tmp = (*li);
+		(*li) = (*li)->next;
+		word_li_free(tmp);
+		(*tokens) = (*li);
+		(*prev) = NULL;
+		return (1);
+	}
 }
 
 /* expand vars and insert them */
@@ -99,24 +122,25 @@ void	vars_substitute(t_list **tokens, t_minishell *mini)
 {
 	t_list		*li;
 	t_list		*prev;
-	t_word_desc	*word;
 	t_list		**split;
 
 	li = *tokens;
 	prev = NULL;
 	while (li)
 	{
-		word = li->content;
-		if (word->flags & T_VAR)
+		if (((t_word_desc *)li->content)->flags & T_VAR)
 		{
-			split = vars_subst_get_split(word, mini, prev);
-			tokens_insert(split, &li, &prev, tokens);
+			split = vars_subst_get_split(li->content, mini, prev);
+			if (split)
+				tokens_insert(split, &li, &prev, tokens);
 			free(split);
+			if (!split)
+				if (token_del(tokens, &li, &prev))
+					continue ;
 		}
 		if (!li)
 			break ;
 		prev = li;
 		li = li->next;
 	}
-	mini->exit_status = 0;
 }

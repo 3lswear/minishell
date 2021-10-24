@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:29 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:02:30 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 16:59:59 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	parse(t_minishell *mini)
 		saved_exit = mini->exit_status;
 	}
 	vars_substitute(tokens, mini);
-	if (DEBUG)
+	mini->exit_status = 0;
+	if (*tokens && DEBUG)
 	{
 		fprintf(stderr, "=== tokens expanded: ===\n");
 		word_list_print(tokens);
