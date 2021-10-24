@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:41 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:02:42 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/23 20:52:02 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	get_pipe(t_list **tokens, t_minishell *mini)
 		{
 			pipe = 1;
 			*tokens = (*tokens)->next;
-			break;
+			break ;
 		}
 		(*tokens) = (*tokens)->next;
 		if (*tokens)

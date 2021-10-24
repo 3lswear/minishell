@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:01:21 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:01:22 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/23 20:51:03 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 
 	if (str[*i] != 0x22)
 		return (0);
-	/* if ((*i) && str[*i - 1] == '\\') */
-	/* 	return (0); */
 	(*i)++;
 	len = ft_strchr(&str[*i], 0x22) - &str[*i];
 	if (len < 0)
@@ -64,8 +62,6 @@ int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 
 	if (str[*i] != 0x27)
 		return (0);
-	/* if ((*i) && str[*i - 1] == '\\') */
-	/* 	return (0); */
 	(*i)++;
 	len = ft_strchr(&str[*i], 0x27) - &str[*i];
 	if (len < 0)
