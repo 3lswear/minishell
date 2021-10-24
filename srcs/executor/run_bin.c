@@ -61,7 +61,7 @@ int	run_cmd(char *path, char **arg, t_minishell *mini)
 	else
 		waitpid(pid, &exit_status, 0);
 	ft_split_clear(envp);
-	return (exit_status);
+	return (WEXITSTATUS(exit_status));
 }
 
 int	run_bins(t_minishell *mini, t_command *comm)
@@ -85,7 +85,7 @@ int	run_bins(t_minishell *mini, t_command *comm)
 		i = run_cmd(comm->path, comm->arg, mini);
 	ft_split_clear(all_path);
 	free(path);
-	if (i > 200)
-		i = i / 256;
+	// if (i > 200)
+	// 	i = i / 256;
 	return (i);
 }

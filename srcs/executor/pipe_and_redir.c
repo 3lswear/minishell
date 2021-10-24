@@ -123,13 +123,14 @@ int	make_pipe(t_minishell *mini)
 
 	pipe(fd_pipe);
 	pid = fork();
+	g_all_fd.fd_pipe_out = fd_pipe[1];
+	g_all_fd.fd_pipe_in = fd_pipe[0];
 	if (pid == 0)
 	{
 		if (fd_pipe[0] > 0)
 			close(fd_pipe[0]);
 		dup2(fd_pipe[1], 1);
 		mini->fd.pid = 0;
-		g_all_fd.fd_pipe_in = fd_pipe[0];
 		return (0);
 	}
 	else
@@ -137,8 +138,7 @@ int	make_pipe(t_minishell *mini)
 		if (fd_pipe[1] > 0)
 			close(fd_pipe[1]);
 		dup2(fd_pipe[0], 0);
-		waitpid(pid, &mini->exit_status, 0);
-		g_all_fd.fd_pipe_out = fd_pipe[1];
+		// waitpid(pid, &mini->exit_status, 0);
 		mini->fd.pid = pid;
 		return (1);
 		mini->fd.not_line = 0;

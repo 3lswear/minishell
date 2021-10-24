@@ -16,18 +16,20 @@ void	sig_int_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		ft_putstr_fd("\n", 2);
 		if (g_all_fd.end_herecode == 0)
 		{
-			ft_putstr("\n");
+			// ft_putstr("\n");
 			exit(2);
 		}
 		else if (g_all_fd.not_line == 1)
 		{
-			ft_putstr("\n");
+			// ft_putstr("\n");
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
+
 	}
 
 }
@@ -35,7 +37,6 @@ void	sig_handler(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		// rl_catch_signals = 0;
 		if (g_all_fd.end_herecode == 0)
 		{
 			ft_putstr("\033[2D");
@@ -43,11 +44,17 @@ void	sig_handler(int sig)
 		}
 		else if (g_all_fd.not_line == 1)
 		{
-			ft_putstr("\033[12D");
+			ft_putstr("\033[2D");
 			ft_putstr("\033[K");
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
+			// ft_putstr("\033[12D");
+			// ft_putstr("\033[K");
+			// rl_on_new_line();
+			// rl_replace_line("", 0);
+			// rl_redisplay();
+		}
+		else
+		{
+			ft_putstr_fd("Quit (core dumped)\n", 2);
 		}
 
 	}
