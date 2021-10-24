@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 19:05:03 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 19:05:05 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/24 18:10:35 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	loop(t_split *sp, t_list **list, int flags, int special_flg)
 	{
 		if (*sp->str)
 			ft_lstadd_back(list, ft_lstnew(wdesc_new(ft_substr(sp->str,
-							0, sp->len), flags)));
+							0, ft_strlen(sp->str)), flags)));
 		return (1);
 	}
 }
