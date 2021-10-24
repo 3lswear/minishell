@@ -53,6 +53,7 @@ typedef struct s_minishell
 	t_fd	fd;
 	int		exit;
 	int		exit_status;
+	int		parse_status;
 	char	*line;
 	char	**arg;
 	char	**envp;
