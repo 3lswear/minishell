@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 12:33:19 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/21 15:13:30 by talyx            ###   ########.fr       */
+/*   Updated: 2021/10/24 17:39:27 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	not_env(char *arg, int j, t_list **env)
 	int		i;
 
 	i = 1;
-	param = malloc (sizeof(char) * j);
+	param = ft_calloc(sizeof(char), j + 1);
 	ft_strncpy(param, arg, j);
 	check = get_env_param(env, param);
 	if (!check)
@@ -32,7 +32,7 @@ void	lst_update(t_list **env, char *param, int size)
 {
 	char	*line;
 
-	line = malloc(sizeof(char) * size);
+	line = ft_calloc(sizeof(char), size + 1);
 	ft_strncpy(line, param, size);
 	update_env(env, line, param);
 	free(line);
