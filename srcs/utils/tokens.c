@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:13:12 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:17:50 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 02:07:14 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,18 @@ int	*tokens_del_redirs(t_list **redir_token)
 	t_word_desc	*word;
 
 	token = (*redir_token)->next;
-	if (!token || !((((t_word_desc *)(*redir_token)->content)->flags)
-		& T_REDIR))
+	if (!token)
 		return (NULL);
 	word = token->content;
 	if ((word->flags & T_NOSPC) && token->next
 		&& !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 	{
-		while (token && (word->flags & T_NOSPC) && token->next
+		while (token && (((t_word_desc *)token->content)->flags & T_NOSPC)
+			&& token->next
 			&& !(((t_word_desc *)token->next->content)->flags & T_SPEC))
 			free_nospace(&tmp, &token);
-		(*redir_token)->next = tmp;
+		(*redir_token)->next = tmp->next;
+		word_li_free(tmp);
 	}
 	else if (!(word->flags & (T_NOSPC | T_SPEC)))
 	{
