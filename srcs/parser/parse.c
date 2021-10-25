@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:29 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/24 19:47:15 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 15:46:20 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,10 @@ int	parse(t_minishell *mini)
 {
 	t_list	**tokens;
 	t_list	*head_token;
-	/* int		parser_status; */
-	int		saved_exit;
 
-	/* parser_status = 0; */
 	mini->parse_status = 0;
-	saved_exit = mini->parse_status;
 	tokens = string_tokenize(mini);
-	/* if ((saved_exit != mini->parse_status) && mini->parse_status) */
-	/* { */
-	/* 	mini->parse_status = mini->parse_status; */
-	/* 	saved_exit = mini->exit_status; */
-	/* } */
 	vars_substitute(tokens, mini);
-	/* mini->exit_status = 0; */
 	if (*tokens && DEBUG)
 	{
 		fprintf(stderr, "=== tokens expanded: ===\n");
@@ -82,10 +72,6 @@ int	parse(t_minishell *mini)
 	}
 	head_token = *tokens;
 	mini->commands = get_commands(&head_token, mini);
-	/* if ((saved_exit != mini->exit_status) && mini->exit_status) */
-	/* 	mini->parse_status = mini->exit_status; */
-	/* if (!mini->exit_status && mini->parse_status) */
-	/* 	mini->exit_status = mini->parse_status; */
 	word_list_free(tokens);
 	free(tokens);
 	if (DEBUG)
