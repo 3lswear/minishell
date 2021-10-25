@@ -14,7 +14,13 @@ LIBS = -lreadline
 INCLUDES = ./includes
 
 # HEADERS = $(INCLUDES)/minishell.h
-HEADERS = $(wildcard $(INCLUDES)/*.h)
+
+HEADERS =	includes/error.h \
+			includes/libft.h \
+			includes/minishell.h \
+			includes/parser.h \
+			includes/structs.h \
+			includes/utils.h
 
 SRC = main/main.c \
  \
