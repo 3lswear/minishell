@@ -1,2 +1,0 @@
-src:./srcs/lexer/read_line.c
-fun: xmalloc

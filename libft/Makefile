@@ -77,7 +77,6 @@ $(NAME): $(OBJCT)
 
 %.o: %.c $(HEADER)
 	gcc -Wall -Wextra -Werror -g -c $< -o $@ -I $(INCLUDES)
-	# clang -Wall -Wextra -Werror -fsanitize=address -g -c $< -o $@ -I $(INCLUDES)
 
 clean:
 	rm -rf $(OBJCT)
