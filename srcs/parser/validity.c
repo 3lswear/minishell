@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:10:03 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/24 19:48:02 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 14:24:53 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	validity_check(t_list **cmds_list, t_minishell *mini)
 				&& !(cmd->append->in) && !(cmd->append->out)) && cmd->pipe)
 		{
 			handle_error(ERR_P_UNEXP, "|");
-			mini->parse_status = ERR_P_UNEXP;
+			mini->parse_status = 2;
 		}
 		if (mini->parse_status)
 			break ;
