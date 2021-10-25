@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:01:21 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/24 14:27:28 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 14:27:49 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	handle_dquote(char *str, int *i, t_list **tokens, int flag_add)
 		handle_error(ERR_P_MISSING, "closing \'\"\'");
 		word_list_free(tokens);
 		str[*i] = 0;
-		return (ERR_P_MISSING);
+		return (2);
 	}
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
@@ -75,7 +75,7 @@ int	handle_quote(char *str, int *i, t_list **tokens, int flag_add)
 		handle_error(ERR_P_MISSING, "closing \'\'\'");
 		word_list_free(tokens);
 		str[*i] = 0;
-		return (ERR_P_MISSING);
+		return (2);
 	}
 	if (!in_set(&str[*i + len + 1], " \t\n"))
 		flag_add |= T_NOSPC;
