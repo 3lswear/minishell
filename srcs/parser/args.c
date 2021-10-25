@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:17 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:02:18 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 15:52:44 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ char	**get_args(t_list **tokens, char *path)
 	char		*tmp;
 
 	arg_num = args_count(*tokens);
-	if (DEBUG)
-		fprintf(stderr, "arg count is [%lu]\n", arg_num);
 	result = ft_calloc(sizeof(char *), arg_num + 2);
 	result[0] = path;
 	if (!(*tokens) || ((t_word_desc *)(*tokens)->content)->flags & T_SPEC)

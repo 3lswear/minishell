@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:02:22 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/24 18:17:42 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 15:53:04 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ t_list	**vars_subst_get_split(t_word_desc *word, t_minishell *mini,
 	}
 	else
 		split = wordsplit(value, word->flags, prev);
-	if (value && DEBUG)
-		fprintf(stderr, "var value is: [%s]\n", value);
 	free(value);
 	return (split);
 }

@@ -6,7 +6,7 @@
 /*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 20:01:49 by sunderle          #+#    #+#             */
-/*   Updated: 2021/10/23 20:01:50 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/25 15:51:13 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ t_list	**string_tokenize(t_minishell *state)
 
 	delims = NULL;
 	tokens = first_pass(state->line, state, 0);
-	if (DEBUG)
-	{
-		fprintf(stderr, "=== after first_pass: ===\n");
-		word_list_print(tokens);
-	}
 	ft_lstadd_back(&delims, ft_lstnew("|"));
 	split_on_special(tokens, &delims, T_SPEC | T_PIPE);
 	delims_free(&delims);
@@ -63,16 +58,6 @@ t_list	**string_tokenize(t_minishell *state)
 	ft_lstadd_back(&delims, ft_lstnew("<"));
 	split_on_special(tokens, &delims, T_SPEC | T_REDIR);
 	delims_free(&delims);
-	if (DEBUG)
-	{
-		fprintf(stderr, "=== after split_on_special: ===\n");
-		word_list_print(tokens);
-	}
 	split_on_vars(tokens);
-	if (DEBUG)
-	{
-		fprintf(stderr, "=== after split_on_vars: ===\n");
-		word_list_print(tokens);
-	}
 	return (tokens);
 }
