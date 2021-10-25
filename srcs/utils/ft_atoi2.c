@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoi2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
+/*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/15 18:11:45 by talyx             #+#    #+#             */
-/*   Updated: 2021/08/19 12:01:57 by talyx            ###   ########.fr       */
+/*   Created: 2021/10/25 15:57:11 by sunderle          #+#    #+#             */
+/*   Updated: 2021/10/25 15:57:12 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi2(const char *nptr)
 {
 	unsigned long	n;
 	unsigned long	max;
@@ -21,7 +21,7 @@ int	ft_atoi(const char *nptr)
 
 	i = 0;
 	n = 0;
-	max = 2147483647;
+	max = 9223372036854775807;
 	sign = 1;
 	while (ft_isspace(nptr[i]))
 		i++;
@@ -37,5 +37,5 @@ int	ft_atoi(const char *nptr)
 			return (1);
 		n = n * 10 + (nptr[i++] - '0');
 	}
-	return ((int)(n * sign));
+	return ((long)(n * sign));
 }

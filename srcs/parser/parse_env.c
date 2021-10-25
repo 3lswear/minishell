@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 17:08:22 by talyx             #+#    #+#             */
-/*   Updated: 2021/10/01 17:03:29 by sunderle         ###   ########.fr       */
+/*   Updated: 2021/10/08 16:30:58 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 
 void	parse_env(t_minishell *mini, char **env)
 {
-	int	i;
+	int		i;
+	t_list	*tmp;
 
 	i = 0;
-	mini->env = NULL;
-	ft_lstadd_back(&mini->env, ft_lstnew(""));
+	mini->env = malloc(sizeof(t_list *));
+	tmp = NULL;
+	ft_lstadd_back(&tmp, ft_lstnew(ft_strdup("")));
 	while (env[i])
 	{
-		ft_lstadd_back(&mini->env, ft_lstnew(env[i]));
+		ft_lstadd_back(&tmp, ft_lstnew(ft_strdup(env[i])));
 		i++;
 	}
+	*mini->env = tmp;
 }
 
-int		print_env(t_list *env)
+int	print_env(t_list **env)
 {
 	t_list	*tmp;
 	char	*envp;
 
-	tmp = env;
+	tmp = *env;
 	while (tmp)
 	{
 		envp = tmp->content;
@@ -40,9 +43,7 @@ int		print_env(t_list *env)
 			ft_putstr(envp);
 			ft_putstr("\n");
 		}
-		// else
-		// 	ft_putstr_fd("error: print env\n", 2);
 		tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }

@@ -12,19 +12,19 @@
 
 #include "minishell.h"
 
-char	*get_env_param(t_list *env, char *param)
+char	*get_env_param(t_list **env, char *param)
 {
 	t_list	*tmp;
 	char	*line;
 	int		len;
 
-	tmp = env;
+	tmp = *env;
 	len = ft_strlen(param);
 	while (tmp)
 	{
 		line = tmp->content;
-		if (!ft_strncmp(line, param, len))
-			return(line + len + 1);
+		if (!ft_strncmp(line, param, len) && line[len] == '=')
+			return (line + len + 1);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -49,7 +49,7 @@ char	*get_need_path(char *path_dir, char *command)
 			tmp = ft_strjoin("/", command);
 			path = ft_strjoin(path_dir, tmp);
 			free(tmp);
-			break;
+			break ;
 		}
 		item = readdir(dir);
 	}

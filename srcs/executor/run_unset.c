@@ -15,18 +15,18 @@
 int	ft_error_unset(char *arg, int error)
 {
 	if (error == 0)
-		ft_putstr_fd("unset: not enough arguments", 2);
+		ft_putstr_fd("minishell: unset: not enough arguments", 2);
 	else if (error == -1)
 	{
-		ft_putstr_fd("unset: ", 2);
+		ft_putstr_fd("minishell: unset: `", 2);
 		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": invalid parameter name", 2);
+		ft_putstr_fd("\': not a valid identifier", 2);
 	}
 	ft_putstr_fd("\n", 2);
-	return (0);
+	return (1);
 }
 
-int	check_arg_unset(char *arg, t_list *env)
+int	check_arg_unset(char *arg, t_list **env)
 {
 	int		i;
 	char	*line;
@@ -36,14 +36,14 @@ int	check_arg_unset(char *arg, t_list *env)
 		return (-1);
 	while (arg[i])
 	{
-		if (!ft_isalnum(arg[i]))
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (-1);
 		i++;
 	}
 	line = get_env_param(env, arg);
 	if (!line)
 		return (0);
-	return (1);	
+	return (1);
 }
 
 int	delete_env_param(char *arg, t_list **env)
@@ -52,23 +52,16 @@ int	delete_env_param(char *arg, t_list **env)
 	int		i;
 	t_list	*tmp;
 	t_list	*prev;
-	t_list	*next;
 
 	i = 0;
 	tmp = *env;
 	while (tmp)
 	{
-		next = tmp->next;
 		line = tmp->content;
 		if (!ft_strncmp(line, arg, ft_strlen(arg)))
 		{
-			if (i == 0)
-			{
-				ft_lstadd_front(env, ft_lstlast(tmp));
-			}
-			else
-				prev->next = tmp->next;
-			// free(tmp->content);
+			prev->next = tmp->next;
+			free(tmp->content);
 			free(tmp);
 			return (1);
 		}
@@ -79,22 +72,22 @@ int	delete_env_param(char *arg, t_list **env)
 	return (0);
 }
 
-int	run_unset(t_command *command, t_list *env)
+int	run_unset(t_command *command, t_list **env)
 {
 	int	i;
 	int	a;
 
-	i = 0;
+	i = 1;
 	if (!command->arg[0])
-		return (ft_error_unset(command->arg[0], 0));
+		return (ft_error_unset(command->arg[1], 0));
 	while (command->arg[i])
 	{
 		a = check_arg_unset(command->arg[i], env);
 		if (a == 1)
-			delete_env_param(command->arg[i], &env);
+			delete_env_param(command->arg[i], env);
 		else if (a == -1)
-			return(ft_error_unset(command->arg[i], -1));
+			return (ft_error_unset(command->arg[i], -1));
 		i++;
 	}
-	return (1);
+	return (0);
 }

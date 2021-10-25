@@ -76,7 +76,8 @@ $(NAME): $(OBJCT)
 	ranlib $(NAME)
 
 %.o: %.c $(HEADER)
-	gcc -Wall -Wextra -Werror -c $< -o $@ -I $(INCLUDES)
+	gcc -Wall -Wextra -Werror -g -c $< -o $@ -I $(INCLUDES)
+	# clang -Wall -Wextra -Werror -fsanitize=address -g -c $< -o $@ -I $(INCLUDES)
 
 clean:
 	rm -rf $(OBJCT)
@@ -86,9 +87,6 @@ soclean:
 
 fclean: clean soclean
 	rm -rf $(NAME)
-so:
-	gcc -fPIC -Wall -Wextra -Werror -c  $(SRC)
-	gcc -shared -o libft.so *.o
 
 norm:
 	norminette -R CheckForbiddenSourceHeader $(SRC)

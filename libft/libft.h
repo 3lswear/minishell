@@ -6,7 +6,7 @@
 /*   By: talyx <talyx@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 18:11:45 by talyx             #+#    #+#             */
-/*   Updated: 2021/09/07 21:17:00 by talyx            ###   ########.fr       */
+/*   Updated: 2021/10/21 17:14:33 by sunderle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,5 @@ char				**ft_split_clear(char **split);
 void				error_exit(char *str);
 
 int					get_next_line(int fd, char **line);
-
 
 #endif

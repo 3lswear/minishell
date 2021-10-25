@@ -1,0 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_handler.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sunderle <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/25 15:56:30 by sunderle          #+#    #+#             */
+/*   Updated: 2021/10/25 15:56:31 by sunderle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	update_env(t_list **env, char *key, char *new_line)
+{
+	t_list	*tmp;
+	t_list	*temp;
+	t_list	*new;
+	char	*line;
+
+	tmp = *env;
+	temp = *env;
+	while (tmp)
+	{
+		line = (char *)tmp->content;
+		if (!ft_strncmp(line, key, ft_strlen(key)))
+		{
+			new = ft_lstnew(ft_strdup(new_line));
+			temp->next = new;
+			new->next = tmp->next;
+			free(tmp->content);
+			free(tmp);
+			return (1);
+		}
+		temp = tmp;
+		tmp = tmp->next;
+	}
+	ft_lstadd_back(env, ft_lstnew(ft_strdup(new_line)));
+	return (0);
+}

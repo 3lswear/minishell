@@ -30,22 +30,22 @@ int	is_builtins(t_command *command)
 		return (1);
 	return (0);
 }
-//!
+
 int	run_builtins(t_minishell *mini, t_command *command)
 {
 	if (ft_strequ(command->path, "env"))
-		return (print_env(mini->env));			//!
+		return (print_env(mini->env));
 	else if (ft_strequ(command->path, "pwd"))
-		return(run_pwd());			//!
+		return (run_pwd());
 	else if (ft_strequ(command->path, "echo"))
-		return (run_echo(command));			//?
+		return (run_echo(command));
 	else if (ft_strequ(command->path, "export"))
-		return (run_export(command, mini->env));			//?
+		return (run_export(command, mini->env));
 	else if (ft_strequ(command->path, "unset"))
-		return (run_unset(command, mini->env));			//?
+		return (run_unset(command, mini->env));
 	else if (ft_strequ(command->path, "cd"))
-		return (run_cd(command, mini->env));			//?
+		return (run_cd(command, mini->env));
 	else if (ft_strequ(command->path, "exit"))
-		return (run_exit(mini, command));			//?
-	return (0);
+		return (run_exit(mini, command));
+	return (1);
 }
