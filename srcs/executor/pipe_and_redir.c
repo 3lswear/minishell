@@ -21,7 +21,7 @@ void	run_heredoc_chile(t_minishell *mini, char *eof)
 	{
 		dup2(g_all_fd.fd_out, 1);
 		free(line);
-		line = readline("herecode> ");
+		line = readline("heredoc> ");
 		if (!line)
 		{
 			free(line);
