@@ -2,8 +2,6 @@
 
 void	init_fd(void)
 {
-	g_all_fd.fd_in = dup(0);
-	g_all_fd.fd_out = dup(1);
 	g_all_fd.redir_in = -1;
 	g_all_fd.redir_out = -1;
 	g_all_fd.fd_pipe_in = -1;
@@ -11,6 +9,7 @@ void	init_fd(void)
 	g_all_fd.pid = 2;
 	g_all_fd.end_herecode = 1;
 	g_all_fd.not_line = 0;
+	g_all_fd.heredoc_on = 0;
 }
 
 void	reset_fd(void)

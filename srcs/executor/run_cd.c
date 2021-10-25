@@ -45,7 +45,6 @@ int	update_old(t_list **env)
 		return (0);
 	update_env(env, "OLDPWD", old);
 	free(old);
-	// free(tmp);
 	return (1);
 }
 
