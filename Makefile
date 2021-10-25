@@ -32,12 +32,13 @@ parser/args.c         parser/parse_env.c  parser/redir.c          parser/validit
 parser/handle_vars.c  parser/path.c       parser/redir_helpers.c \
 parser/parse.c        parser/pipe.c       parser/tokens_insert.c \
  \
-utils/commands_free.c  utils/fd_func.c        utils/itoa2.c        utils/word_list.c \
-utils/debug.c          utils/ft_atoi2.c       utils/signal.c \
+utils/commands_free.c  utils/fd_func.c        utils/word_list.c \
+utils/itoa2.c          utils/ft_atoi2.c       utils/signal.c \
 utils/env_free.c       utils/get_param.c      utils/string_list.c \
 utils/error.c          utils/heredoc_subst.c  utils/tokens.c \
 
 SRC := $(addprefix srcs/, $(SRC))
+
 LIBFT_SRC =	ft_atof.c \
 			ft_atoi.c \
 			ft_bzero.c \
