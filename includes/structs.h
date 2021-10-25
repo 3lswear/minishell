@@ -44,9 +44,16 @@ typedef struct s_fd
 	int	fd_pipe_in;
 	int	fd_pipe_out;
 	int	end_herecode;
+	int	heredoc_on;
 	int	not_line;
 	int	error;
 }			t_fd;
+
+typedef struct s_pipe
+{
+	int				pid;
+	int				pipe_fd[2];
+}				t_pipe;
 
 typedef struct s_minishell
 {
@@ -55,9 +62,11 @@ typedef struct s_minishell
 	int		exit_status;
 	int		parse_status;
 	char	*line;
+	char	*sub_line;
 	char	**arg;
 	char	**envp;
 	t_list	*commands;
+	t_list	*pipes;
 	t_list	**env;
 	char	*prompt;
 }				t_minishell;

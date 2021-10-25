@@ -66,12 +66,13 @@ void	sig_int_handler(int sig);
 
 /* int		parse(t_minishell *mini, char **env); */
 int		is_redir(t_command *command);
+t_pipe	*init_pipe(int pid, int fd[2]);
 int		re_input(t_minishell *mini, char *path);
 int		re_output(t_minishell *mini, char *path, int type);
 int		redirect(t_minishell *mini, t_command *command);
 int		run_redir(t_minishell *mini, t_redir *redir, int flag);
 int		run_heredoc(t_minishell *mini, char *eof);
-int		run_heredoc_chile(t_minishell *mini, char *eof);
+void	run_heredoc_chile(t_minishell *mini, char *eof);
 int		make_pipe(t_minishell *mini);
 void	env_free(t_list **env);
 void	init_fd(void);
