@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	cd_error(char **arg)
+int	cd_error(char **arg, int error)
 {
 	int	i;
 
@@ -25,10 +25,14 @@ int	cd_error(char **arg)
 		if (i == 2)
 			ft_putstr_fd("string not in pwd: ", 2);
 		else
-			ft_putstr_fd("no such file or directory: ", 2);
+		{
+			ft_putstr_fd(strerror(errno), 2);
+			ft_putstr_fd(": ", 2);
+		}
 		ft_putstr_fd(arg[1], 2);
 	}
 	ft_putstr_fd("\n", 2);
+	(void)error;
 	return (1);
 }
 
@@ -101,14 +105,14 @@ int	run_cd(t_command *command, t_list **env)
 		return (cd_home(env));
 	i = ft_strlen2(command->arg) - 1;
 	if (i > 1)
-		return (cd_error(command->arg));
+		return (cd_error(command->arg, i));
 	path = get_env_path(command->arg[1], env);
 	update_old(env);
 	i = chdir(path);
 	if (i < 0)
 		i *= -1;
 	if (i != 0)
-		cd_error(command->arg);
+		cd_error(command->arg, i);
 	update_pwd(env);
 	free(path);
 	return (i);
