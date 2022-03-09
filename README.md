@@ -1,4 +1,5 @@
 # minishell
+
 A bash-like Unix shell written in C
 ### Features
 - Dynamic prompt
@@ -19,6 +20,8 @@ A bash-like Unix shell written in C
   - `unset`
   - `env`
   - `exit` 
+- Readline (?)
+  - You can use your Ctrl+A Ctrl+E Alt-F Alt+B Ctrl+W all you want.
 ### Installation
 Requires readline library and headers
 
