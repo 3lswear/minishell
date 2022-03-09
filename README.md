@@ -1,6 +1,6 @@
 # minishell
-
 A bash-like Unix shell written in C
+![demo](https://raw.githubusercontent.com/3lswear/minishell/master/assets/cast.svg)
 ### Features
 - Dynamic prompt
 - History
