@@ -24,12 +24,20 @@ A bash-like Unix shell written in C
 - Readline
   - You can use your Ctrl+A Ctrl+E Alt-F Alt+B Ctrl+W all you want.
 ### Installation
-Requires readline library and headers
+- Install required readline library and headers
 
 e.g. installation for Ubuntu:
 
 ```
 sudo apt install libreadline8 libreadline-dev
+```
+- clone it:
+```
+git clone https://github.com/3lswear/minishell
+```
+- build it
+```
+cd minishell && make
 ```
 
 ### What I've learned from this project
